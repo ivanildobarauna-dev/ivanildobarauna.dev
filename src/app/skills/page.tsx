@@ -158,19 +158,19 @@ export default function Skills() {
   }, {} as Record<string, Certificacao[]>);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 md:space-y-8 p-4 md:p-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-2xl p-6 shadow-lg"
+        className="bg-white rounded-2xl p-4 md:p-6 shadow-lg"
       >
-        <h1 className="text-4xl font-bold mb-4 text-blue-600">Formação Acadêmica</h1>
-        <p className="text-gray-600 mb-4">
+        <h1 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4 text-blue-600">Formação Acadêmica</h1>
+        <p className="text-sm md:text-base text-gray-600 mb-2 md:mb-4">
           Minha jornada acadêmica e qualificações que fundamentam minha expertise profissional.
         </p>
       </motion.div>
 
-      <div className="space-y-6">
+      <div className="space-y-4 md:space-y-6">
         {formacoes.map((formacao, index) => (
           <motion.div
             key={formacao.instituicao}
@@ -179,22 +179,22 @@ export default function Skills() {
             transition={{ delay: index * 0.1 }}
             className="bg-white rounded-xl shadow-lg overflow-hidden"
           >
-            <div className="bg-blue-600 p-6 text-white">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
+            <div className="bg-blue-600 p-4 md:p-6 text-white">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div className="flex items-center gap-3 md:gap-4">
                   {formacao.logo && (
-                    <div className="w-16 h-16 bg-white rounded-lg p-2 flex items-center justify-center">
+                    <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-lg p-1 md:p-2 flex items-center justify-center">
                       <img
                         src={formacao.logo}
                         alt={`Logo ${formacao.instituicao}`}
-                        className="w-12 h-12 object-contain"
+                        className="w-10 h-10 md:w-12 md:h-12 object-contain"
                       />
                     </div>
                   )}
                   <div>
-                    <h2 className="text-2xl font-bold">{formacao.instituicao}</h2>
-                    <div className="flex items-center gap-2 text-blue-100">
-                      <FaGraduationCap className="w-4 h-4" />
+                    <h2 className="text-xl md:text-2xl font-bold">{formacao.instituicao}</h2>
+                    <div className="flex items-center gap-2 text-blue-100 text-sm md:text-base">
+                      <FaGraduationCap className="w-3 h-3 md:w-4 md:h-4" />
                       <span>{formacao.tipo}</span>
                     </div>
                   </div>
@@ -204,7 +204,7 @@ export default function Skills() {
                     href={formacao.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white hover:text-blue-200 transition-colors"
+                    className="text-white hover:text-blue-200 transition-colors text-sm md:text-base"
                   >
                     🌐 Website
                   </a>
@@ -212,24 +212,24 @@ export default function Skills() {
               </div>
             </div>
 
-            <div className="p-6 space-y-6">
+            <div className="p-4 md:p-6 space-y-4 md:space-y-6">
               <div>
                 <div className="flex items-center gap-2 text-blue-600 mb-2">
-                  <FaBook className="w-5 h-5" />
-                  <h3 className="text-xl font-bold">{formacao.curso}</h3>
+                  <FaBook className="w-4 h-4 md:w-5 md:h-5" />
+                  <h3 className="text-lg md:text-xl font-bold">{formacao.curso}</h3>
                 </div>
-                <div className="flex items-center gap-2 text-gray-600 mb-4">
-                  <FaCalendarAlt className="w-4 h-4" />
+                <div className="flex items-center gap-2 text-gray-600 mb-3 md:mb-4 text-sm md:text-base">
+                  <FaCalendarAlt className="w-3 h-3 md:w-4 md:h-4" />
                   <span>{formacao.periodo}</span>
                 </div>
-                <p className="text-gray-700">{formacao.atividades}</p>
+                <p className="text-sm md:text-base text-gray-700">{formacao.atividades}</p>
               </div>
 
               <div>
-                <h4 className="text-lg font-semibold text-blue-600 mb-3">Assuntos Abordados:</h4>
-                <ul className="space-y-2">
+                <h4 className="text-base md:text-lg font-semibold text-blue-600 mb-2 md:mb-3">Assuntos Abordados:</h4>
+                <ul className="space-y-1 md:space-y-2">
                   {formacao.assuntosAbordados.map((assunto, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-gray-700">
+                    <li key={idx} className="flex items-start gap-2 text-gray-700 text-sm md:text-base">
                       <span className="text-blue-600 mt-1">•</span>
                       <span>{assunto}</span>
                     </li>
@@ -246,15 +246,15 @@ export default function Skills() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-2xl p-6 shadow-lg mt-8"
+            className="bg-white rounded-2xl p-4 md:p-6 shadow-lg mt-6 md:mt-8"
           >
-            <h2 className="text-4xl font-bold mb-4 text-blue-600">Certificações</h2>
-            <p className="text-gray-600 mb-4">
+            <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4 text-blue-600">Certificações</h2>
+            <p className="text-sm md:text-base text-gray-600 mb-2 md:mb-4">
               Certificações e cursos especializados que complementam minha formação.
             </p>
           </motion.div>
 
-          <div className="space-y-8">
+          <div className="space-y-4 md:space-y-8">
             {Object.entries(certificacoesPorInstituicao).map(([instituicao, certs], index) => (
               <motion.div
                 key={instituicao}
@@ -263,21 +263,21 @@ export default function Skills() {
                 transition={{ delay: index * 0.1 }}
                 className="bg-white rounded-xl shadow-lg overflow-hidden"
               >
-                <div className="bg-blue-600 p-4 text-white">
+                <div className="bg-blue-600 p-3 md:p-4 text-white">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 md:gap-4">
                       {certs[0].logo && (
-                        <div className="w-12 h-12 bg-white rounded-lg p-2 flex items-center justify-center">
+                        <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-lg p-1 md:p-2 flex items-center justify-center">
                           <img
                             src={certs[0].logo}
                             alt={`Logo ${instituicao}`}
-                            className="w-8 h-8 object-contain"
+                            className="w-6 h-6 md:w-8 md:h-8 object-contain"
                           />
                         </div>
                       )}
                       <div>
-                        <h2 className="text-xl font-bold">{instituicao}</h2>
-                        <p className="text-blue-100 text-sm">
+                        <h2 className="text-lg md:text-xl font-bold">{instituicao}</h2>
+                        <p className="text-blue-100 text-xs md:text-sm">
                           {certs.length} {certs.length === 1 ? 'certificação' : 'certificações'}
                         </p>
                       </div>
@@ -285,25 +285,25 @@ export default function Skills() {
                   </div>
                 </div>
 
-                <div className="p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="p-4 md:p-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-6">
                     {certs.map((certificacao, certIndex) => (
                       <motion.div
                         key={`${certificacao.nome}-${certIndex}`}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: (index * 0.1) + (certIndex * 0.05) }}
-                        className="bg-gray-50 rounded-lg p-4"
+                        className="bg-gray-50 rounded-lg p-3 md:p-4"
                       >
-                        <h3 className="text-lg font-bold text-blue-600 mb-2">{certificacao.nome}</h3>
+                        <h3 className="text-base md:text-lg font-bold text-blue-600 mb-2">{certificacao.nome}</h3>
                         {certificacao.credencialUrl && (
                           <a
                             href={certificacao.credencialUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors text-sm"
+                            className="inline-flex items-center gap-1 md:gap-2 text-blue-600 hover:text-blue-800 transition-colors text-xs md:text-sm"
                           >
-                            <FaCertificate className="w-4 h-4" />
+                            <FaCertificate className="w-3 h-3 md:w-4 md:h-4" />
                             <span>Ver Credencial</span>
                           </a>
                         )}
