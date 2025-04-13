@@ -9,7 +9,11 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Ivanildo Barauna - Engenheiro de Dados Senior",
   description: "Portfolio profissional de Ivanildo Barauna - Desenvolvedor Full Stack especializado em Python e Engenharia de Dados",
-  viewport: "width=device-width, initial-scale=1",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

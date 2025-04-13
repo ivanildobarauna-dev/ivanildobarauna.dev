@@ -147,17 +147,17 @@ export default function Home() {
         {[
           {
             title: 'Engenharia de Dados',
-            description: 'Desenvolvimento de pipelines robustos, ETL/ELT, e arquiteturas de dados escaláveis.',
+            description: 'Desenvolvimento e orquestração de pipelines distribuídos de ETL/ELT usando diversas arquiteturas de dados.',
             icon: '🔧'
           },
           {
             title: 'Cloud Computing',
-            description: 'Expertise em GCP, com foco em BigQuery, Dataflow, e Pub/Sub.',
+            description: 'Expertise em GCP, com foco em Data Pipelines usando tecnologias como BigQuery, Dataflow, Pub/Sub e Airflow.',
             icon: '☁️'
           },
           {
-            title: 'Desenvolvimento',
-            description: 'Criação de bibliotecas Python e aplicações data-driven.',
+            title: 'Desenvolvimento Backend',
+            description: 'Desenvolvimento de microsserviços, APIs RESTful, Bibliotecas Python, Wrappers e mais.',
             icon: '💻'
           }
         ].map((specialty, index) => (
