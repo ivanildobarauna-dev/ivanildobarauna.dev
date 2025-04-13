@@ -2,8 +2,9 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
-interface Experiencia {
+interface Experience {
   cargo: string;
   empresa: string;
   periodo: string;
@@ -20,12 +21,64 @@ interface DuracaoTotal {
   meses: number;
 }
 
-export default function Experiencias() {
+export default function Experiences() {
+  const [experiences, setExperiences] = useState<Experience[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://api-ivanildobarauna-dev-portfolio-4gzut4a7da-uc.run.internal";
+
+        const response = await fetch(`${backendUrl}/experiences`);
+
+        if (!response.ok) {
+          throw new Error(`Falha ao carregar as experiências. Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (!Array.isArray(data)) {
+          throw new Error('Resposta inválida: os dados não são um array');
+        }
+        
+        setExperiences(data);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('Erro desconhecido ao carregar as experiências');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchExperiences();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-red-600 p-4">
+        <p>Erro ao carregar experiências: {error}</p>
+      </div>
+    );
+  }
+
   // Função para calcular a duração total em uma empresa
-  const calcularDuracaoTotal = (experiencias: Experiencia[]): DuracaoTotal => {
+  const calcularDuracaoTotal = (experiences: Experience[]): DuracaoTotal => {
     let duracaoTotal: DuracaoTotal = {anos: 0, meses: 0};
     
-    experiencias.forEach((exp: Experiencia) => {
+    experiences.forEach((exp: Experience) => {
       const periodos = exp.periodo.split(' - ');
       const inicio = new Date(periodos[0].replace('março', 'March')
         .replace('abril', 'April')
@@ -71,172 +124,8 @@ export default function Experiencias() {
     return duracaoTotal;
   };
 
-  const experiences: Experiencia[] = [
-    {
-      cargo: "Engenheiro de Dados Senior",
-      empresa: "Mercado Livre",
-      periodo: "outubro de 2023 - atual",
-      localizacao: "São Paulo, Brasil",
-      website: "https://www.mercadolivre.com.br",
-      logo: "/images/empresas/mercadolivre.png",
-      actualJob: true,
-      habilidades: ['BigQuery', 'Python', 'Flask', 'Docker', 'Microservices', 'Observability'],
-      atividades: [
-        "Desenvolvimento de soluções de observabilidade de negócio entre microsserviços",
-        "Trabalho com tecnologias como Apache Beam, Google Cloud Platform, e Python"
-      ]
-    },
-    {
-      cargo: "Senior Data Analyst",
-      empresa: "C6 Bank",
-      periodo: "setembro de 2023 - dezembro de 2023",
-      localizacao: "São Paulo, Brasil",
-      website: "https://www.c6bank.com.br",
-      logo: "/images/empresas/c6bank.png",
-      actualJob: false,
-      habilidades: ['SQL', 'BigQuery', 'Python', 'Airflow', 'DataFlow', 'Looker Studio'],
-      atividades: [
-        "Responsável por garantir a execução de pipelines e fornecimento de dados para Investimentos, Core Banking e outros assuntos de Corporate Banking",
-        "Desenvolvimento de processos de Data Quality",
-        "Suporte no desenvolvimento da plataforma de dados do banco"
-      ]
-    },
-    {
-      cargo: "Data Analyst",
-      empresa: "C6 Bank",
-      periodo: "janeiro de 2023 - setembro de 2023",
-      localizacao: "São Paulo, Brasil",
-      website: "https://www.c6bank.com.br",
-      logo: "/images/empresas/c6bank.png",
-      actualJob: false,
-      habilidades: ['SQL', 'BigQuery', 'Python', 'Airflow', 'DataFlow', 'Looker Studio'],
-      atividades: [
-        "Mapeamento, definição e planejamento de entrada/manutenção de pipelines de Dados no Data Lake",
-        "Estruturação e disponibilização de Data Marts e/ou Data Warehouses para as demais áreas do banco",
-        "Foco em otimização de custo e performance dos pipelines produtivos"
-      ]
-    },
-    {
-      cargo: "Business Intelligence Analyst",
-      empresa: "C6 Bank",
-      periodo: "fevereiro de 2022 - dezembro de 2022",
-      localizacao: "São Paulo, Brasil",
-      website: "https://www.c6bank.com.br",
-      logo: "/images/empresas/c6bank.png",
-      actualJob: false,
-      habilidades: ['SQL', 'BigQuery', 'Power BI', 'Looker Studio'],
-      atividades: [
-        "Desenvolvimento de solução de ETL auto orquestrada para análise de grandes volumes de dados",
-        "Foco em redução de custo e criação de Data Mart para área de negócio",
-        "Implementação de processos automatizados de transformação de dados"
-      ]
-    },
-    {
-      cargo: "Analista de Business Intelligence",
-      empresa: "Embracon Administradora de Consórcio Ltda",
-      periodo: "setembro de 2020 - fevereiro de 2022",
-      localizacao: "Santana de Parnaíba, São Paulo, Brasil",
-      website: "https://www.embracon.com.br",
-      logo: "/images/empresas/embracon.png",
-      actualJob: false,
-      habilidades: ['SQL', 'Power BI', 'PL/SQL', 'MSSQL', 'SSIS', 'SSRS', 'Pentaho Data Integration'],
-      atividades: [
-        "Criação de indicadores de performance de negócio para suporte à tomada de decisão",
-        "Desenvolvimento de dashboards e relatórios para acompanhamento de resultados",
-        "Automatização de processos de ETL para carga de dados"
-      ]
-    },
-    {
-      cargo: "Analista de Aplicações Digitais PL",
-      empresa: "Embracon Administradora de Consórcio Ltda",
-      periodo: "dezembro de 2019 - setembro de 2020",
-      localizacao: "Santana de Parnaíba, São Paulo, Brasil",
-      website: "https://www.embracon.com.br",
-      logo: "/images/empresas/embracon.png",
-      actualJob: false,
-      habilidades: ['SQL', 'MSSQL'],
-      atividades: [
-        "Construção de Indicadores para tomada de decisão estratégica",
-        "Desenvolvimento de análises descritivas e preditivas",
-        "Suporte à decisão através de análise de dados"
-      ]
-    },
-    {
-      cargo: "Analista de Aplicações Digitais Jr",
-      empresa: "Embracon Administradora de Consórcio Ltda",
-      periodo: "março de 2019 - dezembro de 2019",
-      localizacao: "Santana de Parnaíba, São Paulo, Brasil",
-      website: "https://www.embracon.com.br",
-      logo: "/images/empresas/embracon.png",
-      actualJob: false,
-      habilidades: ['Excel', 'Power BI', 'VBA', 'DAX', 'M Language'],
-      atividades: [
-        "Construção de Indicadores para tomada de decisão estratégica",
-        "Foco em análise de dados para área comercial",
-        "Desenvolvimento de relatórios e dashboards"
-      ]
-    },
-    {
-      cargo: "Analista de MIS",
-      empresa: "Sitel Brasil | Foundever",
-      periodo: "março de 2015 - abril de 2017",
-      localizacao: "São Paulo, Brasil",
-      habilidades: ['Excel', 'VBA'],
-      atividades: [
-        "Desenvolvimento de Relatórios em MS-Excel com base nos dados do Salesforce",
-        "Automatização de processos manuais com VBA",
-        "Desenvolvimento de Dashboards com MS-Excel"
-      ]
-    },
-    {
-      cargo: "Professor de música",
-      empresa: "Colégio e Curso Objetivo",
-      periodo: "junho de 2014 - dezembro de 2014",
-      localizacao: "São Paulo, Brasil",
-      atividades: [
-        "Filial: ESCOLA DE INTEGRACAO E APRENDIZAGEM CRESCER LTDA",
-        "Atribuição: Ensino de teoria musical focada em ensino infantil"
-      ]
-    },
-    {
-      cargo: "Técnico de suporte em TI",
-      empresa: "Supermercados Rod & Raf",
-      periodo: "janeiro de 2013 - julho de 2013",
-      localizacao: "São Paulo e Região, Brasil",
-      habilidades: ['Linux', 'Redes', 'Oracle', 'PABX', 'Infraestrutura'],
-      atividades: [
-        "Manutenção de Computadores",
-        "CFTV",
-        "Cabeamento estruturado de Redes",
-        "Manutenção supervisionada de servidores on premise"
-      ]
-    },
-    {
-      cargo: "Técnico de suporte de redes",
-      empresa: "Wave Internet",
-      periodo: "junho de 2012 - dezembro de 2012",
-      localizacao: "São Paulo, Brasil",
-      habilidades: ['Redes', 'Linux', 'Microtik', 'Ubiquiti Routers'],
-      atividades: [
-        "Manutenção interna e externa de rádios transmissores e receptores de internet",
-        "Acompanhamento de saúde do ambiente com Microtik Router",
-        "Apoio na instalação de sistemas operacionais nos servidores centrais"
-      ]
-    },
-    {
-      cargo: "Jovem aprendiz",
-      empresa: "Horus Tech Informatica",
-      periodo: "fevereiro de 2012 - abril de 2012",
-      localizacao: "São Paulo, Brasil",
-      habilidades: ['Windows', 'Redes', 'MacOS', 'Linux', 'Hardware'],
-      atividades: [
-        "Suporte e manutenção de computadores"
-      ]
-    }
-  ];
-
   // Calcular tempo total de todas as experiências
-  const calcularTempoTotalCarreira = (experiences: Experiencia[]): string => {
+  const calcularTempoTotalCarreira = (experiences: Experience[]): string => {
     const duracaoTotal = calcularDuracaoTotal(experiences);
     if (duracaoTotal.anos > 0) {
       return `${duracaoTotal.anos} ${duracaoTotal.anos === 1 ? 'ano' : 'anos'}`;
@@ -245,7 +134,7 @@ export default function Experiencias() {
   };
 
   // Agrupar experiências por empresa
-  const experienciasPorEmpresa: Record<string, Experiencia[]> = experiences.reduce((acc: Record<string, Experiencia[]>, exp: Experiencia) => {
+  const experienciasPorEmpresa: Record<string, Experience[]> = experiences.reduce((acc: Record<string, Experience[]>, exp: Experience) => {
     if (!acc[exp.empresa]) {
       acc[exp.empresa] = [];
     }

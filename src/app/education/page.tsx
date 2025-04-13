@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { FaGraduationCap, FaUniversity, FaCalendarAlt, FaBook, FaCertificate } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 
 interface Formacao {
   instituicao: string;
@@ -21,132 +22,60 @@ interface Certificacao {
   logo?: string;
 }
 
-export default function Skills() {
-  const formacoes: Formacao[] = [
-    {
-      instituicao: 'Universidade Anhembi Morumbi',
-      tipo: 'Graduação',
-      curso: 'BIG DATA & Inteligência Analítica',
-      periodo: '2019 - 2021',
-      atividades: 'Análise de dados, identificação de padrões para ETL, IA e Machine Learning.',
-      assuntosAbordados: [
-        'Análise de dados através de BIG Data, entendimento de IOT e como administrar grandes volumes de dados pertinentes pela total integração entre dispositivos.',
-        'Computação em Nuvem e de que forma podemos extrair a melhor utilização de dados em nuvem para grande capacidade de escalonamento.',
-        'Linguagens de Programação para Data Science como Python e R.'
-      ],
-      logo: '/images/instituicoes/uam.png',
-      website: 'https://portal.anhembi.br/'
-    }
-  ];
+export default function Education() {
+  const [formacoes, setFormacoes] = useState<Formacao[]>([]);
+  const [certificacoes, setCertificacoes] = useState<Certificacao[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const certificacoes: Certificacao[] = [
-    {
-      nome: 'Programa de cursos integrados: Data Engineer, Big Data and ML on Google Cloud em Português',
-      instituicao: 'Google Cloud Training Online',
-      credencialUrl: 'https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636',
-      logo: '/images/certificacoes/google-cloud-training.png'
-    },
-    {
-      nome: 'Smart Analytics, Machine Learning, and AI on GCP',
-      instituicao: 'Google Cloud Training Online',
-      credencialUrl: 'https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636',
-      logo: '/images/certificacoes/google-cloud-training.png'
-    },
-    {
-      nome: 'BigQuery: Qwik Start - Command Line',
-      instituicao: 'Google Cloud Training Online',
-      credencialUrl: 'https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636',
-      logo: '/images/certificacoes/google-cloud-training.png'
-    },
-    {
-      nome: 'Building Resilient Streaming Systems on GCP',
-      instituicao: 'Google Cloud Training Online',
-      credencialUrl: 'https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636',
-      logo: '/images/certificacoes/google-cloud-training.png'
-    },
-    {
-      nome: 'Cloud Composer: Qwik Start - Console',
-      instituicao: 'Google Cloud Training Online',
-      credencialUrl: 'https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636',
-      logo: '/images/certificacoes/google-cloud-training.png'
-    },
-    {
-      nome: 'Google Cloud Fundamentals: Core Infrastructure',
-      instituicao: 'Google Cloud Training Online',
-      credencialUrl: 'https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636',
-      logo: '/images/certificacoes/google-cloud-training.png'
-    },
-    {
-      nome: 'Working with JSON, Arrays, and Structs in BigQuery',
-      instituicao: 'Google Cloud Training Online',
-      credencialUrl: 'https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636',
-      logo: '/images/certificacoes/google-cloud-training.png'
-    },
-    {
-      nome: 'Building Batch Data Pipelines on GCP',
-      instituicao: 'Google Cloud Training Online',
-      credencialUrl: 'https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636',
-      logo: '/images/certificacoes/google-cloud-training.png'
-    },
-    {
-      nome: 'Modernizing Data Lakes and Data Warehouses with GCP',
-      instituicao: 'Google Cloud Training Online',
-      credencialUrl: 'https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636',
-      logo: '/images/certificacoes/google-cloud-training.png'
-    },
-    {
-      nome: 'Amazon AWS - EC2/S3',
-      instituicao: 'Udemy',
-      credencialUrl: 'https://www.udemy.com/certificate/UC-85c95c88-83d3-420b-a66e-c820a4ca6b6f/',
-      logo: '/images/certificacoes/udemy.png'
-    },
-    {
-      nome: 'Business Intelligence SQL - ETL Integration Services',
-      instituicao: 'Udemy',
-      credencialUrl: 'https://www.udemy.com/certificate/UC-9c23fff6-e1e5-4f62-97c5-950126ea2a2a/',
-      logo: '/images/certificacoes/udemy.png'
-    },
-    {
-      nome: 'Pentaho: Estratégias para Soluções de ETL',
-      instituicao: 'Udemy',
-      credencialUrl: 'https://www.udemy.com/certificate/UC-0560a788-16dc-4737-9afc-4b216921501d/',
-      logo: '/images/certificacoes/udemy.png'
-    },
-    {
-      nome: 'PowerBI DataFlows',
-      instituicao: 'Planilheiros',
-      credencialUrl: 'https://www.planilheiros.com.br/certificado/f995cc7618f021e464cf7c0',
-      logo: '/images/certificacoes/planilheiros.png'
-    },
-    {
-      nome: 'Microsoft Power BI Módulo I',
-      instituicao: 'DATAB',
-      credencialUrl: 'https://www.datab.com.br/certificado/JYVUIX',
-      logo: '/images/certificacoes/datab.png'
-    },
-    {
-      nome: 'Microsoft Power BI Módulo II - Avançado',
-      instituicao: 'DATAB',
-      credencialUrl: 'https://www.datab.com.br/certificado/YSQQIC',
-      logo: '/images/certificacoes/datab.png'
-    },
-    {
-      nome: 'Linux Essentials',
-      instituicao: '4Linux',
-      credencialUrl: 'https://4linux.com.br/certificado/4LL45000018148',
-      logo: '/images/certificacoes/4linux.png'
-    },
-    {
-      nome: 'Montagem e Manutenção de Computadores e Redes',
-      instituicao: 'Microlins',
-      logo: '/images/certificacoes/microlins.png'
-    },
-    {
-      nome: 'VIP: Windows, Internet, Word, Excel, Power Point',
-      instituicao: 'Microlins',
-      logo: '/images/certificacoes/microlins.png'
-    }
-  ];
+  useEffect(() => {
+    const fetchEducation = async () => {
+      try {
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://api-ivanildobarauna-dev-portfolio-4gzut4a7da-uc.run.internal";
+
+        const response = await fetch(`${backendUrl}/education`);
+
+        if (!response.ok) {
+          throw new Error(`Falha ao carregar os dados de educação. Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (!data.formations || !data.certifications || !Array.isArray(data.formations) || !Array.isArray(data.certifications)) {
+          throw new Error('Resposta inválida: os dados não estão no formato esperado');
+        }
+        
+        setFormacoes(data.formations);
+        setCertificacoes(data.certifications);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('Erro desconhecido ao carregar os dados de educação');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEducation();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-red-600 p-4">
+        <p>Erro ao carregar dados de educação: {error}</p>
+      </div>
+    );
+  }
 
   // Agrupar certificações por instituição
   const certificacoesPorInstituicao = certificacoes.reduce((acc, cert) => {

@@ -43,5 +43,13 @@ ENV PORT=8080
 # Expõe a porta que o Cloud Run espera
 EXPOSE 8080
 
+# Cria wrapper de inicialização para injetar variáveis de ambiente durante o runtime
+RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'echo "Substituindo variáveis de ambiente nos arquivos JS..."' >> /app/start.sh && \
+    echo 'find /app/.next/static -type f -name "*.js" -exec sed -i "s|NEXT_PUBLIC_BACKEND_URL:[^,]*|NEXT_PUBLIC_BACKEND_URL:\"$NEXT_PUBLIC_BACKEND_URL\"|g" {} \;' >> /app/start.sh && \
+    echo 'echo "Iniciando o servidor..."' >> /app/start.sh && \
+    echo 'exec node server.js' >> /app/start.sh && \
+    chmod +x /app/start.sh
+
 # Comando para iniciar a aplicação
-CMD ["node", "server.js"] 
+CMD ["/app/start.sh"] 

@@ -20,7 +20,10 @@ export default function Projects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/projects`);
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://api-ivanildobarauna-dev-portfolio-4gzut4a7da-uc.run.internal";
+
+        const response = await fetch(`${backendUrl}/projects`);
+
         if (!response.ok) {
           throw new Error(`Falha ao carregar os projetos. Status: ${response.status}`);
         }
