@@ -2,59 +2,65 @@
 
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+
+interface Project {
+  title: string;
+  description: string;
+  tech: string[];
+  github: string | null;
+  live: string | null;
+}
 
 export default function Projects() {
-  const projects = [
-    {
-      title: 'apibrasil-py',
-      description: 'SDK desenvolvido para simplificar e agilizar a integração com a plataforma APIBrasil.',
-      tech: ['Python', 'API Integration', 'SDK', 'OpenSource'],
-      github: 'https://github.com/ivanildobarauna-dev/apibrasil-py',
-      live: null
-    },
-    {
-      title: 'data-pipeline-sync-ingest',
-      description: 'Solução completa para ETL de dados de cotações de moedas, utilizando técnicas avançadas e arquiteturas modernas.',
-      tech: ['Python', 'ETL', 'Data Pipeline'],
-      github: 'https://github.com/ivanildobarauna-dev/data-pipeline-sync-ingest',
-      live: null
-    },
-    {
-      title: 'data-pipeline-async-ingest',
-      description: 'Pipeline para processamento e consumo de dados em streaming do Pub/Sub, integrando com Dataflow.',
-      tech: ['Python', 'Pub/Sub', 'Dataflow'],
-      github: 'https://github.com/ivanildobarauna-dev/data-pipeline-async-ingest',
-      live: null
-    },
-    {
-      title: 'api-to-dataframe',
-      description: 'Python library that simplifies obtaining data from API endpoints by converting them directly into Pandas DataFrames. This library offers robust features, including retry strategies for failed requests.',
-      tech: ['Python', 'SDK', 'OpenSource'],
-      github: 'https://github.com/ivanildobarauna-dev/api-to-dataframe',
-      live: null
-    },
-    {
-      title: 'currency-quote',
-      description: 'Complete solution for extracting currency pair quotes data with comprehensive testing, parameter validation, flexible configuration management, Hexagonal Architecture, CI/CD pipelines, code quality tools, and detailed documentation.',
-      tech: ['Python', 'Hexagonal Architecture', 'CI/CD', 'Code Quality', 'OpenSource'],
-      github: 'https://github.com/ivanildobarauna-dev/currency-quote',
-      live: null
-    },
-    {
-      title: 'open-o11y-wrapper',
-      description: 'OpenTelemetry Wrapper to send traces, metrics and logs to my otel-proxy using OTLP Protocol',
-      tech: ['Python', 'Hexagonal Architecture' ,'OpenTelemetry', 'OpenSource'],
-      github: 'https://github.com/ivanildobarauna-dev/open-o11y-wrapper',
-      live: null
-    },
-    {
-      title: 'data-producer-api',
-      description: 'FastAPI application for sending data to Pub/Sub, used for load testing and triggering pipelines',
-      tech: ['Python', 'Hexagonal Architecture' ,'FastAPI', 'OpenSource', 'CI/CD'],
-      github: 'https://github.com/ivanildobarauna-dev/data-producer-api',
-      live: null
-    }
-  ];
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/projects`);
+        if (!response.ok) {
+          throw new Error(`Falha ao carregar os projetos. Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (!Array.isArray(data)) {
+          throw new Error('Resposta inválida: os dados não são um array');
+        }
+        
+        setProjects(data);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('Erro desconhecido ao carregar os projetos');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-red-600 p-4">
+        <p>Erro ao carregar projetos: {error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
