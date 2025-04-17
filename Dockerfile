@@ -14,6 +14,9 @@ RUN npm ci
 # Copia os arquivos de configuração e código fonte
 COPY . .
 
+# Define o backend URL para build time
+ENV NEXT_PUBLIC_BACKEND_URL=http://localhost:8090/backend
+
 # Build da aplicação
 RUN npm run build
 

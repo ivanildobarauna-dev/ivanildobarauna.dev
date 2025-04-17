@@ -5,20 +5,13 @@ set -e
 mkdir -p /run/nginx
 mkdir -p /var/log/nginx
 
-# Listar diretórios para debug
-echo "Listando diretório /app para debug..."
-ls -la /app
-echo "Listando diretório /app/.next se existir..."
-if [ -d "/app/.next" ]; then
-  ls -la /app/.next
-else
-  echo ".next não existe, executando build..."
-  npm run build
-fi
-
 # Verificar a configuração do Nginx
 echo "Verificando configuração do Nginx..."
 nginx -t
+
+# Criar ou atualizar o arquivo .env.local para injetar variáveis em runtime
+echo "NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}" > /app/.env.local
+echo "Variáveis de ambiente configuradas: NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}"
 
 # Iniciar o supervisor que gerenciará o Nginx e o servidor Next.js
 echo "Iniciando serviços..."
