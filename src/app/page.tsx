@@ -96,7 +96,7 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          <Link href="/experiencias" className="block group">
+          <Link href="/experience" className="block group">
             <motion.div 
               className={`bg-white/10 p-4 md:p-6 rounded-lg backdrop-blur-sm transition-all duration-300 transform group-hover:bg-white/20 group-hover:scale-105 ${activeButton === 0 ? 'bg-white/20 scale-105' : ''}`}
             >
@@ -122,7 +122,7 @@ export default function Home() {
               </div>
             </motion.div>
           </Link>
-          <Link href="/skills" className="block group">
+          <Link href="/education" className="block group">
             <motion.div 
               className={`bg-white/10 p-4 md:p-6 rounded-lg backdrop-blur-sm transition-all duration-300 transform group-hover:bg-white/20 group-hover:scale-105 ${activeButton === 2 ? 'bg-white/20 scale-105' : ''}`}
             >

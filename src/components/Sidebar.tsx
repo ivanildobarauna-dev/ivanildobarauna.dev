@@ -38,9 +38,9 @@ const Sidebar = () => {
 
   const menuItems = [
     { href: '/', label: 'Início', icon: '🏠' },
-    { href: '/experiencias', label: 'Experiência Profissional', icon: '🧑‍💻' },
+    { href: '/experience', label: 'Experiência Profissional', icon: '🧑‍💻' },
     { href: '/projects', label: 'Projetos Open Source', icon: '💻' },
-    { href: '/skills', label: 'Formação', icon: '📚' },
+    { href: '/education', label: 'Formação', icon: '📚' },
   ];
 
   const socialLinks = [
