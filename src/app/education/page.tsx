@@ -31,11 +31,21 @@ export default function Education() {
   useEffect(() => {
     const fetchEducation = async () => {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://api-ivanildobarauna-dev-portfolio-4gzut4a7da-uc.run.internal";
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "10.128.0.6:8080/api/v1";
+        console.log('Backend URL:', backendUrl); // Para debug
 
-        const response = await fetch(`${backendUrl}/education`);
+        const response = await fetch(`${backendUrl}/education`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          },
+          mode: 'cors',
+        });
 
         if (!response.ok) {
+          console.error(`Erro na requisição: Status ${response.status}`);
+          const responseText = await response.text();
+          console.error('Resposta do servidor:', responseText);
           throw new Error(`Falha ao carregar os dados de educação. Status: ${response.status}`);
         }
         
