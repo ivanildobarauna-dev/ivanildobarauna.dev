@@ -13,6 +13,9 @@ nginx -t
 echo "NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}" > /app/.env.local
 echo "Variáveis de ambiente configuradas: NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}"
 
+# Corrige conflito com porta do Next.js
+export PORT=3000
+
 # Iniciar o supervisor que gerenciará o Nginx e o servidor Next.js
 echo "Iniciando serviços..."
 exec supervisord -c /etc/supervisor/conf.d/supervisord.conf
