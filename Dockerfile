@@ -15,7 +15,7 @@ RUN npm ci
 COPY . .
 
 # Define o backend URL para build time
-ENV NEXT_PUBLIC_BACKEND_URL=http://localhost:8090/backend
+ENV NEXT_PUBLIC_BACKEND_URL=https://api-ivanildobarauna-dev-456061856450.us-central1.run.app/backend
 
 # Build da aplicação
 RUN npm run build
@@ -52,7 +52,7 @@ ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
 # Define o backend URL
-ENV NEXT_PUBLIC_BACKEND_URL=http://localhost:5000
+ENV NEXT_PUBLIC_BACKEND_URL=https://api-ivanildobarauna-dev-456061856450.us-central1.run.app/backend
 
 # Cria o arquivo de configuração do supervisor para gerenciar os processos
 RUN echo "[supervisord]" > /etc/supervisor/conf.d/supervisord.conf && \

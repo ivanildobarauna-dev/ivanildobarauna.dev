@@ -21,7 +21,6 @@ export default function Projects() {
     const fetchProjects = async () => {
       try {
         const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "10.128.0.6:8080/api/v1";
-        console.log('Backend URL:', backendUrl); // Para debug
 
         const response = await fetch(`${backendUrl}/projects`, {
           method: 'GET',

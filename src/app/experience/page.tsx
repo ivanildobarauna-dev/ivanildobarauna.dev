@@ -30,7 +30,6 @@ export default function Experiences() {
     const fetchExperiences = async () => {
       try {
         const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "10.128.0.6:8080/api/v1";
-        console.log('Backend URL:', backendUrl); // Para debug
 
         const response = await fetch(`${backendUrl}/experiences`, {
           method: 'GET',
