@@ -5,15 +5,15 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 interface Experience {
-  cargo: string;
-  empresa: string;
-  periodo: string;
-  localizacao: string;
-  atividades: string[];
+  position: string;
+  company: string;
+  period: string;
+  location: string;
+  activities: string[];
   website?: string;
   logo?: string;
-  actualJob?: boolean;
-  habilidades?: string[];
+  currentJob?: boolean;
+  skills?: string[];
 }
 
 interface DuracaoTotal {
@@ -88,7 +88,7 @@ export default function Experiences() {
     let duracaoTotal: DuracaoTotal = {anos: 0, meses: 0};
     
     experiences.forEach((exp: Experience) => {
-      const periodos = exp.periodo.split(' - ');
+      const periodos = exp.period.split(' - ');
       const inicio = new Date(periodos[0].replace('março', 'March')
         .replace('abril', 'April')
         .replace('maio', 'May')
@@ -144,10 +144,10 @@ export default function Experiences() {
 
   // Agrupar experiências por empresa
   const experienciasPorEmpresa: Record<string, Experience[]> = experiences.reduce((acc: Record<string, Experience[]>, exp: Experience) => {
-    if (!acc[exp.empresa]) {
-      acc[exp.empresa] = [];
+    if (!acc[exp.company]) {
+      acc[exp.company] = [];
     }
-    acc[exp.empresa].push(exp);
+    acc[exp.company].push(exp);
     return acc;
   }, {});
 
@@ -166,7 +166,7 @@ export default function Experiences() {
           const duracao = calcularDuracaoTotal(exps);
           const duracaoTexto = `${duracao.anos > 0 ? duracao.anos + (duracao.anos === 1 ? ' ano' : ' anos') : ''}${
             duracao.meses > 0 ? (duracao.anos > 0 ? ' e ' : '') + duracao.meses + (duracao.meses === 1 ? ' mês' : ' meses') : ''
-          }${exps[0].actualJob ? ' (Emprego Atual)' : ''}`;
+          }${exps[0].currentJob ? ' (Emprego Atual)' : ''}`;
 
           return (
             <motion.section
@@ -217,27 +217,27 @@ export default function Experiences() {
                     transition={{ delay: (empresaIndex * 0.2) + (index * 0.1) }}
                     className="border-l-4 border-blue-600 pl-3 md:pl-4"
                   >
-                    <h3 className="text-lg md:text-xl font-bold text-blue-600 mb-2">{exp.cargo}</h3>
+                    <h3 className="text-lg md:text-xl font-bold text-blue-600 mb-2">{exp.position}</h3>
                     <div className="flex flex-col sm:flex-row flex-wrap gap-2 md:gap-4 text-gray-600 text-sm md:text-base mb-3 md:mb-4">
                       <span className="flex items-center">
                         <span className="mr-2">🗓️</span>
-                        {exp.periodo}
+                        {exp.period}
                       </span>
                       <span className="flex items-center">
                         <span className="mr-2">📍</span>
-                        {exp.localizacao}
+                        {exp.location}
                       </span>
                     </div>
                     <ul className="list-disc list-inside space-y-1 md:space-y-2 text-gray-700 text-sm md:text-base">
-                      {exp.atividades.map((atividade, idx) => (
+                      {exp.activities.map((atividade, idx) => (
                         <li key={idx}>{atividade}</li>
                       ))}
                     </ul>
-                    {exp.habilidades && exp.habilidades.length > 0 && (
+                    {exp.skills && exp.skills.length > 0 && (
                       <div className="mt-3 md:mt-4">
                         <h4 className="text-xs md:text-sm font-semibold text-gray-600 mb-2">Habilidades Técnicas:</h4>
                         <div className="flex flex-wrap gap-1 md:gap-2">
-                          {exp.habilidades.map((skill, idx) => (
+                          {exp.skills.map((skill, idx) => (
                             <span
                               key={idx}
                               className="px-2 py-1 md:px-3 md:py-1 bg-blue-100 text-blue-800 rounded-full text-xs md:text-sm"

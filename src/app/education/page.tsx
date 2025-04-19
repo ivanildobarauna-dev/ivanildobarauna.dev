@@ -4,27 +4,27 @@ import { motion } from 'framer-motion';
 import { FaGraduationCap, FaUniversity, FaCalendarAlt, FaBook, FaCertificate } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 
-interface Formacao {
-  instituicao: string;
-  tipo: string;
-  curso: string;
-  periodo: string;
-  atividades: string;
-  assuntosAbordados: string[];
+interface Formation {
+  institution: string;
+  type: string;
+  course: string;
+  period: string;
+  activities: string;
+  subjects: string[];
   logo?: string;
   website?: string;
 }
 
-interface Certificacao {
-  nome: string;
-  instituicao: string;
-  credencialUrl?: string;
+interface Certification {
+  name: string;
+  institution: string;
+  credential_url?: string;
   logo?: string;
 }
 
 export default function Education() {
-  const [formacoes, setFormacoes] = useState<Formacao[]>([]);
-  const [certificacoes, setCertificacoes] = useState<Certificacao[]>([]);
+  const [formations, setFormations] = useState<Formation[]>([]);
+  const [certifications, setCertifications] = useState<Certification[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -54,8 +54,20 @@ export default function Education() {
           throw new Error('Resposta inválida: os dados não estão no formato esperado');
         }
         
-        setFormacoes(data.formations);
-        setCertificacoes(data.certifications);
+        // Mapeando os dados recebidos para o formato esperado pelo componente
+        const formationsMapped = data.formations.map((formation: any) => ({
+          institution: formation.institution,
+          type: formation.type,
+          course: formation.course,
+          period: formation.period,
+          activities: formation.activities,
+          subjects: formation.subjects,
+          logo: formation.logo,
+          website: formation.website
+        }));
+        
+        setFormations(formationsMapped);
+        setCertifications(data.certifications);
       } catch (error: unknown) {
         if (error instanceof Error) {
           setError(error.message);
@@ -87,13 +99,13 @@ export default function Education() {
   }
 
   // Agrupar certificações por instituição
-  const certificacoesPorInstituicao = certificacoes.reduce((acc, cert) => {
-    if (!acc[cert.instituicao]) {
-      acc[cert.instituicao] = [];
+  const certificationsByInstitution = certifications.reduce((acc, cert) => {
+    if (!acc[cert.institution]) {
+      acc[cert.institution] = [];
     }
-    acc[cert.instituicao].push(cert);
+    acc[cert.institution].push(cert);
     return acc;
-  }, {} as Record<string, Certificacao[]>);
+  }, {} as Record<string, Certification[]>);
 
   return (
     <div className="space-y-6 md:space-y-8 p-4 md:p-6">
@@ -109,9 +121,9 @@ export default function Education() {
       </motion.div>
 
       <div className="space-y-4 md:space-y-6">
-        {formacoes.map((formacao, index) => (
+        {formations.map((formation, index) => (
           <motion.div
-            key={formacao.instituicao}
+            key={formation.institution}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
@@ -120,26 +132,26 @@ export default function Education() {
             <div className="bg-blue-600 p-4 md:p-6 text-white">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div className="flex items-center gap-3 md:gap-4">
-                  {formacao.logo && (
+                  {formation.logo && (
                     <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-lg p-1 md:p-2 flex items-center justify-center">
                       <img
-                        src={formacao.logo}
-                        alt={`Logo ${formacao.instituicao}`}
+                        src={formation.logo}
+                        alt={`Logo ${formation.institution}`}
                         className="w-10 h-10 md:w-12 md:h-12 object-contain"
                       />
                     </div>
                   )}
                   <div>
-                    <h2 className="text-xl md:text-2xl font-bold">{formacao.instituicao}</h2>
+                    <h2 className="text-xl md:text-2xl font-bold">{formation.institution}</h2>
                     <div className="flex items-center gap-2 text-blue-100 text-sm md:text-base">
                       <FaGraduationCap className="w-3 h-3 md:w-4 md:h-4" />
-                      <span>{formacao.tipo}</span>
+                      <span>{formation.type}</span>
                     </div>
                   </div>
                 </div>
-                {formacao.website && (
+                {formation.website && (
                   <a
-                    href={formacao.website}
+                    href={formation.website}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white hover:text-blue-200 transition-colors text-sm md:text-base"
@@ -154,22 +166,22 @@ export default function Education() {
               <div>
                 <div className="flex items-center gap-2 text-blue-600 mb-2">
                   <FaBook className="w-4 h-4 md:w-5 md:h-5" />
-                  <h3 className="text-lg md:text-xl font-bold">{formacao.curso}</h3>
+                  <h3 className="text-lg md:text-xl font-bold">{formation.course}</h3>
                 </div>
                 <div className="flex items-center gap-2 text-gray-600 mb-3 md:mb-4 text-sm md:text-base">
                   <FaCalendarAlt className="w-3 h-3 md:w-4 md:h-4" />
-                  <span>{formacao.periodo}</span>
+                  <span>{formation.period}</span>
                 </div>
-                <p className="text-sm md:text-base text-gray-700">{formacao.atividades}</p>
+                <p className="text-sm md:text-base text-gray-700">{formation.activities}</p>
               </div>
 
               <div>
                 <h4 className="text-base md:text-lg font-semibold text-blue-600 mb-2 md:mb-3">Assuntos Abordados:</h4>
                 <ul className="space-y-1 md:space-y-2">
-                  {formacao.assuntosAbordados.map((assunto, idx) => (
+                  {formation.subjects.map((subject, idx) => (
                     <li key={idx} className="flex items-start gap-2 text-gray-700 text-sm md:text-base">
                       <span className="text-blue-600 mt-1">•</span>
-                      <span>{assunto}</span>
+                      <span>{subject}</span>
                     </li>
                   ))}
                 </ul>
@@ -179,7 +191,7 @@ export default function Education() {
         ))}
       </div>
 
-      {Object.entries(certificacoesPorInstituicao).length > 0 && (
+      {Object.entries(certificationsByInstitution).length > 0 && (
         <>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -193,9 +205,9 @@ export default function Education() {
           </motion.div>
 
           <div className="space-y-4 md:space-y-8">
-            {Object.entries(certificacoesPorInstituicao).map(([instituicao, certs], index) => (
+            {Object.entries(certificationsByInstitution).map(([institution, certs], index) => (
               <motion.div
-                key={instituicao}
+                key={institution}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
@@ -208,13 +220,13 @@ export default function Education() {
                         <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-lg p-1 md:p-2 flex items-center justify-center">
                           <img
                             src={certs[0].logo}
-                            alt={`Logo ${instituicao}`}
+                            alt={`Logo ${institution}`}
                             className="w-6 h-6 md:w-8 md:h-8 object-contain"
                           />
                         </div>
                       )}
                       <div>
-                        <h2 className="text-lg md:text-xl font-bold">{instituicao}</h2>
+                        <h2 className="text-lg md:text-xl font-bold">{institution}</h2>
                         <p className="text-blue-100 text-xs md:text-sm">
                           {certs.length} {certs.length === 1 ? 'certificação' : 'certificações'}
                         </p>
@@ -225,18 +237,18 @@ export default function Education() {
 
                 <div className="p-4 md:p-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-6">
-                    {certs.map((certificacao, certIndex) => (
+                    {certs.map((certification, certIndex) => (
                       <motion.div
-                        key={`${certificacao.nome}-${certIndex}`}
+                        key={`${certification.name}-${certIndex}`}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: (index * 0.1) + (certIndex * 0.05) }}
                         className="bg-gray-50 rounded-lg p-3 md:p-4"
                       >
-                        <h3 className="text-base md:text-lg font-bold text-blue-600 mb-2">{certificacao.nome}</h3>
-                        {certificacao.credencialUrl && (
+                        <h3 className="text-base md:text-lg font-bold text-blue-600 mb-2">{certification.name}</h3>
+                        {certification.credential_url && (
                           <a
-                            href={certificacao.credencialUrl}
+                            href={certification.credential_url}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1 md:gap-2 text-blue-600 hover:text-blue-800 transition-colors text-xs md:text-sm"
