@@ -3,51 +3,21 @@
  */
 
 /**
- * Constructs the backend URL based on the environment
- * @returns The formatted backend URL
- */
-export const getBackendUrl = (): string => {
-  let backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "10.128.0.6:8080/api/v1";
-  
-  if (typeof window !== 'undefined' && backendUrl.includes('backend')) {
-    try {
-      let url;
-      if (backendUrl.startsWith('http://') || backendUrl.startsWith('https://')) {
-        url = new URL(backendUrl);
-      } else {
-        url = new URL('http://' + backendUrl);
-      }
-      url.protocol = 'http:';
-      url.hostname = 'localhost';
-      url.port = '8090';
-      backendUrl = url.toString();
-    } catch (e) {
-      console.error('Failed to parse backend URL:', e);
-      backendUrl = 'http://localhost:8090';
-    }
-  }
-  
-  return backendUrl;
-};
-
-/**
  * Constructs the endpoint URL for a specific resource
  * @param endpoint The API endpoint to access
  * @returns The complete URL for the endpoint
  */
 export const getEndpointUrl = (endpoint: string): string => {
-  const backendUrl = getBackendUrl();
-  
-  let baseUrl = backendUrl.endsWith('/') ? backendUrl.slice(0, -1) : backendUrl;
-  
-  if (baseUrl.includes('/backend/')) {
-    return `${baseUrl}/${endpoint}`;
+  if (process.env.NEXT_PUBLIC_BACKEND_URL) {
+    // For Docker environment
+    if (process.env.NEXT_PUBLIC_BACKEND_URL.includes('backend:8090')) {
+      return `http://backend:8090/backend/${endpoint}`;
+    }
   }
   
-  if (baseUrl.includes('/api/v1')) {
-    baseUrl = baseUrl.replace('/api/v1', '/backend');
-    return `${baseUrl}/${endpoint}`;
+  if (typeof window !== 'undefined') {
+    return `http://localhost:8090/backend/${endpoint}`;
   }
   
-  return `${baseUrl}/backend/${endpoint}`;
+  return `http://localhost:8090/backend/${endpoint}`;
 };
