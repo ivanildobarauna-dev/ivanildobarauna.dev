@@ -29,7 +29,7 @@ export default function Experiences() {
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "10.128.0.6:8080/api/v1";
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
         const response = await fetch(`${backendUrl}/experiences`, {
           method: 'GET',

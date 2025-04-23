@@ -14,9 +14,6 @@ RUN npm ci
 # Copia os arquivos de configuração e código fonte
 COPY . .
 
-# Define o backend URL para build time
-ENV NEXT_PUBLIC_BACKEND_URL=https://api-ivanildobarauna-dev-456061856450.us-central1.run.app/backend
-
 # Build da aplicação
 RUN npm run build
 
@@ -50,9 +47,6 @@ COPY nginx.conf /etc/nginx/http.d/default.conf
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
-
-# Define o backend URL
-ENV NEXT_PUBLIC_BACKEND_URL=https://api-ivanildobarauna-dev-456061856450.us-central1.run.app/backend
 
 # Cria o arquivo de configuração do supervisor para gerenciar os processos
 RUN echo "[supervisord]" > /etc/supervisor/conf.d/supervisord.conf && \

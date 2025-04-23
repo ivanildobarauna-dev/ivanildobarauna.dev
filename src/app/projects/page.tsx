@@ -4,13 +4,10 @@ import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 
-interface Project {
-  title: string;
-  description: string;
-  tech: string[];
-  github: string | null;
-  live: string | null;
-}
+import { getBackendEndpoint } from '@/utils/backend_endpoint';
+import Loading from '@/components/Loading';
+import AlertMessage from '@/components/AlertMessage';
+import { Project } from './interfaces';
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -20,9 +17,9 @@ export default function Projects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "10.128.0.6:8080/api/v1";
+        const projectsEndpoint = getBackendEndpoint('/projects');
 
-        const response = await fetch(`${backendUrl}/projects`, {
+        const response = await fetch(`${projectsEndpoint}`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -59,18 +56,16 @@ export default function Projects() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {
     return (
-      <div className="text-center text-red-600 p-4">
-        <p>Erro ao carregar projetos: {error}</p>
-      </div>
+      <AlertMessage 
+        message={`Não foi possível carregar os projetos`}
+        description={`Detalhes do erro: ${error}. Por favor, tente novamente mais tarde.`}
+        severity="error"
+      />
     );
   }
 
