@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { FaGraduationCap, FaUniversity, FaCalendarAlt, FaBook, FaCertificate } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
+import { getEndpointUrl } from '@/utils/api';
 
 interface Formation {
   institution: string;
@@ -31,9 +32,9 @@ export default function Education() {
   useEffect(() => {
     const fetchEducation = async () => {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "10.128.0.6:8080/api/v1";
-
-        const response = await fetch(`${backendUrl}/education`, {
+        console.log(`Fetching from: ${getEndpointUrl('education')}`);
+        
+        const response = await fetch(getEndpointUrl('education'), {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -49,26 +50,42 @@ export default function Education() {
         }
         
         const data = await response.json();
+        console.log('Dados recebidos:', data);
+        console.log('Estrutura de data:', Object.keys(data));
+        console.log('Formações:', data.formations);
+        console.log('Certificações:', data.certifications);
         
-        if (!data.formations || !data.certifications || !Array.isArray(data.formations) || !Array.isArray(data.certifications)) {
-          throw new Error('Resposta inválida: os dados não estão no formato esperado');
+        const formations = Array.isArray(data.formations) ? data.formations : [];
+        const certifications = Array.isArray(data.certifications) ? data.certifications : [];
+        
+        if (formations.length === 0 && certifications.length === 0) {
+          console.warn('Nenhum dado de formação ou certificação encontrado na resposta');
         }
         
         // Mapeando os dados recebidos para o formato esperado pelo componente
-        const formationsMapped = data.formations.map((formation: any) => ({
-          institution: formation.institution,
-          type: formation.type,
-          course: formation.course,
-          period: formation.period,
-          activities: formation.activities,
-          subjects: formation.subjects,
-          logo: formation.logo,
-          website: formation.website
+        const formationsMapped = formations.map((formation: any = {}) => ({
+          institution: formation.institution || formation.instituicao || '',
+          type: formation.type || formation.tipo || '',
+          course: formation.course || formation.curso || '',
+          period: formation.period || formation.periodo || '',
+          activities: formation.activities || formation.atividades || '',
+          subjects: Array.isArray(formation.subjects) ? formation.subjects : 
+                   Array.isArray(formation.assuntos) ? formation.assuntos : [],
+          logo: formation.logo || '',
+          website: formation.website || formation.site || ''
+        }));
+        
+        const certificationsMapped = certifications.map((certification: any = {}) => ({
+          name: certification.name || certification.nome || '',
+          institution: certification.institution || certification.instituicao || '',
+          credential_url: certification.credential_url || certification.url_credencial || null,
+          logo: certification.logo || ''
         }));
         
         setFormations(formationsMapped);
-        setCertifications(data.certifications);
+        setCertifications(certificationsMapped);
       } catch (error: unknown) {
+        console.error('Erro ao carregar dados de educação:', error);
         if (error instanceof Error) {
           setError(error.message);
         } else {
@@ -99,13 +116,17 @@ export default function Education() {
   }
 
   // Agrupar certificações por instituição
-  const certificationsByInstitution = certifications.reduce((acc, cert) => {
-    if (!acc[cert.institution]) {
-      acc[cert.institution] = [];
-    }
-    acc[cert.institution].push(cert);
-    return acc;
-  }, {} as Record<string, Certification[]>);
+  const certificationsByInstitution = Array.isArray(certifications) && certifications.length > 0 
+    ? certifications.reduce((acc, cert) => {
+        if (!cert || !cert.institution) return acc;
+        
+        if (!acc[cert.institution]) {
+          acc[cert.institution] = [];
+        }
+        acc[cert.institution].push(cert);
+        return acc;
+      }, {} as Record<string, Certification[]>)
+    : {};
 
   return (
     <div className="space-y-6 md:space-y-8 p-4 md:p-6">
@@ -121,9 +142,9 @@ export default function Education() {
       </motion.div>
 
       <div className="space-y-4 md:space-y-6">
-        {formations.map((formation, index) => (
+        {Array.isArray(formations) && formations.length > 0 ? formations.map((formation, index) => (
           <motion.div
-            key={formation.institution}
+            key={`formation-${index}-${formation.institution || 'unknown'}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
@@ -178,17 +199,23 @@ export default function Education() {
               <div>
                 <h4 className="text-base md:text-lg font-semibold text-blue-600 mb-2 md:mb-3">Assuntos Abordados:</h4>
                 <ul className="space-y-1 md:space-y-2">
-                  {formation.subjects.map((subject, idx) => (
+                  {Array.isArray(formation.subjects) && formation.subjects.length > 0 ? formation.subjects.map((subject, idx) => (
                     <li key={idx} className="flex items-start gap-2 text-gray-700 text-sm md:text-base">
                       <span className="text-blue-600 mt-1">•</span>
                       <span>{subject}</span>
                     </li>
-                  ))}
+                  )) : (
+                    <li className="text-gray-500">Nenhum assunto listado</li>
+                  )}
                 </ul>
               </div>
             </div>
           </motion.div>
-        ))}
+        )) : (
+          <div className="bg-white rounded-xl shadow-lg p-4 text-center">
+            <p className="text-gray-500">Nenhuma formação acadêmica encontrada</p>
+          </div>
+        )}
       </div>
 
       {Object.entries(certificationsByInstitution).length > 0 && (
@@ -207,7 +234,7 @@ export default function Education() {
           <div className="space-y-4 md:space-y-8">
             {Object.entries(certificationsByInstitution).map(([institution, certs], index) => (
               <motion.div
-                key={institution}
+                key={`institution-${index}-${institution || 'unknown'}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
@@ -216,7 +243,7 @@ export default function Education() {
                 <div className="bg-blue-600 p-3 md:p-4 text-white">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3 md:gap-4">
-                      {certs[0].logo && (
+                      {Array.isArray(certs) && certs.length > 0 && certs[0] && certs[0].logo && (
                         <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-lg p-1 md:p-2 flex items-center justify-center">
                           <img
                             src={certs[0].logo}
@@ -228,7 +255,7 @@ export default function Education() {
                       <div>
                         <h2 className="text-lg md:text-xl font-bold">{institution}</h2>
                         <p className="text-blue-100 text-xs md:text-sm">
-                          {certs.length} {certs.length === 1 ? 'certificação' : 'certificações'}
+                          {Array.isArray(certs) ? certs.length : 0} {Array.isArray(certs) && certs.length === 1 ? 'certificação' : 'certificações'}
                         </p>
                       </div>
                     </div>
@@ -237,16 +264,16 @@ export default function Education() {
 
                 <div className="p-4 md:p-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-6">
-                    {certs.map((certification, certIndex) => (
+                    {Array.isArray(certs) && certs.length > 0 ? certs.map((certification, certIndex) => (
                       <motion.div
-                        key={`${certification.name}-${certIndex}`}
+                        key={`${certification?.name || 'cert'}-${certIndex}`}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: (index * 0.1) + (certIndex * 0.05) }}
                         className="bg-gray-50 rounded-lg p-3 md:p-4"
                       >
-                        <h3 className="text-base md:text-lg font-bold text-blue-600 mb-2">{certification.name}</h3>
-                        {certification.credential_url && (
+                        <h3 className="text-base md:text-lg font-bold text-blue-600 mb-2">{certification?.name || 'Certificação'}</h3>
+                        {certification?.credential_url && (
                           <a
                             href={certification.credential_url}
                             target="_blank"
@@ -258,7 +285,11 @@ export default function Education() {
                           </a>
                         )}
                       </motion.div>
-                    ))}
+                    )) : (
+                      <div className="col-span-2 text-center text-gray-500">
+                        Nenhuma certificação encontrada
+                      </div>
+                    )}
                   </div>
                 </div>
               </motion.div>

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import { getEndpointUrl } from '@/utils/api';
 
 interface Project {
   title: string;
@@ -20,9 +21,9 @@ export default function Projects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "10.128.0.6:8080/api/v1";
+        console.log(`Fetching from: ${getEndpointUrl('projects')}`);
 
-        const response = await fetch(`${backendUrl}/projects`, {
+        const response = await fetch(getEndpointUrl('projects'), {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -165,4 +166,4 @@ export default function Projects() {
       </motion.div>
     </div>
   );
-} 
+}                

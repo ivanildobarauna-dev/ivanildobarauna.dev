@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { getEndpointUrl } from '@/utils/api';
 
 interface Experience {
   position: string;
@@ -14,6 +15,13 @@ interface Experience {
   logo?: string;
   currentJob?: boolean;
   skills?: string[];
+  cargo?: string;
+  empresa?: string;
+  periodo?: string;
+  localizacao?: string;
+  atividades?: string[];
+  actualJob?: boolean;
+  habilidades?: string[];
 }
 
 interface DuracaoTotal {
@@ -29,9 +37,9 @@ export default function Experiences() {
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "10.128.0.6:8080/api/v1";
+        console.log(`Fetching from: ${getEndpointUrl('experiences')}`);
 
-        const response = await fetch(`${backendUrl}/experiences`, {
+        const response = await fetch(getEndpointUrl('experiences'), {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -88,7 +96,19 @@ export default function Experiences() {
     let duracaoTotal: DuracaoTotal = {anos: 0, meses: 0};
     
     experiences.forEach((exp: Experience) => {
-      const periodos = exp.period.split(' - ');
+      const periodValue = exp.period;
+      
+      if (!periodValue) {
+        console.warn('Experiência sem período definido:', exp);
+        return; // Skip this experience
+      }
+      
+      const periodos = periodValue.split(' - ');
+      if (periodos.length < 2) {
+        console.warn('Formato de período inválido:', periodValue);
+        return; // Skip this experience
+      }
+      
       const inicio = new Date(periodos[0].replace('março', 'March')
         .replace('abril', 'April')
         .replace('maio', 'May')
@@ -142,12 +162,26 @@ export default function Experiences() {
     return `${duracaoTotal.meses} ${duracaoTotal.meses === 1 ? 'mês' : 'meses'}`;
   };
 
+  const normalizedExperiences = experiences.map((exp: Experience): Experience => {
+    return {
+      ...exp,
+      position: exp.position || exp.cargo || '',
+      company: exp.company || exp.empresa || '',
+      period: exp.period || exp.periodo || '',
+      location: exp.location || exp.localizacao || '',
+      activities: exp.activities || exp.atividades || [],
+      currentJob: exp.currentJob || exp.actualJob || false,
+      skills: exp.skills || exp.habilidades || []
+    };
+  });
+  
   // Agrupar experiências por empresa
-  const experienciasPorEmpresa: Record<string, Experience[]> = experiences.reduce((acc: Record<string, Experience[]>, exp: Experience) => {
-    if (!acc[exp.company]) {
-      acc[exp.company] = [];
+  const experienciasPorEmpresa = normalizedExperiences.reduce<Record<string, Experience[]>>((acc, exp) => {
+    const companyName = exp.company || '';
+    if (!acc[companyName]) {
+      acc[companyName] = [];
     }
-    acc[exp.company].push(exp);
+    acc[companyName].push(exp);
     return acc;
   }, {});
 
@@ -257,4 +291,4 @@ export default function Experiences() {
       </div>
     </div>
   );
-} 
+}                            
