@@ -40,6 +40,10 @@ export const getEndpointUrl = (endpoint: string): string => {
   
   let baseUrl = backendUrl.endsWith('/') ? backendUrl.slice(0, -1) : backendUrl;
   
+  if (baseUrl.includes('/backend/')) {
+    return `${baseUrl}/${endpoint}`;
+  }
+  
   if (baseUrl.includes('/api/v1')) {
     baseUrl = baseUrl.replace('/api/v1', '/backend');
     return `${baseUrl}/${endpoint}`;
