@@ -38,7 +38,12 @@ export const getBackendUrl = (): string => {
 export const getEndpointUrl = (endpoint: string): string => {
   const backendUrl = getBackendUrl();
   
-  const baseUrl = backendUrl.endsWith('/') ? backendUrl.slice(0, -1) : backendUrl;
+  let baseUrl = backendUrl.endsWith('/') ? backendUrl.slice(0, -1) : backendUrl;
+  
+  if (baseUrl.includes('/api/v1')) {
+    baseUrl = baseUrl.replace('/api/v1', '/backend');
+    return `${baseUrl}/${endpoint}`;
+  }
   
   return `${baseUrl}/backend/${endpoint}`;
 };
