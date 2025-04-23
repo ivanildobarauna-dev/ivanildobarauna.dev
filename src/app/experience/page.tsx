@@ -15,13 +15,6 @@ interface Experience {
   logo?: string;
   currentJob?: boolean;
   skills?: string[];
-  cargo?: string;
-  empresa?: string;
-  periodo?: string;
-  localizacao?: string;
-  atividades?: string[];
-  actualJob?: boolean;
-  habilidades?: string[];
 }
 
 interface DuracaoTotal {
@@ -162,14 +155,15 @@ export default function Experiences() {
     return `${duracaoTotal.meses} ${duracaoTotal.meses === 1 ? 'mês' : 'meses'}`;
   };
 
-  const normalizedExperiences = experiences.map((exp: Experience): Experience => {
+  const normalizedExperiences = experiences.map((exp: any): Experience => {
     return {
-      ...exp,
       position: exp.position || exp.cargo || '',
       company: exp.company || exp.empresa || '',
       period: exp.period || exp.periodo || '',
       location: exp.location || exp.localizacao || '',
       activities: exp.activities || exp.atividades || [],
+      website: exp.website || exp.site || '',
+      logo: exp.logo || '',
       currentJob: exp.currentJob || exp.actualJob || false,
       skills: exp.skills || exp.habilidades || []
     };
@@ -291,4 +285,4 @@ export default function Experiences() {
       </div>
     </div>
   );
-}                            
+}                                
