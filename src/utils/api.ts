@@ -37,6 +37,8 @@ export const getBackendUrl = (): string => {
  */
 export const getEndpointUrl = (endpoint: string): string => {
   const backendUrl = getBackendUrl();
-  const finalEndpoint = backendUrl.includes('/backend') ? endpoint : `backend/${endpoint}`;
-  return `${backendUrl}/${finalEndpoint}`;
+  
+  const baseUrl = backendUrl.endsWith('/') ? backendUrl.slice(0, -1) : backendUrl;
+  
+  return `${baseUrl}/backend/${endpoint}`;
 };
