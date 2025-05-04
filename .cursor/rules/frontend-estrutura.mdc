@@ -1,0 +1,41 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Estrutura do Projeto Next.js ([frontend](mdc:frontend))
+
+O projeto utiliza Next.js com TypeScript e TailwindCSS. A estrutura principal está organizada da seguinte forma:
+
+- [src/app](mdc:frontend/src/app):
+  - Contém as rotas e páginas principais do projeto, seguindo a convenção de roteamento do Next.js (App Router).
+  - Subdiretórios como [experience](mdc:frontend/src/app/experience), [projects](mdc:frontend/src/app/projects), [education](mdc:frontend/src/app/education) e [contact](mdc:frontend/src/app/contact) representam seções do portfólio, cada uma com seus próprios componentes, hooks e interfaces.
+  - [layout.tsx](mdc:frontend/src/app/layout.tsx): Layout global da aplicação.
+  - [globals.css](mdc:frontend/src/app/globals.css): Estilos globais.
+
+- [src/components](mdc:frontend/src/components):
+  - Componentes compartilhados entre diferentes páginas, como Sidebar, Footer, AlertMessage e Loading.
+
+- [src/utils](mdc:frontend/src/utils):
+  - Funções utilitárias, como configuração de endpoints de backend.
+
+- [src/test](mdc:frontend/src/test):
+  - Testes automatizados utilizando Vitest.
+
+- [public](mdc:frontend/public):
+  - Arquivos estáticos, imagens de perfil, empresas, instituições e certificações.
+
+- [scripts](mdc:frontend/scripts):
+  - Scripts utilitários, como healthcheck.
+
+- [.next](mdc:frontend/.next):
+  - Diretório gerado automaticamente pelo Next.js durante o build. Não deve ser editado manualmente.
+
+- [package.json](mdc:frontend/package.json), [tsconfig.json](mdc:frontend/tsconfig.json), [tailwind.config.ts](mdc:frontend/tailwind.config.ts):
+  - Configurações de dependências, TypeScript e TailwindCSS.
+
+## Convenções
+- Cada seção do portfólio (experiência, projetos, educação, contato) possui hooks e componentes próprios, organizados em subpastas.
+- Componentes reutilizáveis ficam em `src/components`.
+- Imagens são organizadas por tipo em subpastas de `public/images`.
+- Testes ficam em `src/test`.

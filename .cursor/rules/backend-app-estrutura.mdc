@@ -1,0 +1,24 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Estrutura do Backend
+
+O backend está organizado nos seguintes diretórios principais:
+
+- [`backend/app`](mdc:backend/app): Ponto de entrada da aplicação Flask, contém o arquivo [`__main__.py`](mdc:backend/app/__main__.py) e a configuração do painel administrativo em [`admin/`](mdc:backend/app/admin).
+- [`backend/src/domain/dto`](mdc:backend/src/domain/dto): Define os modelos de dados (DTOs) usados para transferir informações entre as camadas da aplicação, como [`project.py`](mdc:backend/src/domain/dto/project.py), [`experience.py`](mdc:backend/src/domain/dto/experience.py), [`formation.py`](mdc:backend/src/domain/dto/formation.py), [`certification.py`](mdc:backend/src/domain/dto/certification.py) e [`social_media.py`](mdc:backend/src/domain/dto/social_media.py).
+- [`backend/src/infrastructure`](mdc:backend/src/infrastructure): Camada de infraestrutura, responsável por dependências, serviços, rotas, adaptadores, utilitários e modelos de banco de dados.
+  - [`application_dependencies.py`](mdc:backend/src/infrastructure/application_dependencies.py): Configuração do banco de dados e serviços principais.
+  - [`adapters/`](mdc:backend/src/infrastructure/adapters): Adaptadores para acesso a banco de dados e armazenamento de arquivos.
+  - [`adapters/database/models.py`](mdc:backend/src/infrastructure/adapters/database/models.py): Modelos ORM para administração via Flask-Admin.
+  - [`ports/repository_interface.py`](mdc:backend/src/infrastructure/ports/repository_interface.py): Interface de repositório para abstração do acesso a dados.
+  - [`services/portfolio_data_service.py`](mdc:backend/src/infrastructure/services/portfolio_data_service.py): Serviço para acesso aos dados do portfólio.
+  - [`routes/`](mdc:backend/src/infrastructure/routes): Define as rotas da API REST, organizadas por domínio (ex: `projects`, `experiences`, etc).
+  - [`utils/`](mdc:backend/src/infrastructure/utils): Utilitários como logger e constantes.
+
+## Observações
+- O painel administrativo é configurado em [`backend/app/admin/setup.py`](mdc:backend/app/admin/setup.py) e utiliza visualizações customizadas de [`model_visualization.py`](mdc:backend/app/admin/model_visualization.py).
+- Os templates HTML do admin estão em [`backend/app/templates/admin/model`](mdc:backend/app/templates/admin/model).
+- O serviço principal de dados do portfólio é exposto via [`portfolio_data_service`](mdc:backend/src/infrastructure/services/portfolio_data_service.py) e utiliza o adaptador [`SqlLiteAdapter`](mdc:backend/src/infrastructure/adapters/outbound_sql_lite_adapter.py) para persistência.

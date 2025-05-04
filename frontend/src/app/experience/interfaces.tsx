@@ -3,10 +3,9 @@ export interface Experience {
     company: string;
     period: string;
     location: string;
-    activities: string[];
     website?: string;
     logo?: string;
-    currentJob?: boolean;
+    actual_job?: boolean;
     skills?: string[];
     duration: string;
   }
