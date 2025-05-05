@@ -7,7 +7,7 @@ services:
       - DD_SITE=us5.datadoghq.com
       - DD_LOGS_ENABLED=true
       - DD_APM_ENABLED=true
-      - DD_PROCESS_AGENT_ENABLED=false  # desabilitado até validação
+      - DD_PROCESS_AGENT_ENABLED=true  
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /proc:/host/proc:ro
