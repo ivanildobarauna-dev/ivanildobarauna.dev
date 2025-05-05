@@ -1,0 +1,16 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# DTOs de Domínio
+
+O diretório [src/domain/dto/](mdc:src/domain/dto) contém os Data Transfer Objects (DTOs) utilizados para transportar dados entre as camadas da aplicação. Os principais arquivos DTO são:
+
+- [experience.py](mdc:src/domain/dto/experience.py)
+- [certification.py](mdc:src/domain/dto/certification.py)
+- [social_media.py](mdc:src/domain/dto/social_media.py)
+- [project.py](mdc:src/domain/dto/project.py)
+- [formation.py](mdc:src/domain/dto/formation.py)
+
+Esses arquivos definem as estruturas de dados para cada contexto do domínio.

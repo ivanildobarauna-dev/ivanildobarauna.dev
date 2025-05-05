@@ -1,0 +1,16 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Organização das Rotas
+
+O diretório [src/infrastructure/routes/](mdc:src/infrastructure/routes) organiza as rotas da aplicação por contexto de domínio. Cada subdiretório representa um contexto e contém um arquivo [view.py](mdc:src/infrastructure/routes/social_media/view.py) responsável pela definição das rotas:
+
+- [social_media/](mdc:src/infrastructure/routes/social_media)
+- [education/](mdc:src/infrastructure/routes/education)
+- [experiences/](mdc:src/infrastructure/routes/experiences)
+- [health_check/](mdc:src/infrastructure/routes/health_check)
+- [projects/](mdc:src/infrastructure/routes/projects)
+
+Cada subdiretório possui um arquivo view.py que implementa as rotas específicas daquele contexto.

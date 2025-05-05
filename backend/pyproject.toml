@@ -1,0 +1,69 @@
+[tool.poetry]
+name = "api.ivanildobarauna.dev"
+version = "1.0.0"
+description = "The API to provide Data to api.ivanildobarauna.dev"
+authors = ["Ivanildo Barauna <ivanildo.jnr@outlook.com>"]
+packages = [
+    { include = "src"},
+    { include = "app"}
+]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+flask = ">=3.1.0,<4.0.0"
+flask-cors = ">=5.0.1,<6.0.0"
+gunicorn = ">=23.0.0,<24.0.0"
+python-dotenv = ">=1.1.0,<2.0.0"
+pydantic = "^2.11.3"
+python-dateutil = "^2.9.0"
+flask-admin = "^1.6.1"
+flask-sqlalchemy = "^3.1.1"
+flask-migrate = "^4.1.0"
+pytest = "^8.3.5"
+pytest-cov = "^4.1.0"
+coverage = "^7.4.4"
+mypy = "^1.9.0"
+ruff = "^0.3.4"
+flask-swagger-ui = "^4.11.1"
+flask-restx = "^1.3.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.coverage.run]
+source = ["src", "app"]
+omit = ["*/migrations/*", "*/tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "pass",
+    "raise ImportError",
+    "if __name__ == .__main__.:",
+]
+fail_under = 90
+
+[tool.black]
+line-length = 88
+target-version = ["py39"]
+include = '\.pyi?$'
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+select = ["E", "F", "B", "I"]
+ignore = []

@@ -1,0 +1,33 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Guia de Estrutura do Projeto
+
+O projeto está organizado da seguinte forma:
+
+- O código-fonte principal está em [`src/`](mdc:src), dividido em:
+  - [`src/domain/`](mdc:src/domain): contém a lógica de domínio, incluindo:
+    - [`dto/`](mdc:src/domain/dto): Data Transfer Objects, como [`experience.py`](mdc:src/domain/dto/experience.py), [`certification.py`](mdc:src/domain/dto/certification.py), [`social_media.py`](mdc:src/domain/dto/social_media.py), [`project.py`](mdc:src/domain/dto/project.py), [`formation.py`](mdc:src/domain/dto/formation.py).
+  - [`src/infrastructure/`](mdc:src/infrastructure): camada de infraestrutura, incluindo:
+    - [`routes/`](mdc:src/infrastructure/routes): rotas da aplicação, separadas por domínio (ex: [`social_media/view.py`](mdc:src/infrastructure/routes/social_media/view.py), [`education/view.py`](mdc:src/infrastructure/routes/education/view.py), [`experiences/view.py`](mdc:src/infrastructure/routes/experiences/view.py), [`projects/view.py`](mdc:src/infrastructure/routes/projects/view.py), [`health_check/view.py`](mdc:src/infrastructure/routes/health_check/view.py)).
+    - [`adapters/`](mdc:src/infrastructure/adapters): adaptadores de saída, como [`outbound_file_storage_adapter.py`](mdc:src/infrastructure/adapters/outbound_file_storage_adapter.py), [`outbound_sql_lite_adapter.py`](mdc:src/infrastructure/adapters/outbound_sql_lite_adapter.py), e [`database/models.py`](mdc:src/infrastructure/adapters/database/models.py).
+    - [`services/`](mdc:src/infrastructure/services): serviços de infraestrutura, como [`portfolio_data_service.py`](mdc:src/infrastructure/services/portfolio_data_service.py).
+    - [`ports/`](mdc:src/infrastructure/ports): interfaces de repositório, como [`repository_interface.py`](mdc:src/infrastructure/ports/repository_interface.py).
+    - [`utils/`](mdc:src/infrastructure/utils): utilitários, como [`logger.py`](mdc:src/infrastructure/utils/logger.py) e [`constants.py`](mdc:src/infrastructure/utils/constants.py).
+
+- Os testes estão em [`tests/`](mdc:tests), espelhando a estrutura de `src/`, com subpastas para cada domínio e infraestrutura, por exemplo:
+  - [`tests/infrastructure/routes/social_media/test_view.py`](mdc:tests/infrastructure/routes/social_media/test_view.py)
+  - [`tests/infrastructure/routes/education/test_view.py`](mdc:tests/infrastructure/routes/education/test_view.py)
+  - [`tests/infrastructure/routes/experiences/test_view.py`](mdc:tests/infrastructure/routes/experiences/test_view.py)
+  - [`tests/infrastructure/routes/projects/test_view.py`](mdc:tests/infrastructure/routes/projects/test_view.py)
+  - [`tests/infrastructure/routes/health_check/test_view.py`](mdc:tests/infrastructure/routes/health_check/test_view.py)
+  - [`tests/infrastructure/services/test_portfolio_data_service.py`](mdc:tests/infrastructure/services/test_portfolio_data_service.py)
+
+Arquivos de configuração e documentação relevantes:
+- [`README.md`](mdc:README.md)
+- [`pyproject.toml`](mdc:pyproject.toml)
+- [`Dockerfile`](mdc:Dockerfile)
+- [`entrypoint.sh`](mdc:entrypoint.sh)
+- [`nginx.conf`](mdc:nginx.conf)

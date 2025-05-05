@@ -1,0 +1,189 @@
+{% extends 'admin/base.html' %}
+{% import 'admin/lib.html' as lib with context %}
+{% import 'admin/static.html' as admin_static with context %}
+{% import 'admin/model/layout.html' as model_layout with context %}
+
+{% block head %}
+  {{ super() }}
+  <link href="{{ admin_static.url(filename='select2/select2.css', v='3.5.2') }}" rel="stylesheet">
+{% endblock %}
+
+{% block head_css %}
+  {{ super() }}
+  <style>
+    :root {
+      --primary-color: #007BFF;
+      --secondary-color: #6c757d;
+      --accent-color: #17a2b8;
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --warning-color: #ffc107;
+      --info-color: #17a2b8;
+      --light-color: #f8f9fa;
+      --dark-color: #343a40;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      color: #333333;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .navbar {
+      background: linear-gradient(to right, #007BFF, #0056b3);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .details-container {
+      background-color: white;
+      border-radius: 0.5rem;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .details-header {
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
+    }
+
+    .item-key {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .item-value {
+      color: #555;
+    }
+
+    .dl-horizontal dt {
+      text-align: left;
+      margin-bottom: 0.5rem;
+      padding-right: 10px;
+    }
+
+    .dl-horizontal dd {
+      margin-bottom: 1rem;
+      padding-left: 0;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+
+    .btn-default {
+      background-color: #f8f9fa;
+      border-color: #ced4da;
+      color: #333;
+    }
+
+    .btn-default:hover {
+      background-color: #e2e6ea;
+      border-color: #dae0e5;
+    }
+
+    .well {
+      border-radius: 0.5rem;
+      background-color: #f8f9fa;
+      padding: 1rem;
+      margin-top: 1rem;
+      border: 1px solid #eee;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+  {% block navlinks %}
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a href="{{ return_url }}" class="nav-link{% if not details and not edit and not create %} active{% endif %}">{{ _gettext('List') }}</a>
+    </li>
+    {%- if admin_view.can_create -%}
+    <li class="nav-item">
+      <a href="{{ get_url('.create_view', url=return_url) }}" class="nav-link{% if create %} active{% endif %}">{{ _gettext('Create') }}</a>
+    </li>
+    {%- endif -%}
+    {%- if details -%}
+    <li class="nav-item">
+      <a href="#" class="nav-link active">{{ _gettext('Details') }}</a>
+    </li>
+    {%- endif -%}
+    {%- if edit -%}
+    <li class="nav-item">
+      <a href="#" class="nav-link active">{{ _gettext('Edit') }}</a>
+    </li>
+    {%- endif -%}
+    {%- if actions -%}
+    <li class="nav-item">
+      <a href="{{ url_for('.action_view') }}" class="nav-link{% if actions %} active{% endif %}">{{ _gettext('Actions') }}</a>
+    </li>
+    {%- endif -%}
+  </ul>
+  {% endblock %}
+
+  <div class="container-fluid px-4">
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <h3 style="color: #333333;" class="mb-3">
+          <i class="fas fa-info-circle"></i> 
+          {{ _gettext('Details') }} - {{ admin_view.name }}
+        </h3>
+        
+        <div class="details-container">
+          {% block details_table %}
+            <div class="row">
+              <div class="col-md-12">
+                <dl class="dl-horizontal">
+                  {% for c, name in details_columns %}
+                  <dt class="item-key">{{ name }}</dt>
+                  <dd class="item-value">
+                    {% if model[c] is string and ('http://' in model[c] or 'https://' in model[c]) %}
+                      <a href="{{ model[c] }}" target="_blank" style="color: var(--primary-color);">{{ model[c]|default('', true) }}</a>
+                    {% elif model[c] is sameas true or model[c] is sameas false %}
+                      {% if model[c] %}
+                        <i class="fas fa-check-circle text-success"></i> Ativo
+                      {% else %}
+                        <i class="fas fa-times-circle text-danger"></i> Inativo
+                      {% endif %}
+                    {% else %}
+                      {{ model[c]|default('', true) }}
+                    {% endif %}
+                  </dd>
+                  {% endfor %}
+                </dl>
+              </div>
+            </div>
+          {% endblock %}
+
+          {% block details_actions %}
+            <div class="well">
+              <div class="btn-group">
+                {%- if admin_view.can_edit -%}
+                <a href="{{ url_for('.edit_view', id=request.args.get('id'), url=return_url) }}" class="btn btn-primary">
+                  <i class="fas fa-edit"></i> {{ _gettext('Edit') }}
+                </a>
+                {%- endif -%}
+                <a href="{{ return_url }}" class="btn btn-default">
+                  <i class="fas fa-arrow-left"></i> {{ _gettext('Back') }}
+                </a>
+              </div>
+            </div>
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block tail %}
+  {{ super() }}
+  <script src="{{ admin_static.url(filename='vendor/select2/select2.min.js', v='3.5.2') }}"></script>
+{% endblock %}

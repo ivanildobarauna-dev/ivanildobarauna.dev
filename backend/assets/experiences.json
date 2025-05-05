@@ -1,0 +1,274 @@
+[
+    {
+        "position": "Engenheiro de Dados Senior",
+        "company": "Mercado Livre",
+        "period": "outubro de 2023 - atual",
+        "startDate": "2023-10",
+        "location": "São Paulo, Brasil",
+        "website": "https://www.mercadolivre.com.br",
+        "logo": "/images/empresas/mercadolivre.png",
+        "currentJob": true,
+        "skills": [
+            "BigQuery",
+            "Python",
+            "Flask",
+            "Docker",
+            "Microservices",
+            "Observability"
+        ],
+        "activities": [
+            "Desenvolvimento de soluções de observabilidade de negócio entre microsserviços",
+            "Trabalho com tecnologias como Apache Beam, Google Cloud Platform, e Python"
+        ]
+    },
+    {
+        "position": "Senior Data Analyst",
+        "company": "C6 Bank",
+        "period": "setembro de 2023 - dezembro de 2023",
+        "startDate": "2023-09",
+        "endDate": "2023-12",
+        "location": "São Paulo, Brasil",
+        "website": "https://www.c6bank.com.br",
+        "logo": "/images/empresas/c6bank.png",
+        "currentJob": false,
+        "skills": [
+            "SQL",
+            "BigQuery",
+            "Python",
+            "Airflow",
+            "DataFlow",
+            "Looker Studio"
+        ],
+        "activities": [
+            "Responsável por garantir a execução de pipelines e fornecimento de dados para Investimentos, Core Banking e outros assuntos de Corporate Banking",
+            "Desenvolvimento de processos de Data Quality",
+            "Suporte no desenvolvimento da plataforma de dados do banco"
+        ]
+    },
+    {
+        "position": "Data Analyst",
+        "company": "C6 Bank",
+        "period": "janeiro de 2023 - setembro de 2023",
+        "startDate": "2023-01",
+        "endDate": "2023-09",
+        "location": "São Paulo, Brasil",
+        "website": "https://www.c6bank.com.br",
+        "logo": "/images/empresas/c6bank.png",
+        "currentJob": false,
+        "skills": [
+            "SQL",
+            "BigQuery",
+            "Python",
+            "Airflow",
+            "DataFlow",
+            "Looker Studio"
+        ],
+        "activities": [
+            "Mapeamento, definição e planejamento de entrada/manutenção de pipelines de Dados no Data Lake",
+            "Estruturação e disponibilização de Data Marts e/ou Data Warehouses para as demais áreas do banco",
+            "Foco em otimização de custo e performance dos pipelines produtivos"
+        ]
+    },
+    {
+        "position": "Business Intelligence Analyst",
+        "company": "C6 Bank",
+        "period": "fevereiro de 2022 - dezembro de 2022",
+        "startDate": "2022-02",
+        "endDate": "2022-12",
+        "location": "São Paulo, Brasil",
+        "website": "https://www.c6bank.com.br",
+        "logo": "/images/empresas/c6bank.png",
+        "currentJob": false,
+        "skills": [
+            "SQL",
+            "BigQuery",
+            "Power BI",
+            "Looker Studio"
+        ],
+        "activities": [
+            "Desenvolvimento de solução de ETL auto orquestrada para análise de grandes volumes de dados",
+            "Foco em redução de custo e criação de Data Mart para área de negócio",
+            "Implementação de processos automatizados de transformação de dados"
+        ]
+    },
+    {
+        "position": "Analista de Business Intelligence",
+        "company": "Embracon Administradora de Consórcio Ltda",
+        "period": "setembro de 2020 - fevereiro de 2022",
+        "startDate": "2020-09",
+        "endDate": "2022-02",
+        "location": "Santana de Parnaíba, São Paulo, Brasil",
+        "website": "https://www.embracon.com.br",
+        "logo": "/images/empresas/embracon.png",
+        "currentJob": false,
+        "skills": [
+            "SQL",
+            "Power BI",
+            "PL/SQL",
+            "MSSQL",
+            "SSIS",
+            "SSRS",
+            "Pentaho Data Integration"
+        ],
+        "activities": [
+            "Criação de indicadores de performance de negócio para suporte à tomada de decisão",
+            "Desenvolvimento de dashboards e relatórios para acompanhamento de resultados",
+            "Automatização de processos de ETL para carga de dados"
+        ]
+    },
+    {
+        "position": "Analista de Aplicações Digitais PL",
+        "company": "Embracon Administradora de Consórcio Ltda",
+        "period": "dezembro de 2019 - setembro de 2020",
+        "startDate": "2019-12",
+        "endDate": "2020-09",
+        "location": "Santana de Parnaíba, São Paulo, Brasil",
+        "website": "https://www.embracon.com.br",
+        "logo": "/images/empresas/embracon.png",
+        "currentJob": false,
+        "skills": [
+            "SQL",
+            "MSSQL"
+        ],
+        "activities": [
+            "Construção de Indicadores para tomada de decisão estratégica",
+            "Desenvolvimento de análises descritivas e preditivas",
+            "Suporte à decisão através de análise de dados"
+        ]
+    },
+    {
+        "position": "Analista de Aplicações Digitais Jr",
+        "company": "Embracon Administradora de Consórcio Ltda",
+        "period": "março de 2019 - dezembro de 2019",
+        "startDate": "2019-03",
+        "endDate": "2019-12",
+        "location": "Santana de Parnaíba, São Paulo, Brasil",
+        "website": "https://www.embracon.com.br",
+        "logo": "/images/empresas/embracon.png",
+        "currentJob": false,
+        "skills": [
+            "Excel",
+            "Power BI",
+            "VBA",
+            "DAX",
+            "M Language"
+        ],
+        "activities": [
+            "Construção de Indicadores para tomada de decisão estratégica",
+            "Foco em análise de dados para área comercial",
+            "Desenvolvimento de relatórios e dashboards"
+        ]
+    },
+    {
+        "position": "Analista de MIS",
+        "company": "Sitel Brasil | Foundever",
+        "period": "março de 2015 - abril de 2017",
+        "startDate": "2015-03",
+        "endDate": "2017-04",
+        "location": "São Paulo, Brasil",
+        "skills": [
+            "Excel",
+            "VBA"
+        ],
+        "activities": [
+            "Desenvolvimento de Relatórios em MS-Excel com base nos dados do Salesforce",
+            "Automatização de processos manuais com VBA",
+            "Desenvolvimento de Dashboards com MS-Excel"
+        ]
+    },
+    {
+        "position": "Professor de música",
+        "company": "Colégio e Curso Objetivo",
+        "period": "junho de 2014 - dezembro de 2014",
+        "startDate": "2014-06",
+        "endDate": "2014-12",
+        "location": "São Paulo, Brasil",
+        "skills": [
+            "Ensino de teoria musical para crianças"
+        ],
+        "activities": [
+            "Filial: ESCOLA DE INTEGRACAO E APRENDIZAGEM CRESCER LTDA",
+            "Atribuição: Ensino de teoria musical focada em ensino infantil"
+        ]
+    },
+    {
+        "position": "Técnico de suporte em TI",
+        "company": "Supermercados Rod & Raf",
+        "period": "janeiro de 2013 - julho de 2013",
+        "startDate": "2013-01",
+        "endDate": "2013-07",
+        "location": "São Paulo e Região, Brasil",
+        "skills": [
+            "Linux",
+            "Redes",
+            "Oracle",
+            "PABX",
+            "Infraestrutura"
+        ],
+        "activities": [
+            "Manutenção de Computadores",
+            "CFTV",
+            "Cabeamento estruturado de Redes",
+            "Manutenção supervisionada de servidores on premise"
+        ]
+    },
+    {
+        "position": "Técnico de suporte de redes",
+        "company": "Wave Internet",
+        "period": "junho de 2012 - dezembro de 2012",
+        "startDate": "2012-06",
+        "endDate": "2012-12",
+        "location": "São Paulo, Brasil",
+        "skills": [
+            "Redes",
+            "Linux",
+            "Microtik",
+            "Ubiquiti Routers"
+        ],
+        "activities": [
+            "Manutenção interna e externa de rádios transmissores e receptores de internet",
+            "Acompanhamento de saúde do ambiente com Microtik Router",
+            "Apoio na instalação de sistemas operacionais nos servidores centrais"
+        ]
+    },
+    {
+        "position": "Jovem aprendiz",
+        "company": "Horus Tech Informatica",
+        "period": "fevereiro de 2012 - abril de 2012",
+        "startDate": "2012-02",
+        "endDate": "2012-04",
+        "location": "São Paulo, Brasil",
+        "skills": [
+            "Windows",
+            "Redes",
+            "MacOS",
+            "Linux",
+            "Hardware"
+        ],
+        "activities": [
+            "Suporte e manutenção de computadores"
+        ]
+    },
+    {
+        "position": "Analista Administrativo",
+        "company": "Embracon Administradora de Consórcio Ltda",
+        "period": "dezembro de 2018 - março de 2019",
+        "startDate": "2018-12",
+        "endDate": "2019-03",
+        "location": "São Paulo, Brasil",
+        "currentJob": false,
+        "skills": [
+            "Excel",
+            "Power BI",
+            "VBA",
+            "SQL",
+            "Power Query",
+            "Power Pivot",
+            "Power View"
+        ],
+        "activities": [
+            "Desenvolvimento de relatórios no Excel usando ferramentas de SSBI (Power Query, Power Pivot e Power View)",
+            "Automatização de tarefas manuais usando programação VBA"
+        ]
+    }
+]

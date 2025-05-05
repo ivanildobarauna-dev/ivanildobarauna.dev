@@ -1,0 +1,424 @@
+{% extends 'admin/base.html' %}
+{% import 'admin/lib.html' as lib with context %}
+{% import 'admin/static.html' as admin_static with context %}
+{% import 'admin/model/layout.html' as model_layout with context %}
+
+{% block head %}
+  {{ super() }}
+  <link href="{{ admin_static.url(filename='select2/select2.css', v='3.5.2') }}" rel="stylesheet">
+  <link href="{{ admin_static.url(filename='css/datepicker.css', v='1.3.0') }}" rel="stylesheet">
+{% endblock %}
+
+{% block head_css %}
+  {{ super() }}
+  <style>
+    /* Reset all link colors in the table first */
+    .table tbody tr td a,
+    .table tbody tr td a:link,
+    .table tbody tr td a:visited,
+    .table tbody tr td a:hover,
+    .table tbody tr td a:active {
+      color: #333333 !important;
+      text-decoration: none !important;
+    }
+
+    /* Then set our variables */
+    :root {
+      --primary-color: #007BFF;
+      --secondary-color: #6c757d;
+      --accent-color: #17a2b8;
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --warning-color: #ffc107;
+      --info-color: #17a2b8;
+      --light-color: #f8f9fa;
+      --dark-color: #343a40;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      color: #333333;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .navbar {
+      background: linear-gradient(to right, #007BFF, #0056b3);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand, .navbar-nav .nav-link {
+      color: #ffffff !important;
+      font-weight: 500;
+    }
+
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .card {
+      border: none;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin-bottom: 1.5rem;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+
+    /* Custom styles for the list view */
+    .table-responsive {
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      width: 100%;
+    }
+    
+    .table {
+      width: 100%;
+      min-width: 800px;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: rgba(0, 123, 255, 0.05);
+    }
+
+    .table thead th,
+    .table thead th a,
+    .table thead th a:hover,
+    .table thead th a:visited,
+    .table thead th a:active {
+      background-color: var(--primary-color);
+      color: white !important;
+      border-color: #0056b3;
+      border-bottom: none;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    
+    .table thead th i.fas {
+      margin-left: 5px;
+      display: inline-block;
+    }
+    
+    .table thead th i.fa-sort {
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+    
+    .table thead th i.fa-sort-up,
+    .table thead th i.fa-sort-down {
+      color: white !important;
+    }
+    
+    .table tbody td,
+    .table tbody td a,
+    .table tbody td span,
+    .table tbody td div {
+      color: #333333 !important;
+      max-width: 500px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding: 12px 15px;
+      text-align: left;
+    }
+    
+    .table tbody td:hover {
+      white-space: normal;
+      overflow: visible;
+      max-width: none;
+    }
+    
+    /* Definir largura fixa para todas as colunas */
+    .column-header,
+    .table th,
+    .table td {
+      min-width: 100px;
+      max-width: 400px;
+    }
+    
+    /* Alinhamento específico para colunas especiais */
+    .col-id {
+      width: 60px;
+    }
+    
+    .col-active {
+      width: 80px;
+    }
+    
+    .table thead th {
+      padding: 15px;
+    }
+
+    .fa-pencil-alt, .fa-trash-alt {
+      color: var(--secondary-color);
+    }
+
+    .fa-pencil-alt:hover {
+      color: var(--primary-color);
+    }
+
+    .fa-trash-alt:hover {
+      color: var(--danger-color);
+    }
+
+    .actions-column {
+      width: 100px;
+    }
+
+    .pagination .page-link {
+      color: var(--primary-color);
+    }
+
+    .pagination .page-item.active .page-link {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .search-form {
+      margin-bottom: 1rem;
+    }
+
+    .search-form .form-control {
+      border-radius: 0.5rem 0 0 0.5rem;
+      border: 1px solid #ced4da;
+    }
+
+    .search-form .btn {
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+
+    .model-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .filters-container {
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+  {% block navlinks %}
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a href="{{ return_url }}" class="nav-link{% if not details and not edit and not create %} active{% endif %}">{{ _gettext('List') }}</a>
+    </li>
+    {%- if admin_view.can_create -%}
+    <li class="nav-item">
+      <a href="{{ get_url('.create_view', url=return_url) }}" class="nav-link{% if create %} active{% endif %}">{{ _gettext('Create') }}</a>
+    </li>
+    {%- endif -%}
+    {%- if details -%}
+    <li class="nav-item">
+      <a href="{{ get_url('.details_view', id=get_pk_value(model), url=return_url) }}" class="nav-link active">{{ _gettext('Details') }}</a>
+    </li>
+    {%- endif -%}
+    {%- if edit -%}
+    <li class="nav-item">
+      <a href="{{ get_url('.edit_view', id=get_pk_value(model), url=return_url) }}" class="nav-link active">{{ _gettext('Edit') }}</a>
+    </li>
+    {%- endif -%}
+    {%- if actions -%}
+    <li class="nav-item">
+      <a href="{{ url_for('.action_view') }}" class="nav-link{% if actions %} active{% endif %}">{{ _gettext('Actions') }}</a>
+    </li>
+    {%- endif -%}
+  </ul>
+  {% endblock %}
+
+  <div class="container-fluid px-2">
+    <div class="model-controls mt-3">
+      <h3 style="color: #333333;" class="mb-0">{{ admin_view.name }}</h3>
+      <div>
+        {% if admin_view.can_create %}
+        <a href="{{ url_for('.create_view', url=return_url) }}" class="btn btn-primary">
+          <i class="fas fa-plus"></i> Adicionar {{ admin_view.name | replace('s', '') if admin_view.name.endswith('s') else admin_view.name }}
+        </a>
+        {% endif %}
+        {% if admin_view.can_export %}
+          {{ model_layout.export_options() }}
+        {% endif %}
+      </div>
+    </div>
+
+    {% if filters %}
+    <div class="filters-container">
+      <form id="filter_form" method="GET" action="{{ return_url }}">
+        {{ lib.render_form_fields(filter_form, form_opts=form_opts) }}
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-filter"></i> {{ _gettext('Apply') }}
+        </button>
+      </form>
+    </div>
+    {% endif %}
+
+    <div class="search-form">
+      <form method="GET" action="{{ return_url }}">
+        <div class="input-group">
+          <input type="text" name="search" value="{{ search or '' }}" class="form-control" placeholder="{{ _gettext('Search') }}">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+        {% if filters %}
+        {% for flt in active_filters %}
+        <input type="hidden" name="flt{{ loop.index }}" value="{{ flt[0] }}">
+        <input type="hidden" name="flt{{ loop.index }}op" value="{{ flt[1] }}">
+        <input type="hidden" name="flt{{ loop.index }}value" value="{{ flt[2] }}">
+        {% endfor %}
+        {% endif %}
+        {% if sort %}
+        <input type="hidden" name="sort" value="{{ sort }}">
+        {% endif %}
+        {% if sort_desc %}
+        <input type="hidden" name="desc" value="{{ sort_desc }}">
+        {% endif %}
+        {% if page %}
+        <input type="hidden" name="page" value="{{ page }}">
+        {% endif %}
+        {% if page_size %}
+        <input type="hidden" name="page_size" value="{{ page_size }}">
+        {% endif %}
+      </form>
+    </div>
+
+    {% set can_delete = admin_view.can_delete %}
+    {% set can_edit = admin_view.can_edit %}
+    {% set can_view_details = admin_view.can_view_details %}
+
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            {% for c, name in list_columns %}
+            <th class="column-header col-{{c}}">
+              {% if admin_view.is_sortable(c) %}
+                {% if sort_column == c %}
+                  <a href="{{ sort_url(c, True) }}" title="{{ _gettext('Sort by %(name)s', name=name) }}">
+                    {{ name }}
+                    {% if sort_desc %}
+                    <i class="fas fa-sort-down"></i>
+                    {% else %}
+                    <i class="fas fa-sort-up"></i>
+                    {% endif %}
+                  </a>
+                {% else %}
+                  <a href="{{ sort_url(c) }}" title="{{ _gettext('Sort by %(name)s', name=name) }}">
+                    {{ name }}
+                    <i class="fas fa-sort text-muted"></i>
+                  </a>
+                {% endif %}
+              {% else %}
+                {{ name }}
+              {% endif %}
+            </th>
+            {% endfor %}
+            <th class="actions-column">{{ _gettext('Actions') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+          <tr>
+            {% for c, name in list_columns %}
+            <td class="col-{{c}}">
+              {% if admin_view.is_editable(c) %}
+                {% set form = list_forms[loop.index0] %}
+                {% if form.csrf_token %}
+                {{ form[c](pk=row.id, value=row[c], csrf=form.csrf_token._value()) }}
+                {% else %}
+                {{ form[c](pk=row.id, value=row[c]) }}
+                {% endif %}
+              {% else %}
+                {% if row[c] is string and ('http://' in row[c] or 'https://' in row[c]) %}
+                  <a href="{{ row[c] }}" target="_blank" style="color: var(--primary-color) !important;">{{ row[c]|default('', true) }}</a>
+                {% elif row[c] is sameas true or row[c] is sameas false %}
+                  {% if row[c] %}
+                    <i class="fas fa-check-circle text-success" title="Ativo"></i>
+                  {% else %}
+                    <i class="fas fa-times-circle text-danger" title="Inativo"></i>
+                  {% endif %}
+                {% else %}
+                  <span style="color: #333333 !important;">{{ row[c]|default('', true) }}</span>
+                {% endif %}
+              {% endif %}
+            </td>
+            {% endfor %}
+            <td class="list-buttons-column">
+              {% if can_view_details %}
+              <a href="{{ url_for('.details_view', id=row.id, url=return_url) }}" class="btn btn-sm btn-outline-primary" title="{{ _gettext('Details') }}">
+                <i class="fas fa-eye"></i>
+              </a>
+              {% endif %}
+              {% if can_edit %}
+              <a href="{{ url_for('.edit_view', id=row.id, url=return_url) }}" class="btn btn-sm btn-outline-primary" title="{{ _gettext('Edit') }}">
+                <i class="fas fa-pencil-alt"></i>
+              </a>
+              {% endif %}
+              {% if can_delete %}
+              <form class="d-inline" method="POST" action="{{ url_for('.delete_view') }}">
+                {{ delete_form.id(value=row.id) }}
+                {{ delete_form.url(value=return_url) }}
+                {% if delete_form.csrf_token %}
+                {{ delete_form.csrf_token }}
+                {% endif %}
+                <button onclick="return confirm('{{ _gettext('Are you sure you want to delete this record?') }}');" class="btn btn-sm btn-outline-danger" title="{{ _gettext('Delete') }}">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </form>
+              {% endif %}
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="{{ list_columns|length + 1 }}">
+              <div class="text-center p-4">
+                <i class="fas fa-info-circle fa-2x text-muted mb-3"></i>
+                <p>{{ admin_view.get_empty_list_message() }}</p>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if num_pages is not none %}
+    <div class="pagination-wrapper">
+      {{ lib.pager(page, num_pages, pager_url) }}
+    </div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block tail %}
+  {{ super() }}
+  <script src="{{ admin_static.url(filename='vendor/moment.min.js', v='2.9.0') }}"></script>
+  <script src="{{ admin_static.url(filename='vendor/select2/select2.min.js', v='3.5.2') }}"></script>
+  <script src="{{ admin_static.url(filename='vendor/bootstrap-datepicker.js', v='1.3.0') }}"></script>
+  <script src="{{ admin_static.url(filename='js/form.js', v='1.0.1') }}"></script>
+{% endblock %}
