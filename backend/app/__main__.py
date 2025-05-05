@@ -18,6 +18,7 @@ from src.infrastructure.routes.experiences.view import experiences_ns
 from src.infrastructure.routes.health_check.view import health_check_ns
 from src.infrastructure.routes.projects.view import projects_ns
 from src.infrastructure.routes.social_media.view import social_media_ns
+from src.infrastructure.utils.logger import logger
 
 
 class ApplicationSetup:
@@ -76,13 +77,8 @@ class ApplicationSetup:
                 try:
                     db.create_all()
                 except Exception as e:
-                    print(
-                        f"Error creating database tables: {e}",
-                        "continuing with migration",
-                    )
-                    db.drop_all()
-                    db.create_all()
-
+                    logger.error(f"Error creating tables: {e}")
+                    raise e
             else:
                 upgrade()
 
