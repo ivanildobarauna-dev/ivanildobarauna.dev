@@ -44,7 +44,7 @@ export function ExperienceRenderer({ experiences, tempoTotalCarreira }: Experien
                   <div>
                     <h2 className="text-xl md:text-2xl font-bold break-words">{empresa}</h2>
                     <p className="text-blue-100 text-sm md:text-base">
-                      Tempo total: {exps[0].duration}{exps[0].currentJob ? ' (Emprego Atual)' : ''}
+                      Tempo total: {exps[0].duration}{exps[0].actual_job ? ' (Emprego Atual)' : ''}
                     </p>
                   </div>
                 </div>
@@ -74,20 +74,12 @@ export function ExperienceRenderer({ experiences, tempoTotalCarreira }: Experien
                     <h3 className="text-lg md:text-xl font-semibold text-blue-600">{exp.position}</h3>
                     <p className="text-gray-600 text-sm md:text-base">{exp.period}</p>
                     <p className="text-gray-600 text-sm md:text-base">{exp.location}</p>
+                    <p className="text-gray-700 text-sm md:text-base mt-2">{exp.description}</p>
                   </div>
 
-                  <ul className="space-y-2">
-                    {exp.activities.map((activity, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-gray-700 text-sm md:text-base">
-                        <span className="text-blue-600 mt-1">•</span>
-                        <span>{activity}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {exp.skills && exp.skills.length > 0 && (
+                  {exp.skills && (
                     <div className="flex flex-wrap gap-2 pt-2">
-                      {exp.skills.map((skill, idx) => (
+                      {exp.skills.split(';').map((skill, idx) => (
                         <span
                           key={idx}
                           className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs md:text-sm"

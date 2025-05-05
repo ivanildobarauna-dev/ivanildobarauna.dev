@@ -6,8 +6,10 @@ export interface Experience {
     website?: string;
     logo?: string;
     actual_job?: boolean;
-    skills?: string[];
-    duration: string;
+    skills: string;
+    description: string;
+    start_date: string;
+    duration?: string;
   }
   
 

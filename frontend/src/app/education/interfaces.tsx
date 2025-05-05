@@ -3,15 +3,13 @@ export interface Formation {
     type: string;
     course: string;
     period: string;
-    activities: string;
-    subjects: string[];
+    description: string;
     logo?: string;
-    website?: string;
   }
   
 export interface Certification {
     name: string;
     institution: string;
-    credential_url?: string;
+    credential_url: string | null;
     logo?: string;
 }

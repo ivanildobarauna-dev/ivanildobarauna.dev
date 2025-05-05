@@ -37,39 +37,26 @@ export function ProjectsRenderer({ projects }: ProjectsRendererProps) {
               <p className="text-gray-600">{project.description}</p>
               
               <div className="flex flex-wrap gap-2">
-                {project.tech.map((tech) => (
+                {project.tags.map((tag) => (
                   <span
-                    key={tech}
+                    key={tag}
                     className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
                   >
-                    {tech}
+                    {tag}
                   </span>
                 ))}
               </div>
 
               <div className="pt-4 flex items-center gap-4">
-                {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
-                  >
-                    <FaGithub className="w-5 h-5" />
-                    <span>Ver Código</span>
-                  </a>
-                )}
-                {project.live && (
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
-                  >
-                    <FaExternalLinkAlt className="w-4 h-4" />
-                    <span>Ver Demo</span>
-                  </a>
-                )}
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
+                >
+                  <FaGithub className="w-5 h-5" />
+                  <span>Ver Código</span>
+                </a>
               </div>
             </div>
           </motion.div>

@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { FaArrowRight, FaPython, FaDatabase, FaChartBar, FaChartLine, FaGithub, FaLinkedin, FaStackOverflow } from 'react-icons/fa';
-import { SiFlask, SiApacheairflow, SiDocker, SiApache, SiGooglebigquery, SiGooglecloud, SiGooglepubsub, SiCoursera, SiGravatar } from 'react-icons/si';
+import { FaArrowRight, FaPython, FaDatabase, FaChartBar, FaChartLine } from 'react-icons/fa';
+import { SiFlask, SiApacheairflow, SiDocker, SiApache, SiGooglebigquery, SiGooglecloud, SiGooglepubsub } from 'react-icons/si';
+import { useSocialLinks } from '@/app/social-links/hooks/useSocialLinks';
+import { socialIconMap } from '@/utils/socialIconMap';
 
 interface HomeRendererProps {
   totalExperience: number;
@@ -20,13 +22,7 @@ export default function HomeRenderer({
   totalEducation, 
   activeButton 
 }: HomeRendererProps) {
-  const socialLinks = [
-    { href: 'https://linkedin.com/in/ivanildobarauna', icon: FaLinkedin, label: 'LinkedIn' },
-    { href: 'https://github.com/ivanildobarauna', icon: FaGithub, label: 'GitHub' },
-    { href: 'https://stackoverflow.com/users/24289987/ivanildo-barauna', icon: FaStackOverflow, label: 'Stack Overflow' },
-    { href: 'https://www.coursera.org/learner/ivanildobarauna', icon: SiCoursera, label: 'Coursera' },
-    { href: 'https://gravatar.com/ivanildobarauna', icon: SiGravatar, label: 'Gravatar' },
-  ];
+  const { socialLinks, loading, error } = useSocialLinks();
 
   const skills = [
     { name: 'Python', icon: FaPython, color: '#3776AB' },
@@ -52,20 +48,23 @@ export default function HomeRenderer({
         <div className="mb-4">
           <h1 className="text-2xl md:text-4xl font-bold">Ivanildo Barauna de Souza Junior</h1>
           <div className="flex md:hidden items-center space-x-3 mt-3">
-            {socialLinks.map((link) => (
-              <motion.a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white opacity-80 hover:opacity-100 transition-all hover:scale-110"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                aria-label={link.label}
-              >
-                <link.icon className="w-5 h-5" />
-              </motion.a>
-            ))}
+            {!loading && !error && socialLinks.map((link) => {
+              const Icon = socialIconMap[link.type];
+              return (
+                <motion.a
+                  key={link.label}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white opacity-80 hover:opacity-100 transition-all hover:scale-110"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  aria-label={link.label}
+                >
+                  {Icon && <Icon className="w-5 h-5" />}
+                </motion.a>
+              );
+            })}
           </div>
         </div>
         <p className="text-base md:text-lg opacity-90">

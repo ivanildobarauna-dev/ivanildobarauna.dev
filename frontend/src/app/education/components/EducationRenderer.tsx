@@ -50,16 +50,6 @@ export function EducationRenderer({ formations, certifications }: EducationRende
                     </div>
                   </div>
                 </div>
-                {formation.website && (
-                  <a
-                    href={formation.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-blue-200 transition-colors text-sm md:text-base"
-                  >
-                    🌐 Website
-                  </a>
-                )}
               </div>
             </div>
 
@@ -73,19 +63,7 @@ export function EducationRenderer({ formations, certifications }: EducationRende
                   <FaCalendarAlt className="w-3 h-3 md:w-4 md:h-4" />
                   <span>{formation.period}</span>
                 </div>
-                <p className="text-sm md:text-base text-gray-700">{formation.activities}</p>
-              </div>
-
-              <div>
-                <h4 className="text-base md:text-lg font-semibold text-blue-600 mb-2 md:mb-3">Assuntos Abordados:</h4>
-                <ul className="space-y-1 md:space-y-2">
-                  {formation.subjects.map((subject, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-gray-700 text-sm md:text-base">
-                      <span className="text-blue-600 mt-1">•</span>
-                      <span>{subject}</span>
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-sm md:text-base text-gray-700">{formation.description}</p>
               </div>
             </div>
           </motion.div>

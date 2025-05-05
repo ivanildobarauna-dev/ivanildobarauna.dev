@@ -1,10 +1,19 @@
 export function getBackendEndpoint(endpoint: string) {
-  const env = process.env.NODE_ENV;
-
-  if (env === 'development') {
-    console.log('Executing in development mode with backend_url: ', process.env.NEXT_PUBLIC_BACKEND_URL);
-    return process.env.NEXT_PUBLIC_BACKEND_URL + endpoint;
+  // Se está rodando no navegador do cliente
+  const isClient = typeof window !== 'undefined';
+  
+  let baseUrl;
+  
+  if (isClient) {
+    // No cliente (browser), sempre use o host da atual página
+    const hostname = window.location.hostname;
+    baseUrl = `http://${hostname}:8090/api/v1`;
+  } else {
+    // No servidor (SSR), use o nome do serviço Docker em produção
+    baseUrl = process.env.NODE_ENV === 'production' 
+      ? "http://backend:8090/api/v1" 
+      : "http://localhost:8090/api/v1";
   }
-
-  return process.env.NEXT_PUBLIC_BACKEND_URL + endpoint;
+  
+  return baseUrl + endpoint;
 }

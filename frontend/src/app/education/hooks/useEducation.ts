@@ -41,18 +41,8 @@ export function useEducation(): EducationData {
           throw new Error('Resposta inválida: os dados não estão no formato esperado');
         }
         
-        const formationsMapped = data.formations.map((formation: any) => ({
-          institution: formation.institution,
-          type: formation.type,
-          course: formation.course,
-          period: formation.period,
-          activities: formation.activities,
-          subjects: formation.subjects,
-          logo: formation.logo,
-          website: formation.website
-        }));
-        
-        setFormations(formationsMapped);
+        // No need to map formations as the format is already compatible
+        setFormations(data.formations);
         setCertifications(data.certifications);
       } catch (error: unknown) {
         if (error instanceof Error) {

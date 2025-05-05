@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getBackendEndpoint } from '@/utils/backend_endpoint';
 
 interface TotalProjectsData {
   totalProjects: string;
@@ -14,9 +15,9 @@ export function useTotalProjects(): TotalProjectsData {
   useEffect(() => {
     const fetchTotalProjects = async () => {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+        const projectsEndpoint = getBackendEndpoint('/projects');
 
-        const response = await fetch(`${backendUrl}/projects`, {
+        const response = await fetch(projectsEndpoint, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',

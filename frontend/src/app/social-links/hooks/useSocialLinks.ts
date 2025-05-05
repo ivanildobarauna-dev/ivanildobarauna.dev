@@ -1,23 +1,24 @@
 import { useState, useEffect } from 'react';
+import { SocialLink } from '../interfaces';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
 
-interface TotalEducationData {
-  totalEducation: string;
+interface SocialLinksData {
+  socialLinks: SocialLink[];
   loading: boolean;
   error: string | null;
 }
 
-export function useTotalEducation(): TotalEducationData {
-  const [totalEducation, setTotalEducation] = useState<string>('');
+export function useSocialLinks(): SocialLinksData {
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchTotalEducation = async () => {
+    const fetchSocialLinks = async () => {
       try {
-        const educationEndpoint = getBackendEndpoint('/education');
+        const socialLinksEndpoint = getBackendEndpoint('/social-media-links');
 
-        const response = await fetch(educationEndpoint, {
+        const response = await fetch(`${socialLinksEndpoint}`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -29,34 +30,33 @@ export function useTotalEducation(): TotalEducationData {
           console.error(`Erro na requisição: Status ${response.status}`);
           const responseText = await response.text();
           console.error('Resposta do servidor:', responseText);
-          throw new Error(`Falha ao carregar os dados de educação. Status: ${response.status}`);
+          throw new Error(`Falha ao carregar os links sociais. Status: ${response.status}`);
         }
         
         const data = await response.json();
         
-        if (!data.formations || !data.certifications || !Array.isArray(data.formations) || !Array.isArray(data.certifications)) {
-          throw new Error('Resposta inválida: os dados não estão no formato esperado');
+        if (!Array.isArray(data)) {
+          throw new Error('Resposta inválida: os dados não são um array');
         }
-
-        const total = data.formations.length + data.certifications.length;
-        setTotalEducation(`${total}+`);
+        
+        setSocialLinks(data);
       } catch (error: unknown) {
         if (error instanceof Error) {
           setError(error.message);
         } else {
-          setError('Erro desconhecido ao carregar os dados de educação');
+          setError('Erro desconhecido ao carregar os links sociais');
         }
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTotalEducation();
+    fetchSocialLinks();
   }, []);
 
   return {
-    totalEducation,
+    socialLinks,
     loading,
     error
   };
-} 
+}

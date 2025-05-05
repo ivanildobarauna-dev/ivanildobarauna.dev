@@ -5,8 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaStackOverflow, FaBars, FaTimes } from 'react-icons/fa';
-import { SiCoursera, SiGravatar } from 'react-icons/si';
+import { FaBars, FaTimes } from 'react-icons/fa';
+import { useSocialLinks } from '@/app/social-links/hooks/useSocialLinks';
+import { socialIconMap } from '@/utils/socialIconMap';
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -43,13 +44,7 @@ const Sidebar = () => {
     { href: '/education', label: 'Formação', icon: '📚' },
   ];
 
-  const socialLinks = [
-    { href: 'https://linkedin.com/in/ivanildobarauna', icon: FaLinkedin, label: 'LinkedIn' },
-    { href: 'https://github.com/ivanildobarauna', icon: FaGithub, label: 'GitHub' },
-    { href: 'https://stackoverflow.com/users/24289987/ivanildo-barauna', icon: FaStackOverflow, label: 'Stack Overflow' },
-    { href: 'https://www.coursera.org/learner/ivanildobarauna', icon: SiCoursera, label: 'Coursera' },
-    { href: 'https://gravatar.com/ivanildobarauna', icon: SiGravatar, label: 'Gravatar' },
-  ];
+  const { socialLinks, loading, error } = useSocialLinks();
 
   // Mobile hamburger button
   const MobileMenuButton = () => (
@@ -78,17 +73,20 @@ const Sidebar = () => {
         <p className="text-gray-400 mb-4 text-center text-sm md:text-base">Engenheiro de Dados Senior / Programador Backend</p>
         
         <div className="flex justify-center space-x-4 mb-8">
-          {socialLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <link.icon className="w-5 h-5 md:w-6 md:h-6" />
-            </a>
-          ))}
+          {!loading && !error && socialLinks.map((link) => {
+            const Icon = socialIconMap[link.type];
+            return (
+              <a
+                key={link.label}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                {Icon && <Icon className="w-5 h-5 md:w-6 md:h-6" />}
+              </a>
+            );
+          })}
         </div>
       </div>
 

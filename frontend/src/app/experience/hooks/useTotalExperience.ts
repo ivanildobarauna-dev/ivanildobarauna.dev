@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getBackendEndpoint } from '@/utils/backend_endpoint';
 
 interface TotalExperienceData {
   totalExperience: string;
@@ -14,9 +15,9 @@ export function useTotalExperience(): TotalExperienceData {
   useEffect(() => {
     const fetchTotalExperience = async () => {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+        const experiencesEndpoint = getBackendEndpoint('/experiences?total_duration=true');
 
-        const response = await fetch(`${backendUrl}/experiences?total_duration=true`, {
+        const response = await fetch(experiencesEndpoint, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
