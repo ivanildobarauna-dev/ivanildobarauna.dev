@@ -1,7 +1,7 @@
 # -------------------------------
 # BACKEND (Python / Flask / SQLite)
 # -------------------------------
-backend/__pycache__/
+*__pycache__/
 backend/.pytest_cache/
 backend/.ruff_cache/
 backend/.venv/
@@ -10,9 +10,6 @@ backend/.cursor/
 backend/instance/
 backend/poetry.lock
 backend/logs/
-backend/app/__pycache__/
-backend/src/__pycache__/
-backend/tests/__pycache__/
 *.log
 .env
 
