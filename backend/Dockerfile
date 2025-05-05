@@ -20,4 +20,4 @@ COPY . .
 
 EXPOSE 8090
 
-CMD ["gunicorn", "-b", "0.0.0.0:8090", "--workers=2", "--threads=2", "app.__main__:app"]
+CMD ["ddtrace-run" ,"gunicorn", "-b", "0.0.0.0:8090", "--workers=2", "--threads=2", "app.__main__:app"]
