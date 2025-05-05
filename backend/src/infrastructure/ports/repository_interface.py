@@ -38,3 +38,8 @@ class RepositoryInterface(ABC):
     def get_company_duration(self) -> list[CompanyDuration]:
         """Get all company duration from the repository."""
         pass
+
+    @abstractmethod
+    def get_total_experience(self) -> dict:
+        """Get all total experience."""
+        pass

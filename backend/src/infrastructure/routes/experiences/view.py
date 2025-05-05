@@ -20,7 +20,7 @@ class Experiences(Resource):
             )
 
             if total_duration_param:
-                response = {"total_duration": 13}
+                response = portfolio_data_service.total_experience()
                 return jsonify(response)
 
             company_duration_param = (

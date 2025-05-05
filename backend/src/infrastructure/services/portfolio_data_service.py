@@ -35,3 +35,7 @@ class PortfolioDataService:
     def social_media(self) -> list[SocialMedia]:
         """Get social media data from the repository."""
         return self.data_repository.get_all_social_media()
+
+    def total_experience(self) -> dict:
+        """Get total experience from the repository."""
+        return self.data_repository.get_total_experience()

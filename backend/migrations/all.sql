@@ -145,3 +145,32 @@ FROM (
         GROUP BY c.name
     )
 );
+
+
+CREATE VIEW 'VW_TOTAL_EXPERIENCE' AS
+SELECT
+    CASE
+        WHEN total_months < 12 THEN
+      total_months || ' meses'
+        WHEN total_months % 12 = 0 THEN
+      (total_months / 12) || ' anos'
+        ELSE
+      (total_months / 12) || ' anos e ' || (total_months % 12) || ' meses'
+    END AS duration
+FROM (
+    SELECT
+        (
+            CAST(strftime('%Y', IFNULL(LastExperience, DATE('now'))) AS INTEGER) -
+            CAST(strftime('%Y', FirstExperience) AS INTEGER)
+        ) * 12 +
+        (
+            CAST(strftime('%m', IFNULL(LastExperience, DATE('now'))) AS INTEGER) -
+            CAST(strftime('%m', FirstExperience) AS INTEGER)
+        ) AS total_months
+    FROM (
+        SELECT
+            MIN(e.start_date) AS FirstExperience,
+            MAX(IFNULL(e.end_date, DATE('now'))) AS LastExperience
+        FROM experiences as e
+    )
+);

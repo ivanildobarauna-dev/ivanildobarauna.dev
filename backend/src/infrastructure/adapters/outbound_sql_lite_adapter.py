@@ -84,3 +84,11 @@ class SqlLiteAdapter(RepositoryInterface):
 
     def get_all_social_media(self) -> list[SocialMedia]:
         return self.get_all(SocialMedia)
+
+
+    def get_total_experience(self) -> dict:
+        with self.get_session() as session:
+            result = session.execute(text("SELECT * FROM VW_TOTAL_EXPERIENCE"))
+            row = result.fetchone()
+
+            return {"total_duration": row[0]} if row else {"total_duration": None}
