@@ -11,7 +11,7 @@ export function getBackendEndpoint(endpoint: string) {
   } else {
     // No servidor (SSR), use o nome do serviço Docker em produção
     baseUrl = process.env.NODE_ENV === 'production' 
-      ? "http://backend:8090/api/v1" 
+      ? "https://backend:8090/api/v1" 
       : "http://localhost:8090/api/v1";
   }
   
