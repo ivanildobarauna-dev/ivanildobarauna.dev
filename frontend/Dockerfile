@@ -6,11 +6,11 @@ WORKDIR /app
 # Instala dependências de sistema mínimas (evita problemas com libs nativas)
 RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 
-# Copia arquivos de dependência
-COPY package.json package-lock.json ./
+# Copia apenas o package.json
+COPY package.json ./
 
-# Instala todas as dependências, incluindo devDependencies para o build
-RUN npm ci --no-audit --no-fund --verbose
+# Instala todas as dependências e gera o package-lock.json, incluindo devDependencies para o build
+RUN npm install --no-audit --no-fund --verbose
 
 # Copia o restante do projeto
 COPY . .
