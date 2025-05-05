@@ -65,11 +65,14 @@ class ExperiencesAdmin(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     position = Column(String(100), nullable=False, comment="Cargo")
     period = Column(String(100), nullable=False, comment="Período")
-    start_date  = Column(Date, nullable=False, comment="Data de início")
-    company = Column(String(100), nullable=False, comment="Período")
-    location = Column(String(100), nullable=False, comment="Localização")
-    website = Column(String(200), nullable=True, comment="URL do site da empresa")
-    logo = Column(String(200), nullable=True, comment="Logo da empresa")
+    start_date = Column(Date, nullable=False, comment="Data de início")
+    end_date = Column(Date, nullable=True, comment="Data de término")
+    company_id = Column(
+        Integer,
+        db.ForeignKey("companies.id"),
+        nullable=False,
+        comment="ID da empresa (ForeignKey)",
+    )
     actual_job = Column(
         Boolean, default=False, comment="Flag para indicar se é o emprego atual"
     )
@@ -115,4 +118,32 @@ class CertificationsAdmin(db.Model):
     )
     updated_at = Column(
         DateTime(timezone=True), onupdate=lambda: datetime.now(timezone.utc)
+    )
+
+
+class CompaniesAdmin(db.Model):
+    """ " Represent the company data in the database"""
+
+    __tablename__ = "companies"
+    __table_args__ = {"comment": "Tabela que armazena as empresas do portfólio"}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(100), nullable=False, comment="Nome da empresa")
+    location = Column(String(100), nullable=False, comment="Localização")
+    website = Column(String(200), nullable=True, comment="URL do site da empresa")
+    logo = Column(String(200), nullable=True, comment="Logo da empresa")
+    active = Column(
+        Boolean,
+        default=False,
+        comment="Flag para indicar se a empresa está ativa ou não",
+    )
+    created_at = Column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        comment="Data de criação da empresa",
+    )
+    updated_at = Column(
+        DateTime(timezone=True),
+        onupdate=lambda: datetime.now(timezone.utc),
+        comment="Data de atualização da empresa",
     )

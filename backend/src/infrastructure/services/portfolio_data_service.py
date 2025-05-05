@@ -1,4 +1,5 @@
 from src.domain.dto.certification import Certification
+from src.domain.dto.company_duration import CompanyDuration
 from src.domain.dto.experience import Experience
 from src.domain.dto.formation import Formation
 from src.domain.dto.project import Project
@@ -19,6 +20,9 @@ class PortfolioDataService:
     def experiences(self) -> list[Experience]:
         """Get experiences data from the repository."""
         return self.data_repository.get_all_experiences()
+
+    def companies_duration(self) -> list[CompanyDuration]:
+        return self.data_repository.get_company_duration()
 
     def formations(self) -> list[Formation]:
         """Get educations data from the repository."""
