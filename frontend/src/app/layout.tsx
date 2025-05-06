@@ -33,6 +33,24 @@ export default function RootLayout({
             <Footer />
           </main>
         </div>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (async function checkBackendStatus() {
+                try {
+                  const response = await fetch('/api/v1/ping');
+                  if (!response.ok) throw new Error('API not ready');
+                  
+                  const data = await response.json();
+                  if (data.message !== 'pong') throw new Error('Invalid API response');
+                } catch (error) {
+                  console.log('Backend not ready, retrying in 1s...');
+                  setTimeout(checkBackendStatus, 1000);
+                }
+              })();
+            `,
+          }}
+        />
       </body>
     </html>
   );

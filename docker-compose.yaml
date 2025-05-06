@@ -42,3 +42,9 @@ services:
       - DD_TRACE_SAMPLE_RATE=1.0
       - DD_AGENT_HOST=datadog-agent
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/api/v1/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

@@ -34,17 +34,19 @@ export function useTotalExperience(): TotalExperienceData {
         
         const data = await response.json();
         
-        // Verifica se data.total_duration existe e é um número
-        if (typeof data.total_duration === 'number') {
-          setTotalExperience(`${Math.floor(data.total_duration)}+`);
-        } else if (typeof data.total_duration === 'string') {
-          // Se for string, tenta converter para número
-          const numericValue = parseFloat(data.total_duration);
-          if (!isNaN(numericValue)) {
-            setTotalExperience(`${Math.floor(numericValue)}+`);
+        if (typeof data.total_duration === 'string') {
+          // Extrair apenas o número de anos da string (ex: "13 anos e 4 meses" -> "13")
+          const anosMatch = data.total_duration.match(/(\d+)\s+ano/);
+          if (anosMatch && anosMatch[1]) {
+            const anos = parseInt(anosMatch[1], 10);
+            setTotalExperience(`${anos}+`);
           } else {
+            // Caso não encontre o padrão de anos, usar a string completa
             setTotalExperience(data.total_duration);
           }
+        } else if (typeof data.total_duration === 'number') {
+          // Se for número, usá-lo diretamente
+          setTotalExperience(`${Math.floor(data.total_duration)}+`);
         } else {
           throw new Error('Formato inválido para total_duration');
         }
