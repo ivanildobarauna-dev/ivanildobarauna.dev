@@ -7,6 +7,7 @@ from src.infrastructure.adapters.database.models import (
     ExperiencesAdmin,
     FormationsAdmin,
     ProjectsAdmin,
+    CompaniesAdmin,
     SocialsMediaAdmin,
 )
 from src.infrastructure.application_dependencies import db
@@ -29,6 +30,7 @@ def setup_admin(app: Flask):
         ExperiencesAdmin,
         FormationsAdmin,
         CertificationsAdmin,
+        CompaniesAdmin
     )
     for model in models:
         admin.add_view(CustomModelView(model, db.session))

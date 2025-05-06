@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Experience } from '../interfaces';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
 
-interface DuracaoTotal {
-  anos: number;
-  meses: number;
+interface CompanyDuration {
+  name: string;
+  duration: string;
 }
 
 interface ExperienceData {
@@ -19,13 +19,13 @@ export function useExperience(): ExperienceData {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [tempoTotalCarreira, setTempoTotalCarreira] = useState<string>('');
+  const [companyDurations, setCompanyDurations] = useState<Record<string, string>>({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const experiencesEndpoint = getBackendEndpoint('/experiences');
-
         // Buscar experiências
+        const experiencesEndpoint = getBackendEndpoint('/experiences');
         const experiencesResponse = await fetch(experiencesEndpoint, {
           method: 'GET',
           headers: {
@@ -47,24 +47,63 @@ export function useExperience(): ExperienceData {
           throw new Error('Resposta inválida: os dados não são um array');
         }
 
-        // Adicionar duração para cada experiência
-        const experiencesWithDuration = experiencesData.map((exp: Experience) => {
-          return {
-            ...exp,
-            duration: calcularDuracao(exp.start_date, exp.actual_job)
-          };
+        setExperiences(experiencesData);
+
+        // Buscar duração por empresa
+        const companyDurationsEndpoint = getBackendEndpoint('/experiences?company_duration=true');
+        const companyDurationsResponse = await fetch(companyDurationsEndpoint, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          },
+          mode: 'cors',
         });
 
-        setExperiences(experiencesWithDuration);
+        if (!companyDurationsResponse.ok) {
+          console.error(`Erro na requisição de durações por empresa: Status ${companyDurationsResponse.status}`);
+          const responseText = await companyDurationsResponse.text();
+          console.error('Resposta do servidor:', responseText);
+          throw new Error(`Falha ao carregar as durações por empresa. Status: ${companyDurationsResponse.status}`);
+        }
+        
+        const durationsData = await companyDurationsResponse.json();
+        
+        if (!Array.isArray(durationsData)) {
+          throw new Error('Resposta inválida de durações: os dados não são um array');
+        }
+        
+        // Mapear durações por empresa
+        const durationsMap: Record<string, string> = {};
+        durationsData.forEach((item: CompanyDuration) => {
+          durationsMap[item.name] = item.duration;
+        });
+        
+        setCompanyDurations(durationsMap);
 
-        // Calcular tempo total de carreira
-        const primeiraDataInicio = experiencesWithDuration
-          .map(exp => new Date(exp.start_date))
-          .sort((a, b) => a.getTime() - b.getTime())[0];
-          
-        const tempoTotal = calcularTempoTotalCarreira(primeiraDataInicio);
-        setTempoTotalCarreira(`${tempoTotal.anos} ano${tempoTotal.anos !== 1 ? 's' : ''} e ${tempoTotal.meses} m${tempoTotal.meses !== 1 ? 'eses' : 'ês'}`);
-      
+        // Buscar tempo total de carreira
+        const totalDurationEndpoint = getBackendEndpoint('/experiences?total_duration=true');
+        const totalDurationResponse = await fetch(totalDurationEndpoint, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          },
+          mode: 'cors',
+        });
+
+        if (!totalDurationResponse.ok) {
+          console.error(`Erro na requisição de tempo total: Status ${totalDurationResponse.status}`);
+          const responseText = await totalDurationResponse.text();
+          console.error('Resposta do servidor:', responseText);
+          throw new Error(`Falha ao carregar o tempo total. Status: ${totalDurationResponse.status}`);
+        }
+        
+        const totalData = await totalDurationResponse.json();
+        
+        if (typeof totalData.total_duration === 'string') {
+          setTempoTotalCarreira(totalData.total_duration);
+        } else {
+          throw new Error('Formato inválido para total_duration');
+        }
 
       } catch (error: unknown) {
         if (error instanceof Error) {
@@ -79,45 +118,18 @@ export function useExperience(): ExperienceData {
 
     fetchData();
   }, []);
-  
-  // Função para calcular a duração de uma experiência
-  const calcularDuracao = (dataInicio: string, empregoAtual: boolean | undefined): string => {
-    const inicio = new Date(dataInicio);
-    const fim = empregoAtual ? new Date() : new Date();
-    
-    const diferencaMeses = (fim.getFullYear() - inicio.getFullYear()) * 12 + 
-                           fim.getMonth() - inicio.getMonth();
-    
-    const anos = Math.floor(diferencaMeses / 12);
-    const meses = diferencaMeses % 12;
-    
-    if (anos > 0 && meses > 0) {
-      return `${anos} ano${anos !== 1 ? 's' : ''} e ${meses} m${meses !== 1 ? 'eses' : 'ês'}`;
-    } else if (anos > 0) {
-      return `${anos} ano${anos !== 1 ? 's' : ''}`;
-    } else {
-      return `${meses} m${meses !== 1 ? 'eses' : 'ês'}`;
-    }
-  };
-  
-  // Função para calcular o tempo total de carreira
-  const calcularTempoTotalCarreira = (primeiraData: Date): DuracaoTotal => {
-    const hoje = new Date();
-    
-    const diferencaMeses = (hoje.getFullYear() - primeiraData.getFullYear()) * 12 + 
-                          hoje.getMonth() - primeiraData.getMonth();
-    
-    return {
-      anos: Math.floor(diferencaMeses / 12),
-      meses: diferencaMeses % 12
-    };
-  };
 
   // Agrupar experiências por empresa
   const experienciasPorEmpresa = experiences.reduce((acc: Record<string, Experience[]>, exp: Experience) => {
     if (!acc[exp.company]) {
       acc[exp.company] = [];
     }
+    
+    // Adicionar duração da empresa se disponível
+    if (companyDurations[exp.company]) {
+      exp.duration = companyDurations[exp.company];
+    }
+    
     acc[exp.company].push(exp);
     return acc;
   }, {} as Record<string, Experience[]>);

@@ -72,7 +72,9 @@ export function ExperienceRenderer({ experiences, tempoTotalCarreira }: Experien
                 >
                   <div>
                     <h3 className="text-lg md:text-xl font-semibold text-blue-600">{exp.position}</h3>
-                    <p className="text-gray-600 text-sm md:text-base">{exp.period}</p>
+                    {exp.period && (
+                      <p className="text-gray-600 text-sm md:text-base">{exp.period}</p>
+                    )}
                     <p className="text-gray-600 text-sm md:text-base">{exp.location}</p>
                     <p className="text-gray-700 text-sm md:text-base mt-2">{exp.description}</p>
                   </div>
