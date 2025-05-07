@@ -12,6 +12,7 @@ services:
       - DD_APM_ENABLED=true
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_CONTAINER_LABELS_AS_TAGS="com.datadoghq.tags.app,com.datadoghq.tags.env,com.datadoghq.tags.service,com.datadoghq.tags.tech,com.datadoghq.tags.role"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /proc:/host/proc:ro
