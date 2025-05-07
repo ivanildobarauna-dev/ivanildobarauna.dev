@@ -12,7 +12,7 @@ services:
       - DD_APM_ENABLED=true
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
-      - DD_CONTAINER_LABELS_AS_TAGS="com.datadoghq.tags.app,com.datadoghq.tags.env,com.datadoghq.tags.service,com.datadoghq.tags.tech,com.datadoghq.tags.role"
+      - DD_CONTAINER_LABELS_AS_TAGS="tags.app,tags.env,tags.service,tags.tech,tags.role"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /proc:/host/proc:ro
@@ -33,14 +33,13 @@ services:
       - DD_AGENT_HOST=datadog-agent
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:nextjs,role:frontend"
-      - DD_CONTAINER_LABELS_AS_TAGS="com.datadoghq.tags.app,com.datadoghq.tags.env,com.datadoghq.tags.service,com.datadoghq.tags.tech,com.datadoghq.tags.role"
     labels:
       com.datadoghq.ad.logs: '[{"source": "nodejs", "service": "frontend-ivanildobarauna-dev"}]'
-      com.datadoghq.tags.env: "production"
-      com.datadoghq.tags.service: "frontend-ivanildobarauna-dev"
-      com.datadoghq.tags.tech: "nextjs"
-      com.datadoghq.tags.app: "portfolio"
-      com.datadoghq.tags.role: "frontend"
+      tags.env: "production"
+      tags.service: "frontend-ivanildobarauna-dev"
+      tags.tech: "nextjs"
+      tags.app: "portfolio"
+      tags.role: "frontend"
     depends_on:
       - backend
     restart: unless-stopped
@@ -59,14 +58,13 @@ services:
       - DD_AGENT_HOST=datadog-agent
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:python,role:backend"
-      - DD_CONTAINER_LABELS_AS_TAGS="com.datadoghq.tags.app,com.datadoghq.tags.env,com.datadoghq.tags.service,com.datadoghq.tags.tech,com.datadoghq.tags.role"
     labels:
       com.datadoghq.ad.logs: '[{"source": "python", "service": "api-ivanildobarauna-dev"}]'
-      com.datadoghq.tags.env: "production"
-      com.datadoghq.tags.service: "api-ivanildobarauna-dev"
-      com.datadoghq.tags.tech: "python"
-      com.datadoghq.tags.app: "portfolio"
-      com.datadoghq.tags.role: "backend"
+      tags.env: "production"
+      tags.service: "api-ivanildobarauna-dev"
+      tags.tech: "python"
+      tags.app: "portfolio"
+      tags.role: "backend"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8090/api/v1/ping"]
