@@ -33,6 +33,7 @@ services:
       - DD_AGENT_HOST=datadog-agent
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:nextjs,role:frontend"
+      - DD_CONTAINER_LABELS_AS_TAGS="com.datadoghq.tags.app,com.datadoghq.tags.env,com.datadoghq.tags.service,com.datadoghq.tags.tech,com.datadoghq.tags.role"
     labels:
       com.datadoghq.ad.logs: '[{"source": "nodejs", "service": "frontend-ivanildobarauna-dev"}]'
       com.datadoghq.tags.env: "production"
@@ -58,6 +59,7 @@ services:
       - DD_AGENT_HOST=datadog-agent
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:python,role:backend"
+      - DD_CONTAINER_LABELS_AS_TAGS="com.datadoghq.tags.app,com.datadoghq.tags.env,com.datadoghq.tags.service,com.datadoghq.tags.tech,com.datadoghq.tags.role"
     labels:
       com.datadoghq.ad.logs: '[{"source": "python", "service": "api-ivanildobarauna-dev"}]'
       com.datadoghq.tags.env: "production"
