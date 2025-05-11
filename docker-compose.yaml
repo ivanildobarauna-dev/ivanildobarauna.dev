@@ -6,6 +6,7 @@ services:
     container_name: datadog-agent
     environment:
       - DD_ENV=production
+      - DD_HOSTNAME=vps-hostinger
       - DD_API_KEY=${DD_API_KEY}
       - DD_SITE=us5.datadoghq.com
       - DD_LOGS_ENABLED=true
