@@ -1,0 +1,69 @@
+{
+    "version": 1,
+    "rules": {
+        "python": {
+            "formatter": "black",
+            "linter": "ruff",
+            "typeChecker": "mypy",
+            "testRunner": "pytest",
+            "formatOnSave": true,
+            "lintOnSave": true,
+            "typeCheckOnSave": true,
+            "testOnSave": false
+        },
+        "ignore": [
+            ".venv/**",
+            ".pytest_cache/**",
+            "__pycache__/**",
+            "*.pyc",
+            "*.pyo",
+            "*.pyd",
+            ".Python",
+            "build/**",
+            "develop-eggs/**",
+            "dist/**",
+            "downloads/**",
+            "eggs/**",
+            ".eggs/**",
+            "lib/**",
+            "lib64/**",
+            "parts/**",
+            "sdist/**",
+            "var/**",
+            "wheels/**",
+            "*.egg-info/**",
+            ".installed.cfg",
+            "*.egg",
+            "migrations/**",
+            "logs/**",
+            ".idea/**",
+            ".github/**",
+            "assets/**"
+        ],
+        "search": {
+            "exclude": [
+                ".venv/**",
+                ".pytest_cache/**",
+                "__pycache__/**",
+                "*.pyc",
+                "*.pyo",
+                "*.pyd",
+                ".Python",
+                "build/**",
+                "dist/**",
+                "migrations/**",
+                "logs/**",
+                ".idea/**",
+                ".github/**",
+                "assets/**"
+            ]
+        },
+        "editor": {
+            "tabSize": 4,
+            "insertSpaces": true,
+            "trimTrailingWhitespace": true,
+            "insertFinalNewline": true,
+            "rulers": [88]
+        }
+    }
+} 
