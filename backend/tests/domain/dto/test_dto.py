@@ -32,33 +32,27 @@ def test_experience_to_dict():
     """Test Experience to_dict method."""
     from datetime import date
     experience = Experience(
-        id=1,
-        company="Test Company",
         position="Test Position",
-        description="Test Description",
-        start_date=date(2020, 1, 1),
-        period="2020-2021",
-        location="Test Location",
+        company="Test Company",
+        location="Test location",
+        website="www.google.com",
         logo="https://example.com/logo.jpg",
-        website="https://example.com/company",
-        actual_job=False,
+        description="Test Description",
         skills="Test Skills",
-        active=True,
+        duration="test duration"
     )
     
     result = experience.to_dict()
     
 
-    assert result["company"] == "Test Company"
     assert result["position"] == "Test Position"
-    assert result["description"] == "Test Description"
-    assert result["start_date"] == "2020-01-01"  # isoformat conversion
-    assert result["period"] == "2020-2021"
-    assert result["location"] == "Test Location"
+    assert result["company"] == "Test Company"
+    assert result["location"] == "Test location"
+    assert result["website"] == "www.google.com"
     assert result["logo"] == "https://example.com/logo.jpg"
-    assert result["website"] == "https://example.com/company"
-    assert result["actual_job"] is False
+    assert result["description"] == "Test Description"
     assert result["skills"] == "Test Skills"
+    assert result["duration"] == "test duration"
 
 
 def test_formation_to_dict():
