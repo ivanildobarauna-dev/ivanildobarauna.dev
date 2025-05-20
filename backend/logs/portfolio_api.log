@@ -41,3 +41,13 @@
 2025-05-05 12:55:46,760 - portfolio_api - ERROR - Error getting experiences: Test error
 2025-05-05 12:55:46,783 - portfolio_api - ERROR - Error getting projects: Test error
 2025-05-05 12:55:46,798 - portfolio_api - ERROR - Error getting social media: Test error
+2025-05-20 00:29:10,601 - portfolio_api - ERROR - Error getting education: Test error
+2025-05-20 00:29:10,629 - portfolio_api - ERROR - Error getting experiences: Object of type MagicMock is not JSON serializable
+2025-05-20 00:29:10,633 - portfolio_api - ERROR - Error getting experiences: Test error
+2025-05-20 00:29:10,640 - portfolio_api - ERROR - Error getting projects: Test error
+2025-05-20 00:29:10,645 - portfolio_api - ERROR - Error getting social media: Test error
+2025-05-20 12:25:22,416 - portfolio_api - ERROR - Error getting education: Test error
+2025-05-20 12:25:22,425 - portfolio_api - ERROR - Error getting experiences: Object of type MagicMock is not JSON serializable
+2025-05-20 12:25:22,429 - portfolio_api - ERROR - Error getting experiences: Test error
+2025-05-20 12:25:22,436 - portfolio_api - ERROR - Error getting projects: Test error
+2025-05-20 12:25:22,442 - portfolio_api - ERROR - Error getting social media: Test error

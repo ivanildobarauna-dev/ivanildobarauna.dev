@@ -13,7 +13,6 @@ from src.infrastructure.application_dependencies import db, setup_database
 from src.infrastructure.routes.education.view import education_ns
 from src.infrastructure.routes.experiences.view import experiences_ns
 
-
 ## Application Dependencies
 from src.infrastructure.routes.health_check.view import health_check_ns
 from src.infrastructure.routes.projects.view import projects_ns
