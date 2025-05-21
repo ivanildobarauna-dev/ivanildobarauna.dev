@@ -1,8 +1,6 @@
 name: Run backend tests
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
