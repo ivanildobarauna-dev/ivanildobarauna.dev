@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   datadog-agent:
     image: datadog/agent:latest
