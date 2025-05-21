@@ -1,4 +1,6 @@
 name: Run backend tests
+permissions:
+  contents: read
 
 on:
   pull_request:
