@@ -42,6 +42,6 @@ class Experiences(Resource):
         except Exception as error:
             logger.error(f"Error getting experiences: {str(error)}")
             return (
-                jsonify({"error": "Internal server error", "message": str(error)}),
+                jsonify({"error_message": "An internal server error occurred"}),
                 HTTP_INTERNAL_SERVER_ERROR,
             )
