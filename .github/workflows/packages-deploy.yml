@@ -117,7 +117,7 @@ jobs:
               restart: unless-stopped
 
             frontend:
-              image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:latest
+              image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:main
               container_name: portfolio-frontend
               ports:
                 - "8080:8080"
@@ -141,7 +141,7 @@ jobs:
               restart: unless-stopped
 
             backend:
-              image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:latest
+              image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:main
               container_name: portfolio-backend
               ports:
                 - "8090:8090"
@@ -181,8 +181,8 @@ jobs:
             cd /home/ubuntu/app/site
             rm -f .env
             echo "DD_API_KEY=${{ secrets.DATADOG_API_KEY }}" >> .env
-            docker-compose -f docker-compose.prod.yaml pull
-            docker-compose -f docker-compose.prod.yaml up -d --remove-orphans
+            docker compose -f docker-compose.prod.yaml pull
+            docker compose -f docker-compose.prod.yaml up -d --remove-orphans
             docker system prune -f
           EOF
 
