@@ -31,6 +31,6 @@ class SocialMediaLinks(Resource):
         except Exception as error:
             logger.error(f"Error getting social media: {str(error)}")
             return (
-                jsonify({"error": "Internal server error", "message": str(error)}),
+                jsonify({"error": "Internal server error", "message": "An unexpected error occurred. Please try again later."}),
                 HTTP_INTERNAL_SERVER_ERROR,
             )
