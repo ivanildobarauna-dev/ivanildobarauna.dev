@@ -89,6 +89,10 @@ jobs:
         run: |
           ssh ${{ secrets.VPS_SSH_USER }}@${{ secrets.VPS_SSH_HOST }} "mkdir -p /home/ubuntu/app/site"
 
+      - name: Create temporary .env file
+        run: |
+          echo "DD_API_KEY=${{ secrets.DATADOG_API_KEY }}" > .env
+
       - name: Sync docker-compose and env to VPS
         run: |
           rsync -avz --delete \
