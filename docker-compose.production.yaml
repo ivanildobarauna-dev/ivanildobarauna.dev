@@ -1,0 +1,78 @@
+services:
+  datadog-agent:
+    image: datadog/agent:latest
+    networks:
+      - app_network
+    container_name: datadog-agent
+    environment:
+      - DD_ENV=production
+      - DD_HOSTNAME=vps-hostinger
+      - DD_API_KEY=${DD_API_KEY}
+      - DD_SITE=us5.datadoghq.com
+      - DD_LOGS_ENABLED=true
+      - DD_APM_ENABLED=true
+      - DD_PROCESS_AGENT_ENABLED=true
+      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_CONTAINER_LABELS_AS_TAGS="tags.app,tags.env,tags.service,tags.tech,tags.role"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc:/host/proc:ro
+      - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+      - ./datadog-agent:/etc/datadog-agent:ro
+    restart: unless-stopped
+
+  frontend:
+    image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:main
+    container_name: portfolio-frontend
+    ports:
+      - "8080:8080"
+    environment:
+      - DD_SERVICE=frontend-ivanildobarauna-dev
+      - DD_ENV=production
+      - DD_VERSION=1.0.0
+      - DD_TRACE_SAMPLE_RATE=1.0
+      - DD_AGENT_HOST=datadog-agent
+      - DD_PROCESS_AGENT_ENABLED=true
+      - DD_TAGS="app:portfolio,tech:nextjs,role:frontend"
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "nodejs", "service": "frontend-ivanildobarauna-dev"}]'
+      tags.env: "production"
+      tags.service: "frontend-ivanildobarauna-dev"
+      tags.tech: "nextjs"
+      tags.app: "portfolio"
+      tags.role: "frontend"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:main
+    container_name: portfolio-backend
+    ports:
+      - "8090:8090"
+    environment:
+      - DD_SERVICE=api-ivanildobarauna-dev
+      - DD_ENV=production
+      - DD_VERSION=1.0.0
+      - DD_TRACE_SAMPLE_RATE=1.0
+      - DD_AGENT_HOST=datadog-agent
+      - DD_PROCESS_AGENT_ENABLED=true
+      - DD_TAGS="app:portfolio,tech:python,role:backend"
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "python", "service": "api-ivanildobarauna-dev"}]'
+      tags.env: "production"
+      tags.service: "api-ivanildobarauna-dev"
+      tags.tech: "python"
+      tags.app: "portfolio"
+      tags.role: "backend"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/api/v1/ping"]
+      interval: 300s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  app_network:
+    external: true
