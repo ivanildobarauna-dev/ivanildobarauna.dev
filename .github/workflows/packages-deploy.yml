@@ -125,7 +125,7 @@ jobs:
                 - /var/run/docker.sock:/var/run/docker.sock:ro
                 - /proc:/host/proc:ro
                 - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
-                - ./datadog-agent:/etc/datadog-agent:ro
+                - ./datadog-agent:/etc/datadog-agent
               restart: unless-stopped
 
             frontend:
