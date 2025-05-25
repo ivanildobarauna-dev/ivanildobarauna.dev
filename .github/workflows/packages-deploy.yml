@@ -108,6 +108,8 @@ jobs:
           services:
             datadog-agent:
               image: datadog/agent:latest
+              networks:
+                - app_network
               container_name: datadog-agent
               environment:
                 - DD_ENV=production
@@ -123,6 +125,7 @@ jobs:
                 - /var/run/docker.sock:/var/run/docker.sock:ro
                 - /proc:/host/proc:ro
                 - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+                - ./datadog-agent:/etc/datadog-agent:ro
               restart: unless-stopped
 
             frontend:
@@ -176,6 +179,10 @@ jobs:
                 timeout: 10s
                 retries: 3
                 start_period: 40s
+          
+          networks:
+            app_network:
+              external: true
           EOF
 
       - name: Sync docker-compose and env to VPS
