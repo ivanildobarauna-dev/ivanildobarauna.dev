@@ -51,3 +51,7 @@
 2025-05-20 12:25:22,429 - portfolio_api - ERROR - Error getting experiences: Test error
 2025-05-20 12:25:22,436 - portfolio_api - ERROR - Error getting projects: Test error
 2025-05-20 12:25:22,442 - portfolio_api - ERROR - Error getting social media: Test error
+2025-05-24 22:59:37,854 - portfolio_api - ERROR - Error getting education: Test error
+2025-05-24 22:59:37,864 - portfolio_api - ERROR - Error getting experiences: Test error
+2025-05-24 22:59:37,872 - portfolio_api - ERROR - Error getting projects: Test error
+2025-05-24 22:59:37,877 - portfolio_api - ERROR - Error getting social media: Test error
