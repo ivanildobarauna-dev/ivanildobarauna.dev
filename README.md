@@ -1,5 +1,6 @@
 # ivanildobarauna.dev | Meu website pessoal
 
+
 Este repositório contempla o código fonte do site ivanildobarauna.dev e possui dois componentes principais, sendo eels: 
 
 - **Backend**: API RESTful desenvolvida em Python (Flask), responsável por fornecer dados dinâmicos para o frontend através de storage local ou dadaos fornecidos por Fornecedores externos como o Github.
