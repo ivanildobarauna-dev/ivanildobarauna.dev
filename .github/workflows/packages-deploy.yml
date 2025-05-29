@@ -106,28 +106,6 @@ jobs:
         run: |
           cat > docker-compose.prod.yaml << 'EOF'
           services:
-            datadog-agent:
-              image: datadog/agent:latest
-              networks:
-                - app_network
-              container_name: datadog-agent
-              environment:
-                - DD_ENV=production
-                - DD_HOSTNAME=vps-hostinger
-                - DD_API_KEY=${DD_API_KEY}
-                - DD_SITE=us5.datadoghq.com
-                - DD_LOGS_ENABLED=true
-                - DD_APM_ENABLED=true
-                - DD_PROCESS_AGENT_ENABLED=true
-                - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
-                - DD_CONTAINER_LABELS_AS_TAGS="tags.app,tags.env,tags.service,tags.tech,tags.role"
-              volumes:
-                - /var/run/docker.sock:/var/run/docker.sock:ro
-                - /proc:/host/proc:ro
-                - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
-                - ./datadog-agent:/etc/datadog-agent
-              restart: unless-stopped
-
             frontend:
               image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:main
               container_name: portfolio-frontend
