@@ -3,19 +3,12 @@ FROM node:20-slim AS builder
 
 WORKDIR /app
 
-# Instala dependências de sistema mínimas (evita problemas com libs nativas)
 RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 
-# Copia apenas o package.json
 COPY package.json ./
-
-# Instala todas as dependências e gera o package-lock.json, incluindo devDependencies para o build
 RUN npm install --no-audit --no-fund --verbose
 
-# Copia o restante do projeto
 COPY . .
-
-# Build do Next.js
 RUN npm run build
 
 # Etapa de produção
@@ -29,9 +22,15 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/next.config.js ./next.config.js
 
-# Apenas dependencies
+# Copia tracer
+COPY ./tracer /tracer
+RUN cd /tracer && npm install
+
+
 RUN npm install --omit=dev --no-audit --prefer-offline
 
+# Injeção automática via NODE_OPTIONS
+ENV NODE_OPTIONS="-r /tracer/tracing.js"
 ENV NODE_ENV=production
 ENV PORT=8080
 EXPOSE 8080

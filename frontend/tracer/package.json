@@ -1,0 +1,7 @@
+{
+    "name": "next-tracer",
+    "dependencies": {
+      "dd-trace": "^4.0.0"
+    }
+  }
+  
