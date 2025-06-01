@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
 # Instala dependências do sistema
-RUN apt-get update && apt-get install -y build-essential curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y build-essential curl postgresql-client && rm -rf /var/lib/apt/lists/*
 
 # Instala Poetry
 RUN curl -sSL https://install.python-poetry.org | python3 - && \

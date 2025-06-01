@@ -1,78 +1,69 @@
-# Regras de análise de código e qualidade
-[python]
-# Configurações específicas para Python
-python_version = "3.9"
-
-# Configurações de formatação
-[format]
-# Usar black para formatação
-formatter = "black"
-# Comprimento máximo de linha
-line_length = 88
-
-# Configurações de linting
-[lint]
-# Usar ruff como linter
-linter = "ruff"
-# Habilitar verificação de tipos
-type_checking = true
-# Nível de avisos (error, warning, info, hint)
-warning_level = "warning"
-
-# Configurações de teste
-[test]
-# Executar testes com pytest
-runner = "pytest"
-# Padrão para arquivos de teste
-test_pattern = "test_*.py"
-# Diretório de testes
-test_directory = "tests"
-# Habilitar cobertura de código
-coverage = true
-# Limite mínimo de cobertura
-coverage_threshold = 90
-
-# Configurações de segurança
-[security]
-# Verificar dependências vulneráveis
-vulnerability_scan = true
-# Verificar senhas e chaves hardcoded
-secrets_detection = true
-
-# Configurações de documentação
-[documentation]
-# Verificar docstrings em funções/métodos públicos
-check_docstrings = true
-# Formato preferido (google, numpy, rest)
-docstring_style = "google"
-
-# Configurações de banco de dados
-[database]
-# Verificar migrações pendentes
-check_migrations = true
-# Diretório de migrações
-migrations_directory = "migrations"
-
-# Configurações de build
-[build]
-# Verificar dependências desatualizadas
-check_dependencies = true
-# Verificar se todas as dependências estão travadas
-check_lockfile = true
-
-# Configurações de deploy
-[deploy]
-# Verificar variáveis de ambiente necessárias
-check_environment = true
-# Verificar configurações de produção
-check_production_settings = true
-
-# Ignorar caminhos
-[ignore]
-paths = [
-    ".venv/*",
-    "**/__pycache__/*",
-    "**/.pytest_cache/*",
-    "**/.mypy_cache/*",
-    "**/*.pyc"
-]
+{
+    "version": 1,
+    "rules": {
+        "python": {
+            "formatter": "black",
+            "linter": "ruff",
+            "typeChecker": "mypy",
+            "testRunner": "pytest",
+            "formatOnSave": true,
+            "lintOnSave": true,
+            "typeCheckOnSave": true,
+            "testOnSave": false
+        },
+        "ignore": [
+            ".venv/**",
+            ".pytest_cache/**",
+            "__pycache__/**",
+            "*.pyc",
+            "*.pyo",
+            "*.pyd",
+            ".Python",
+            "build/**",
+            "develop-eggs/**",
+            "dist/**",
+            "downloads/**",
+            "eggs/**",
+            ".eggs/**",
+            "lib/**",
+            "lib64/**",
+            "parts/**",
+            "sdist/**",
+            "var/**",
+            "wheels/**",
+            "*.egg-info/**",
+            ".installed.cfg",
+            "*.egg",
+            "migrations/**",
+            "logs/**",
+            ".idea/**",
+            ".github/**",
+            "assets/**"
+        ],
+        "search": {
+            "exclude": [
+                ".venv/**",
+                ".pytest_cache/**",
+                "__pycache__/**",
+                "*.pyc",
+                "*.pyo",
+                "*.pyd",
+                ".Python",
+                "build/**",
+                "dist/**",
+                "migrations/**",
+                "logs/**",
+                ".idea/**",
+                ".github/**",
+                "assets/**"
+            ]
+        },
+        "editor": {
+            "tabSize": 4,
+            "insertSpaces": true,
+            "trimTrailingWhitespace": true,
+            "insertFinalNewline": true,
+            "rulers": [88]
+        }
+    }
+} 
