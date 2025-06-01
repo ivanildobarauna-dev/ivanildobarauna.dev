@@ -16,7 +16,6 @@ from src.infrastructure.ports.repository_interface import RepositoryInterface
 class PostgresAdapter(RepositoryInterface):
     def __init__(self, host: str, port: int, user: str, password: str) -> None:
         connection_string = f"postgresql://{user}:{password}@{host}:{port}/portfolio"
-        print(f"connection_string: {connection_string}")
         self.engine = create_engine(
             connection_string,
             echo=False,
