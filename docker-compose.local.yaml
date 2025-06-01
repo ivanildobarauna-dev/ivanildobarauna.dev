@@ -40,6 +40,11 @@ services:
       - DD_AGENT_HOST=localhost
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:python,role:backend"
+      - POSTGRES_HOST=192.168.15.44
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=backend
+      - POSTGRES_PASSWORD=backend
+      - POSTGRES_DB=portfolio
     labels:
       com.datadoghq.ad.logs: '[{"source": "python", "service": "api-ivanildobarauna-dev"}]'
       tags.env: "production"

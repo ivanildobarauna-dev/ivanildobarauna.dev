@@ -7,8 +7,20 @@ import Footer from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Ivanildo Barauna - Engenheiro de Dados Senior",
-  description: "Portfolio profissional de Ivanildo Barauna - Desenvolvedor Full Stack especializado em Python e Engenharia de Dados",
+  title: {
+    default: 'Ivanildo Baraúna - Engenheiro de Dados e Open Source Maintainer',
+    template: '%s | Ivanildo Baraúna'
+  },
+  description: 'Portfólio de Ivanildo Baraúna, com projetos em Python, Golang, automações e dados.',
+  openGraph: {
+    title: 'Ivanildo Baraúna - Engenheiro de Dados',
+    description: 'Portfólio com projetos reais, automações e soluções para backend e dados.',
+    url: 'https://ivanildobarauna.dev',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
 };
 
 export const viewport = {

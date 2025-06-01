@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://ivanildobarauna.dev
+
+# Sitemaps
+Sitemap: https://ivanildobarauna.dev/sitemap.xml
