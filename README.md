@@ -1,7 +1,10 @@
-# ivanildobarauna.dev | Meu website pessoal
+# ivanildobarauna.dev | Personal Website
 
+Este repositório contempla o código fonte do site [ivanildobarauna.dev](https://ivanildobarauna.dev)
 
-Este repositório contempla o código fonte do site ivanildobarauna.dev e possui dois componentes principais, sendo eels: 
+👉 Leia meu artigo no dev.to: [Ter um site pessoal é o melhor projeto de engenharia que você pode fazer por você mesmo](https://dev.to/ivanildobarauna/ter-um-site-pessoal-e-o-melhor-projeto-de-engenharia-que-voce-pode-fazer-por-voce-mesmo-548d)
+
+ ## Componentes Principais
 
 - **Backend**: API RESTful desenvolvida em Python (Flask), responsável por fornecer dados dinâmicos para o frontend através de storage local ou dadaos fornecidos por Fornecedores externos como o Github.
 - **Frontend**: Aplicação Next.js que consome a API e exibe as informações do portfólio.
