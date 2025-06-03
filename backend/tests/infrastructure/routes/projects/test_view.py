@@ -20,6 +20,8 @@ def test_get_projects_returns_active_projects(
         
         assert response.status_code == 200
         data = json.loads(response.data)
+        assert len(data) == len(sample_projects)
+        assert data[0]["title"] == sample_projects[0].title
 
 
 def test_get_projects_error_handling(client, mock_portfolio_service):
@@ -34,3 +36,4 @@ def test_get_projects_error_handling(client, mock_portfolio_service):
         
         assert response.status_code == HTTP_INTERNAL_SERVER_ERROR
         data = json.loads(response.data)
+        assert "error_message" in data

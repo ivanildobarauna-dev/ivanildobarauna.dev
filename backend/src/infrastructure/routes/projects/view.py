@@ -1,7 +1,7 @@
 """Projects Routes"""
 
-from flask import Blueprint, jsonify
-from flask_restx import Resource, Namespace
+from flask import Blueprint
+from flask_restx import Namespace, Resource
 
 from src.infrastructure.application_dependencies import portfolio_data_service
 from src.infrastructure.utils.constants import HTTP_INTERNAL_SERVER_ERROR
@@ -23,10 +23,9 @@ class Projects(Resource):
 
             response = [project.to_dict() for project in projects if project.active]
 
-            return jsonify(response)
+            return response
         except Exception as error:
             logger.error(f"Error getting projects: {str(error)}")
-            return (
-                jsonify({"error_message": "An internal server error occurred"}),
-                HTTP_INTERNAL_SERVER_ERROR
-            )
+            return {
+                "error_message": "An internal server error occurred"
+            }, HTTP_INTERNAL_SERVER_ERROR
