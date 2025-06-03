@@ -32,7 +32,7 @@ class ProjectsAdmin(db.Model):
 
 
 class SocialsMediaAdmin(db.Model):
-    """ " Represent the social media data in the database"""
+    """Represent the social media data in the database"""
 
     __tablename__ = "social_media"
     __table_args__ = {"comment": "Tabela que armazena as redes sociais do portfólio"}
@@ -122,7 +122,7 @@ class CertificationsAdmin(db.Model):
 
 
 class CompaniesAdmin(db.Model):
-    """ " Represent the company data in the database"""
+    """Represent the company data in the database"""
 
     __tablename__ = "companies"
     __table_args__ = {"comment": "Tabela que armazena as empresas do portfólio"}
