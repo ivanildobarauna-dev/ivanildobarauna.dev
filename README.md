@@ -6,7 +6,7 @@ Este repositório contempla o código fonte do site [ivanildobarauna.dev](https:
 
  ## Componentes Principais
 
-- **Backend**: API RESTful desenvolvida em Python (Flask), responsável por fornecer dados dinâmicos para o frontend através de storage local ou dadaos fornecidos por Fornecedores externos como o Github.
+- **Backend**: API RESTful desenvolvida em Python (Flask), responsável por fornecer dados dinâmicos para o frontend através de storage local ou dados fornecidos por Fornecedores externos como o Github.
 - **Frontend**: Aplicação Next.js que consome a API e exibe as informações do portfólio.
 
 Ambos os projetos possuem Dockerfile próprio e podem ser executados de forma integrada via Docker Compose.
