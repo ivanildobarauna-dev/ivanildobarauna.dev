@@ -5,6 +5,8 @@ Base = declarative_base()
 
 
 class Formation(Base):
+    """Academic education stored in the database."""
+
     __tablename__ = "formations"
     __table_args__ = {"comment": "Tabela que armazena as formações acadêmicas"}
 
@@ -18,9 +20,7 @@ class Formation(Base):
     active = Column(Boolean, default=False, comment="Flag para indicar se está ativa")
 
     def to_dict(self):
-        """
-        Converte o objeto Formation em um dicionário.
-        """
+        """Return a dictionary representation of this formation."""
         return {
             "institution": self.institution,
             "type": self.type,

@@ -7,7 +7,7 @@ Base = declarative_base()
 
 
 class SocialMedia(Base):
-    """ " Represent the social media data in the database"""
+    """Represent social media links stored in the database."""
 
     __tablename__ = "social_media"
     __table_args__ = {"comment": "Tabela que armazena as redes sociais do portfólio"}
@@ -33,9 +33,7 @@ class SocialMedia(Base):
     )
 
     def to_dict(self):
-        """
-        Converte o objeto SocialMedia em um dicionário.
-        """
+        """Return a dictionary representation of this social media link."""
         return {
             "label": self.label,
             "url": self.url,

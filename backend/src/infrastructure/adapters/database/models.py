@@ -6,9 +6,7 @@ from src.infrastructure.application_dependencies import db
 
 
 class ProjectsAdmin(db.Model):
-    """
-    Modelo que representa um projeto no banco de dados.
-    """
+    """Model that represents a project in the database."""
 
     __tablename__ = "projects"
     __table_args__ = {"comment": "Tabela que armazena os projetos do portfólio"}
@@ -32,7 +30,7 @@ class ProjectsAdmin(db.Model):
 
 
 class SocialsMediaAdmin(db.Model):
-    """ " Represent the social media data in the database"""
+    """Model that represents social media in the database."""
 
     __tablename__ = "social_media"
     __table_args__ = {"comment": "Tabela que armazena as redes sociais do portfólio"}
@@ -59,6 +57,8 @@ class SocialsMediaAdmin(db.Model):
 
 
 class ExperiencesAdmin(db.Model):
+    """Model that represents professional experiences."""
+
     __tablename__ = "experiences"
     __table_args__ = {"comment": "Tabela que armazena as experiências profissionais"}
 
@@ -90,6 +90,8 @@ class ExperiencesAdmin(db.Model):
 
 
 class FormationsAdmin(db.Model):
+    """Model that represents academic formations."""
+
     __tablename__ = "formations"
     __table_args__ = {"comment": "Tabela que armazena as formações acadêmicas"}
 
@@ -104,6 +106,8 @@ class FormationsAdmin(db.Model):
 
 
 class CertificationsAdmin(db.Model):
+    """Model that represents professional certifications."""
+
     __tablename__ = "certifications"
     __table_args__ = {"comment": "Tabela que armazena as certificações"}
 
@@ -122,7 +126,7 @@ class CertificationsAdmin(db.Model):
 
 
 class CompaniesAdmin(db.Model):
-    """ " Represent the company data in the database"""
+    """Model that represents companies in the database."""
 
     __tablename__ = "companies"
     __table_args__ = {"comment": "Tabela que armazena as empresas do portfólio"}

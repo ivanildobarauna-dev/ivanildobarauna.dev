@@ -7,7 +7,7 @@ Base = declarative_base()
 
 
 class Company(Base):
-    """ " Represent the company data in the database"""
+    """Represent a company stored in the database."""
 
     __tablename__ = "companies"
     __table_args__ = {"comment": "Tabela que armazena as empresas do portfólio"}

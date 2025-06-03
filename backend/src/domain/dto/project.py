@@ -7,9 +7,7 @@ Base = declarative_base()
 
 
 class Project(Base):
-    """
-    Modelo que representa um projeto no banco de dados.
-    """
+    """Model representing a project stored in the database."""
 
     __tablename__ = "projects"
     __table_args__ = {"comment": "Tabela que armazena os projetos do portfólio"}
@@ -32,9 +30,7 @@ class Project(Base):
     )
 
     def to_dict(self):
-        """
-        Converte o objeto Project em um dicionário.
-        """
+        """Return a dictionary representation of this project."""
         return {
             "title": self.title,
             "description": self.description,

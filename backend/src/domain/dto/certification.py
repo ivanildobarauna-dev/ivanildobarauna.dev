@@ -7,6 +7,8 @@ Base = declarative_base()
 
 
 class Certification(Base):
+    """Database model representing a certification."""
+
     __tablename__ = "certifications"
     __table_args__ = {"comment": "Tabela que armazena as certificações"}
 
@@ -24,9 +26,7 @@ class Certification(Base):
     )
 
     def to_dict(self):
-        """
-        Converte o objeto Certification em um dicionário.
-        """
+        """Return a dictionary representation of this certification."""
         return {
             "name": self.name,
             "institution": self.institution,

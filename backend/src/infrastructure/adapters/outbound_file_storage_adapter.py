@@ -22,7 +22,7 @@ class FileStorageAdapter(RepositoryInterface):
 
         return projects
 
-    def get_all_educations(self)-> Education:
+    def get_all_educations(self) -> Education:
         with open(self.folder_path + "/education.json", "r", encoding="utf-8") as file:
             json_content = json.load(file)
 
@@ -105,7 +105,7 @@ class FileStorageAdapter(RepositoryInterface):
         return [SocialMedia(**social_link) for social_link in json_content]
 
     def get_total_duration(self) -> str:
-        """Calcula a duração total em anos desde a primeira experiência até hoje"""
+        """Calculate the total duration in years from the first experience."""
         with open(
             self.folder_path + "/experiences.json", "r", encoding="utf-8"
         ) as file:
@@ -142,4 +142,3 @@ class FileStorageAdapter(RepositoryInterface):
             return f"{start_date} - {end_date}"
         else:
             return f"{start_date} - Atualmente"
-
