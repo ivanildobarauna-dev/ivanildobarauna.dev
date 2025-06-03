@@ -1,7 +1,7 @@
 """Health Check Routes"""
 
 from flask import Blueprint, jsonify
-from flask_restx import Resource, Namespace
+from flask_restx import Namespace, Resource
 
 health_check_blueprint = Blueprint("health_check", __name__)
 health_check_ns = Namespace("Health Check", description="Application Health Check")

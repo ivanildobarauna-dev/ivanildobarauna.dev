@@ -3,8 +3,8 @@ from uuid import uuid4
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
 
 from src.infrastructure.adapters.outbound_postgres_adapter import PostgresAdapter
 from src.infrastructure.services.portfolio_data_service import PortfolioDataService
@@ -33,7 +33,9 @@ def test_database_connection():
         return True
     except SQLAlchemyError as e:
         logger.error(f"Database connection test failed: {str(e)}")
-        raise Exception(f"Failed to connect to PostgreSQL database: {str(e)}")
+        raise Exception(
+            f"Failed to connect to PostgreSQL database: {str(e)}"
+        ) from e
 
 def setup_database(app: Flask):
     app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL

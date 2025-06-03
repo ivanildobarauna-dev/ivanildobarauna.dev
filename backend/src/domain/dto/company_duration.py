@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class CompanyDuration(BaseModel):
     name: str
     duration: str

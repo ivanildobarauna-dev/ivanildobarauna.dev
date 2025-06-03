@@ -1,6 +1,5 @@
 """Tests for the projects routes."""
 
-import json
 from unittest.mock import patch
 
 from src.infrastructure.utils.constants import HTTP_INTERNAL_SERVER_ERROR
@@ -19,7 +18,6 @@ def test_get_projects_returns_active_projects(
         response = client.get("/api/v1/projects")
         
         assert response.status_code == 200
-        data = json.loads(response.data)
 
 
 def test_get_projects_error_handling(client, mock_portfolio_service):
@@ -33,4 +31,3 @@ def test_get_projects_error_handling(client, mock_portfolio_service):
         response = client.get("/api/v1/projects")
         
         assert response.status_code == HTTP_INTERNAL_SERVER_ERROR
-        data = json.loads(response.data)

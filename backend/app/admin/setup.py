@@ -4,10 +4,10 @@ from flask_admin import Admin
 from app.admin.model_visualization import CustomIndexView, CustomModelView
 from src.infrastructure.adapters.database.models import (
     CertificationsAdmin,
+    CompaniesAdmin,
     ExperiencesAdmin,
     FormationsAdmin,
     ProjectsAdmin,
-    CompaniesAdmin,
     SocialsMediaAdmin,
 )
 from src.infrastructure.application_dependencies import db

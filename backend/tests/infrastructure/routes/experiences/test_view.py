@@ -4,7 +4,6 @@ import json
 from unittest.mock import patch
 
 from src.infrastructure.utils.constants import HTTP_INTERNAL_SERVER_ERROR
-from src.domain.dto.company_duration import CompanyDuration
 
 
 def test_get_experiences_returns_active_experiences(
