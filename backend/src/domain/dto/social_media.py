@@ -7,7 +7,7 @@ Base = declarative_base()
 
 
 class SocialMedia(Base):
-    """ " Represent the social media data in the database"""
+    """Represent the social media data in the database"""
 
     __tablename__ = "social_media"
     __table_args__ = {"comment": "Tabela que armazena as redes sociais do portfólio"}
