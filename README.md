@@ -11,6 +11,12 @@ Este repositório contempla o código fonte do site [ivanildobarauna.dev](https:
 
 Ambos os projetos possuem Dockerfile próprio e podem ser executados de forma integrada via Docker Compose.
 
+Para instalar todas as dependências em um único passo, utilize o script `setup.sh` na raiz do repositório:
+
+```bash
+./setup.sh
+```
+
 ## Estrutura do repositório
 
 ```

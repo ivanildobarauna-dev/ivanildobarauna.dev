@@ -23,6 +23,14 @@ docker-compose up --build
 
 Isso irá subir tanto o frontend quanto o backend integrados.
 
+## Instalação
+
+Para configurar o ambiente local e instalar as dependências execute:
+
+```bash
+npm install
+```
+
 ## Desenvolvimento local
 
 ```bash

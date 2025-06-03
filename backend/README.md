@@ -92,13 +92,15 @@ Este projeto utiliza a **Arquitetura Hexagonal** (também conhecida como Ports a
 
 ### Configuração do Ambiente
 
+Para executar o backend localmente, é necessário instalar as dependências com o [Poetry](https://python-poetry.org/). Caso prefira `pip`, utilize o arquivo `requirements.txt` gerado automaticamente pelo Poetry.
+
 ```bash
 # Clone o repositório
 git clone https://github.com/ivanildobarauna-dev/api.ivanildobarauna.dev.git
 cd api.ivanildobarauna.dev
 
 # Instale as dependências
-poetry install
+poetry install  # ou pip install -r requirements.txt
 
 # Ative o ambiente virtual
 poetry shell
