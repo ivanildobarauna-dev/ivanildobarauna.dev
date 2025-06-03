@@ -1,12 +1,11 @@
 """Social Links Routes"""
 
 from flask import Blueprint, jsonify
-from flask_restx import Resource, Namespace, fields
+from flask_restx import Namespace, Resource
 
 from src.infrastructure.application_dependencies import portfolio_data_service
 from src.infrastructure.utils.constants import HTTP_INTERNAL_SERVER_ERROR
 from src.infrastructure.utils.logger import logger
-
 
 social_media_blueprint = Blueprint("social_media_bp", __name__)
 social_media_ns = Namespace(

@@ -1,15 +1,15 @@
-from typing import Type
 from contextlib import contextmanager
+from typing import Type
 
 from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 from src.domain.dto.certification import Certification
+from src.domain.dto.company_duration import CompanyDuration
 from src.domain.dto.experience import Experience
 from src.domain.dto.formation import Formation
 from src.domain.dto.project import Project
 from src.domain.dto.social_media import SocialMedia
-from src.domain.dto.company_duration import CompanyDuration
 from src.infrastructure.ports.repository_interface import RepositoryInterface
 
 

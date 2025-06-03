@@ -1,7 +1,7 @@
 """Projects Routes"""
 
 from flask import Blueprint, jsonify
-from flask_restx import Resource, Namespace
+from flask_restx import Namespace, Resource
 
 from src.infrastructure.application_dependencies import portfolio_data_service
 from src.infrastructure.utils.constants import HTTP_INTERNAL_SERVER_ERROR

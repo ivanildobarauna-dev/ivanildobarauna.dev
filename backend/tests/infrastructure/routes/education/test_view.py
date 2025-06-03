@@ -41,6 +41,5 @@ def test_get_education_error_handling(client, mock_portfolio_service):
         mock_portfolio_service.formations.side_effect = Exception("Test error")
         
         response = client.get("/api/v1/education")
-        
+
         assert response.status_code == HTTP_INTERNAL_SERVER_ERROR
-        data = json.loads(response.data)

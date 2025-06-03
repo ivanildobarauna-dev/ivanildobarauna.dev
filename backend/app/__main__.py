@@ -1,11 +1,11 @@
 """Setup Application"""
 
 import subprocess
-from flask import Flask, jsonify
-from flask_restx import Api
 
+from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate, upgrade
+from flask_restx import Api
 from sqlalchemy import inspect
 
 from app.admin.setup import setup_admin

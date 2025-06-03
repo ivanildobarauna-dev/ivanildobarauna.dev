@@ -30,7 +30,6 @@ def test_project_to_dict():
 
 def test_experience_to_dict():
     """Test Experience to_dict method."""
-    from datetime import date
     experience = Experience(
         position="Test Position",
         company="Test Company",
