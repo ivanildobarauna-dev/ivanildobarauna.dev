@@ -21,5 +21,9 @@ export default function Experiences() {
     );
   }
 
-  return <ExperienceRenderer experiences={experiences} tempoTotalCarreira={tempoTotalCarreira} />;
+  return (
+    <main>
+      <ExperienceRenderer experiences={experiences} tempoTotalCarreira={tempoTotalCarreira} />
+    </main>
+  );
 } 

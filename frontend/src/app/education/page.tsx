@@ -22,5 +22,9 @@ export default function Education() {
     );
   }
 
-  return <EducationRenderer formations={formations} certifications={certifications} />;
+  return (
+    <main>
+      <EducationRenderer formations={formations} certifications={certifications} />
+    </main>
+  );
 }
