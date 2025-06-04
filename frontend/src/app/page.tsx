@@ -54,11 +54,13 @@ export default function Home() {
   }
 
   return (
-    <HomeRenderer
-      totalExperience={parseNumber(totalExperience)}
-      totalProjects={parseNumber(totalProjects)}
-      totalEducation={parseNumber(totalEducation)}
-      activeButton={activeButton}
-    />
+    <main>
+      <HomeRenderer
+        totalExperience={parseNumber(totalExperience)}
+        totalProjects={parseNumber(totalProjects)}
+        totalEducation={parseNumber(totalEducation)}
+        activeButton={activeButton}
+      />
+    </main>
   );
 }

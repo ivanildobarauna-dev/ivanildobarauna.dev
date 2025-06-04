@@ -22,5 +22,9 @@ export default function Projects() {
     );
   }
 
-  return <ProjectsRenderer projects={projects} />;
+  return (
+    <main>
+      <ProjectsRenderer projects={projects} />
+    </main>
+  );
 } 

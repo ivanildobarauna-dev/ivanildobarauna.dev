@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Experience } from '../interfaces';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
+import { retryAsync } from '@/utils/retryAsync';
 
 interface CompanyDuration {
   name: string;
@@ -26,52 +27,60 @@ export function useExperience(): ExperienceData {
       try {
         // Buscar experiências
         const experiencesEndpoint = getBackendEndpoint('/experiences');
-        const experiencesResponse = await fetch(experiencesEndpoint, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          },
-          mode: 'cors',
-        });
+        const experiencesData = await retryAsync(async () => {
+          const experiencesResponse = await fetch(experiencesEndpoint, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+            },
+            mode: 'cors',
+          });
 
-        if (!experiencesResponse.ok) {
-          console.error(`Erro na requisição de experiências: Status ${experiencesResponse.status}`);
-          const responseText = await experiencesResponse.text();
-          console.error('Resposta do servidor:', responseText);
-          throw new Error(`Falha ao carregar as experiências. Status: ${experiencesResponse.status}`);
-        }
-        
-        const experiencesData = await experiencesResponse.json();
-        
-        if (!Array.isArray(experiencesData)) {
-          throw new Error('Resposta inválida: os dados não são um array');
-        }
+          if (!experiencesResponse.ok) {
+            console.error(`Erro na requisição de experiências: Status ${experiencesResponse.status}`);
+            const responseText = await experiencesResponse.text();
+            console.error('Resposta do servidor:', responseText);
+            throw new Error(`Falha ao carregar as experiências. Status: ${experiencesResponse.status}`);
+          }
+
+          const jsonData = await experiencesResponse.json();
+
+          if (!Array.isArray(jsonData)) {
+            throw new Error('Resposta inválida: os dados não são um array');
+          }
+
+          return jsonData as Experience[];
+        });
 
         setExperiences(experiencesData);
 
         // Buscar duração por empresa
         const companyDurationsEndpoint = getBackendEndpoint('/experiences?company_duration=true');
-        const companyDurationsResponse = await fetch(companyDurationsEndpoint, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          },
-          mode: 'cors',
+        const durationsData = await retryAsync(async () => {
+          const companyDurationsResponse = await fetch(companyDurationsEndpoint, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+            },
+            mode: 'cors',
+          });
+
+          if (!companyDurationsResponse.ok) {
+            console.error(`Erro na requisição de durações por empresa: Status ${companyDurationsResponse.status}`);
+            const responseText = await companyDurationsResponse.text();
+            console.error('Resposta do servidor:', responseText);
+            throw new Error(`Falha ao carregar as durações por empresa. Status: ${companyDurationsResponse.status}`);
+          }
+
+          const jsonData = await companyDurationsResponse.json();
+
+          if (!Array.isArray(jsonData)) {
+            throw new Error('Resposta inválida de durações: os dados não são um array');
+          }
+
+          return jsonData as CompanyDuration[];
         });
 
-        if (!companyDurationsResponse.ok) {
-          console.error(`Erro na requisição de durações por empresa: Status ${companyDurationsResponse.status}`);
-          const responseText = await companyDurationsResponse.text();
-          console.error('Resposta do servidor:', responseText);
-          throw new Error(`Falha ao carregar as durações por empresa. Status: ${companyDurationsResponse.status}`);
-        }
-        
-        const durationsData = await companyDurationsResponse.json();
-        
-        if (!Array.isArray(durationsData)) {
-          throw new Error('Resposta inválida de durações: os dados não são um array');
-        }
-        
         // Mapear durações por empresa
         const durationsMap: Record<string, string> = {};
         durationsData.forEach((item: CompanyDuration) => {
@@ -82,23 +91,25 @@ export function useExperience(): ExperienceData {
 
         // Buscar tempo total de carreira
         const totalDurationEndpoint = getBackendEndpoint('/experiences?total_duration=true');
-        const totalDurationResponse = await fetch(totalDurationEndpoint, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          },
-          mode: 'cors',
+        const totalData = await retryAsync(async () => {
+          const totalDurationResponse = await fetch(totalDurationEndpoint, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+            },
+            mode: 'cors',
+          });
+
+          if (!totalDurationResponse.ok) {
+            console.error(`Erro na requisição de tempo total: Status ${totalDurationResponse.status}`);
+            const responseText = await totalDurationResponse.text();
+            console.error('Resposta do servidor:', responseText);
+            throw new Error(`Falha ao carregar o tempo total. Status: ${totalDurationResponse.status}`);
+          }
+
+          return totalDurationResponse.json();
         });
 
-        if (!totalDurationResponse.ok) {
-          console.error(`Erro na requisição de tempo total: Status ${totalDurationResponse.status}`);
-          const responseText = await totalDurationResponse.text();
-          console.error('Resposta do servidor:', responseText);
-          throw new Error(`Falha ao carregar o tempo total. Status: ${totalDurationResponse.status}`);
-        }
-        
-        const totalData = await totalDurationResponse.json();
-        
         if (typeof totalData.total_duration === 'string') {
           setTempoTotalCarreira(totalData.total_duration);
         } else {

@@ -48,17 +48,23 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              (async function checkBackendStatus() {
-                try {
-                  const response = await fetch('/api/v1/ping');
-                  if (!response.ok) throw new Error('API not ready');
-                  
-                  const data = await response.json();
-                  if (data.message !== 'pong') throw new Error('Invalid API response');
-                } catch (error) {
-                  console.log('Backend not ready, retrying in 1s...');
-                  setTimeout(checkBackendStatus, 1000);
-                }
+              (function checkBackendStatus(attempt = 1) {
+                fetch('/api/v1/ping')
+                  .then(response => {
+                    if (!response.ok) throw new Error('API not ready');
+                    return response.json();
+                  })
+                  .then(data => {
+                    if (data.message !== 'pong') throw new Error('Invalid API response');
+                  })
+                  .catch(error => {
+                    if (attempt < 3) {
+                      console.log('Backend not ready, retrying in 1s...');
+                      setTimeout(() => checkBackendStatus(attempt + 1), 1000);
+                    } else {
+                      console.error('Backend unreachable:', error);
+                    }
+                  });
               })();
             `,
           }}
