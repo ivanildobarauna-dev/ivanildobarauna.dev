@@ -1,0 +1,43 @@
+name: Run frontend tests
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.github/**'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'LICENSE'
+      - 'docker-compose.local.yaml'
+      - 'backend/**'
+      - 'docker-compose.prod.yaml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        cd frontend
+        npm ci
+        
+    - name: Run tests
+      run: |
+        cd frontend
+        npm test
+
+    environment:
+        name: Development 
