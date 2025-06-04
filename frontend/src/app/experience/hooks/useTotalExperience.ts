@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
+import { retryAsync } from '@/utils/retryAsync';
 
 interface TotalExperienceData {
   totalExperience: string;
@@ -17,22 +18,24 @@ export function useTotalExperience(): TotalExperienceData {
       try {
         const experiencesEndpoint = getBackendEndpoint('/experiences?total_duration=true');
 
-        const response = await fetch(experiencesEndpoint, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          },
-          mode: 'cors',
-        });
+        const data = await retryAsync(async () => {
+          const response = await fetch(experiencesEndpoint, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+            },
+            mode: 'cors',
+          });
 
-        if (!response.ok) {
-          console.error(`Erro na requisição: Status ${response.status}`);
-          const responseText = await response.text();
-          console.error('Resposta do servidor:', responseText);
-          throw new Error(`Falha ao carregar o tempo total de experiência. Status: ${response.status}`);
-        }
-        
-        const data = await response.json();
+          if (!response.ok) {
+            console.error(`Erro na requisição: Status ${response.status}`);
+            const responseText = await response.text();
+            console.error('Resposta do servidor:', responseText);
+            throw new Error(`Falha ao carregar o tempo total de experiência. Status: ${response.status}`);
+          }
+
+          return response.json();
+        });
         
         if (typeof data.total_duration === 'string') {
           // Extrair apenas o número de anos da string (ex: "13 anos e 4 meses" -> "13")

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Formation, Certification } from '../interfaces';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
+import { retryAsync } from '@/utils/retryAsync';
 
 interface EducationData {
   formations: Formation[];
@@ -20,27 +21,31 @@ export function useEducation(): EducationData {
       const educationEndpoint = getBackendEndpoint('/education');
 
       try {
-        const response = await fetch(`${educationEndpoint}`, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          },
-          mode: 'cors',
+        const data = await retryAsync(async () => {
+          const response = await fetch(`${educationEndpoint}`, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+            },
+            mode: 'cors',
+          });
+
+          if (!response.ok) {
+            console.error(`Erro na requisição: Status ${response.status}`);
+            const responseText = await response.text();
+            console.error('Resposta do servidor:', responseText);
+            throw new Error(`Falha ao carregar os dados de educação. Status: ${response.status}`);
+          }
+
+          const jsonData = await response.json();
+
+          if (!jsonData.formations || !jsonData.certifications || !Array.isArray(jsonData.formations) || !Array.isArray(jsonData.certifications)) {
+            throw new Error('Resposta inválida: os dados não estão no formato esperado');
+          }
+
+          return jsonData as { formations: Formation[]; certifications: Certification[] };
         });
 
-        if (!response.ok) {
-          console.error(`Erro na requisição: Status ${response.status}`);
-          const responseText = await response.text();
-          console.error('Resposta do servidor:', responseText);
-          throw new Error(`Falha ao carregar os dados de educação. Status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        
-        if (!data.formations || !data.certifications || !Array.isArray(data.formations) || !Array.isArray(data.certifications)) {
-          throw new Error('Resposta inválida: os dados não estão no formato esperado');
-        }
-        
         // No need to map formations as the format is already compatible
         setFormations(data.formations);
         setCertifications(data.certifications);

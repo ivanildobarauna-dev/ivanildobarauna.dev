@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Project } from '../interfaces';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
+import { retryAsync } from '@/utils/retryAsync';
 
 interface ProjectsData {
   projects: Project[];
@@ -18,27 +19,31 @@ export function useProjects(): ProjectsData {
       try {
         const projectsEndpoint = getBackendEndpoint('/projects');
 
-        const response = await fetch(`${projectsEndpoint}`, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          },
-          mode: 'cors',
+        const data = await retryAsync(async () => {
+          const response = await fetch(`${projectsEndpoint}`, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+            },
+            mode: 'cors',
+          });
+
+          if (!response.ok) {
+            console.error(`Erro na requisição: Status ${response.status}`);
+            const responseText = await response.text();
+            console.error('Resposta do servidor:', responseText);
+            throw new Error(`Falha ao carregar os projetos. Status: ${response.status}`);
+          }
+
+          const jsonData = await response.json();
+
+          if (!Array.isArray(jsonData)) {
+            throw new Error('Resposta inválida: os dados não são um array');
+          }
+
+          return jsonData as Project[];
         });
 
-        if (!response.ok) {
-          console.error(`Erro na requisição: Status ${response.status}`);
-          const responseText = await response.text();
-          console.error('Resposta do servidor:', responseText);
-          throw new Error(`Falha ao carregar os projetos. Status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        
-        if (!Array.isArray(data)) {
-          throw new Error('Resposta inválida: os dados não são um array');
-        }
-        
         setProjects(data);
       } catch (error: unknown) {
         if (error instanceof Error) {
