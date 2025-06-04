@@ -2,7 +2,7 @@
 
 Este repositório contempla o código fonte do site [ivanildobarauna.dev](https://ivanildobarauna.dev)
 
-👉 Leia meu artigo no Medium: [Ter um site pessoal é o melhor projeto de engenharia que você pode fazer por você mesmo]([https://dev.to/ivanildobarauna/ter-um-site-pessoal-e-o-melhor-projeto-de-engenharia-que-voce-pode-fazer-por-voce-mesmo-548d](https://medium.com/@IvanildoBarauna/ter-um-site-pessoal-%C3%A9-o-melhor-projeto-de-engenharia-que-voc%C3%AA-pode-fazer-por-voc%C3%AA-mesmo-ac21ddce01d7))
+👉 Leia meu artigo no Medium: [Ter um site pessoal é o melhor projeto de engenharia que você vai fazer por você mesmo](https://medium.com/@IvanildoBarauna/ter-um-site-pessoal-%C3%A9-o-melhor-projeto-de-engenharia-que-voc%C3%AA-pode-fazer-por-voc%C3%AA-mesmo-ac21ddce01d7)
 
 
  ## Componentes Principais
