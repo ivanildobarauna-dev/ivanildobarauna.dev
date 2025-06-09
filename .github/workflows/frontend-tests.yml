@@ -37,6 +37,3 @@ jobs:
     - name: Run tests
       working-directory: frontend
       run: npm test
-
-    environment:
-        name: Development 
