@@ -146,6 +146,7 @@ jobs:
                 - DD_AGENT_HOST=172.18.0.1
                 - DD_PROCESS_AGENT_ENABLED=true
                 - DD_TAGS="app:portfolio,tech:python,role:backend"
+                - DD_RUNTIME_METRICS_ENABLED=true
               labels:
                 com.datadoghq.ad.logs: '[{"source": "python", "service": "api.ivanildobarauna.dev"}]'
                 tags.env: "production"
