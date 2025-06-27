@@ -1,19 +1,72 @@
 'use client';
 
+import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import HomeRenderer from '@/app/components/HomeRenderer';
 import Home from '@/app/page';
 
+// Mock framer-motion para evitar erro de componente undefined
+vi.mock('framer-motion', () => ({
+  motion: {
+    section: ({ children, ...props }: any) => <section {...props}>{children}</section>,
+    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+    h1: ({ children, ...props }: any) => <h1 {...props}>{children}</h1>,
+    h2: ({ children, ...props }: any) => <h2 {...props}>{children}</h2>,
+    p: ({ children, ...props }: any) => <p {...props}>{children}</p>,
+    a: ({ children, ...props }: any) => <a {...props}>{children}</a>,
+    nav: ({ children, ...props }: any) => <nav {...props}>{children}</nav>,
+    span: ({ children, ...props }: any) => <span {...props}>{children}</span>,
+    button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
+  }
+}));
+
+// Mock next/image para evitar erro de componente inválido
+vi.mock('next/image', () => ({
+  __esModule: true,
+  default: (props: any) => <img {...props} />,
+}));
+
+// Mock socialIconMap para evitar erro de ícones undefined
+vi.mock('@/utils/socialIconMap', () => ({
+  socialIconMap: {
+    github: () => <span>FaGithub</span>,
+    linkedin: () => <span>FaLinkedin</span>,
+    stackoverflow: () => <span>FaStackOverflow</span>,
+    coursera: () => <span>SiCoursera</span>,
+    gravatar: () => <span>SiGravatar</span>,
+  }
+}));
+
+// Mock react-icons/fa para evitar undefined nos testes
+vi.mock('react-icons/fa', () => ({
+  FaUser: () => <span>FaUser</span>,
+  FaCode: () => <span>FaCode</span>,
+  FaGraduationCap: () => <span>FaGraduationCap</span>,
+  FaArrowRight: () => <span>FaArrowRight</span>,
+  FaPython: () => <span>FaPython</span>,
+  FaDatabase: () => <span>FaDatabase</span>,
+  FaChartBar: () => <span>FaChartBar</span>,
+  FaChartLine: () => <span>FaChartLine</span>,
+  FaGithub: () => <span>FaGithub</span>,
+  FaLinkedin: () => <span>FaLinkedin</span>,
+  FaStackOverflow: () => <span>FaStackOverflow</span>,
+}));
+
+// Mock react-icons/si para evitar undefined nos testes
+vi.mock('react-icons/si', () => ({
+  SiFlask: () => <span>SiFlask</span>,
+  SiApacheairflow: () => <span>SiApacheairflow</span>,
+  SiDocker: () => <span>SiDocker</span>,
+  SiApache: () => <span>SiApache</span>,
+  SiGooglebigquery: () => <span>SiGooglebigquery</span>,
+  SiGooglecloud: () => <span>SiGooglecloud</span>,
+  SiGooglepubsub: () => <span>SiGooglepubsub</span>,
+  SiCoursera: () => <span>SiCoursera</span>,
+  SiGravatar: () => <span>SiGravatar</span>,
+}));
+
 // Mock hooks
-vi.mock('@/app/experience/hooks/useTotalExperience', () => ({
-  useTotalExperience: () => ({ totalExperience: '5', loading: false, error: null }),
-}));
-vi.mock('@/app/projects/hooks/useTotalProjects', () => ({
-  useTotalProjects: () => ({ totalProjects: '10', loading: false, error: null }),
-}));
-vi.mock('@/app/education/hooks/useTotalEducation', () => ({
-  useTotalEducation: () => ({ totalEducation: '15', loading: false, error: null }),
-}));
 vi.mock('@/app/experience/hooks/useExperience', () => ({
   useExperience: () => ({
     experiences: {},
@@ -38,12 +91,25 @@ vi.mock('@/app/education/hooks/useEducation', () => ({
   }),
 }));
 vi.mock('@/app/social-links/hooks/useSocialLinks', () => ({
-    useSocialLinks: () => ({
-      socialLinks: [],
-      loading: false,
-      error: null
-    })
-  }));
+  useSocialLinks: () => ({
+    socialLinks: [],
+    loading: false,
+    error: null
+  })
+}));
+
+describe('HomeRenderer', () => {
+  it('should render basic info', () => {
+    render(
+      <HomeRenderer
+        totalExperience={5}
+        totalProjects={10}
+        totalEducation={3}
+      />
+    );
+    expect(screen.getByText(/Ivanildo Barauna de Souza Junior/i)).toBeInTheDocument();
+  });
+});
 
 describe('Home Page', () => {
   it('should render all sections', () => {

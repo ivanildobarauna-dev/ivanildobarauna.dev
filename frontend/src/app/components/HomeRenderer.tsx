@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { FaArrowRight, FaPython, FaDatabase, FaChartBar, FaChartLine } from 'react-icons/fa';
+import Image from 'next/image';
+import { FaArrowRight, FaPython, FaDatabase, FaChartBar, FaChartLine, FaUser, FaCode, FaGraduationCap } from 'react-icons/fa';
 import { SiFlask, SiApacheairflow, SiDocker, SiApache, SiGooglebigquery, SiGooglecloud, SiGooglepubsub } from 'react-icons/si';
 import { useSocialLinks } from '@/app/social-links/hooks/useSocialLinks';
 import { socialIconMap } from '@/utils/socialIconMap';
@@ -35,104 +36,190 @@ export default function HomeRenderer({
     { name: 'Looker Studio', icon: FaChartLine, color: '#4285F4' }
   ];
 
+  const navigationItems = [
+    { href: '#experience', label: 'Experiência', icon: FaUser },
+    { href: '#projects', label: 'Projetos', icon: FaCode },
+    { href: '#education', label: 'Formação', icon: FaGraduationCap },
+  ];
+
   return (
     <div className="space-y-12">
+      {/* Header com foto, nome, descrição e links sociais */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-4 md:p-12 text-white"
+        className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-6 md:p-12 text-white"
       >
-        <div className="mb-4">
-          <h1 className="text-2xl md:text-4xl font-bold">Ivanildo Barauna de Souza Junior</h1>
-          <div className="flex md:hidden items-center space-x-3 mt-3">
-            {!loading && !error && socialLinks.map((link) => {
-              const Icon = socialIconMap[link.type];
-              return (
-                <motion.a
-                  key={link.label}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white opacity-80 hover:opacity-100 transition-all hover:scale-110"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  aria-label={link.label}
-                >
-                  {Icon && <Icon className="w-5 h-5" />}
-                </motion.a>
-              );
-            })}
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8">
+          {/* Foto de perfil */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white/20 flex-shrink-0"
+          >
+            <Image
+              src="/images/profile/profile.png"
+              alt="Ivanildo Barauna"
+              fill
+              className="object-cover"
+            />
+          </motion.div>
+
+          {/* Informações pessoais */}
+          <div className="flex-1 text-center md:text-left">
+            <motion.h1
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-2xl md:text-4xl font-bold mb-2"
+            >
+              Ivanildo Barauna de Souza Junior
+            </motion.h1>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-base md:text-lg opacity-90 mb-4"
+            >
+              Engenheiro de Dados Senior com experiência em desenvolvimento de soluções de dados end-to-end. Especializado em transformar dados em insights estratégicos para diferentes áreas de negócio, com foco atual em observabilidade de microsserviços e arquiteturas distribuídas.
+            </motion.p>
+
+            {/* Links sociais */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="flex justify-center md:justify-start space-x-4"
+            >
+              {!loading && !error && socialLinks.map((link) => {
+                const Icon = socialIconMap[link.type];
+                return (
+                  <motion.a
+                    key={link.label}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white opacity-80 hover:opacity-100 transition-all hover:scale-110"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    aria-label={link.label}
+                  >
+                    {Icon && <Icon className="w-5 h-5 md:w-6 md:h-6" />}
+                  </motion.a>
+                );
+              })}
+            </motion.div>
           </div>
         </div>
-        <p className="text-base md:text-lg opacity-90">
-          Engenheiro de Dados Senior com experiência em desenvolvimento de soluções de dados end-to-end. Especializado em transformar dados em insights estratégicos para diferentes áreas de negócio, com foco atual em observabilidade de microsserviços e arquiteturas distribuídas.
-        </p>
 
-        <div className="bg-white/10 p-4 md:p-6 rounded-lg backdrop-blur-sm mt-6 md:mt-8 mb-6 md:mb-8">
-          <h2 className="text-lg md:text-xl font-semibold mb-3 md:mb-4">Habilidades Técnicas</h2>
-          <div className="flex flex-wrap gap-2 md:gap-3">
-            {skills.map((skill) => (
-              <motion.span
-                key={skill.name}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
+        {/* Menu de navegação discreto */}
+        <motion.nav
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="mt-8 flex justify-center"
+        >
+          <div className="flex space-x-1 bg-white/10 backdrop-blur-sm rounded-full p-1">
+            {navigationItems.map((item) => (
+              <motion.a
+                key={item.href}
+                href={item.href}
+                className="flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:bg-white/20 hover:scale-105"
                 whileHover={{ scale: 1.05 }}
-                className="px-3 py-1 md:px-4 md:py-2 bg-blue-100/10 text-white rounded-full text-xs md:text-sm flex items-center gap-1 md:gap-2 hover:bg-blue-100/20 transition-colors"
+                whileTap={{ scale: 0.95 }}
               >
-                <skill.icon className="w-4 h-4 md:w-5 md:h-5" style={{ color: skill.color }} />
-                {skill.name}
-              </motion.span>
+                {item.icon && <item.icon className="w-4 h-4 mr-2" />}
+                {item.label}
+              </motion.a>
             ))}
           </div>
-        </div>
+        </motion.nav>
+      </motion.section>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          <a href="#experience" className="block group">
-            <motion.div 
-              className={`bg-white/10 p-4 md:p-6 rounded-lg backdrop-blur-sm transition-all duration-300 transform group-hover:bg-white/20 group-hover:scale-105`}
+      {/* Habilidades técnicas */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7 }}
+        className="bg-white p-6 md:p-8 rounded-xl shadow-lg"
+      >
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-6">Habilidades Técnicas</h2>
+        <div className="flex flex-wrap gap-3">
+          {skills.map((skill) => (
+            <motion.span
+              key={skill.name}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              whileHover={{ scale: 1.05 }}
+              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm flex items-center gap-2 hover:bg-gray-200 transition-colors"
             >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">{formatNumber(totalExperience)}</div>
-                  <div className="text-xs md:text-sm opacity-80">Anos de Experiência</div>
-                </div>
-                <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
-              </div>
-            </motion.div>
-          </a>
-          <a href="#projects" className="block group">
-            <motion.div 
-              className={`bg-white/10 p-4 md:p-6 rounded-lg backdrop-blur-sm transition-all duration-300 transform group-hover:bg-white/20 group-hover:scale-105`}
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">{formatNumber(totalProjects)}</div>
-                  <div className="text-xs md:text-sm opacity-80">Projetos Open Source</div>
-                </div>
-                <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
-              </div>
-            </motion.div>
-          </a>
-          <a href="#education" className="block group">
-            <motion.div 
-              className={`bg-white/10 p-4 md:p-6 rounded-lg backdrop-blur-sm transition-all duration-300 transform group-hover:bg-white/20 group-hover:scale-105`}
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">{formatNumber(totalEducation)}</div>
-                  <div className="text-xs md:text-sm opacity-80">Formações e Certificações</div>
-                </div>
-                <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
-              </div>
-            </motion.div>
-          </a>
+              <skill.icon className="w-4 h-4 md:w-5 md:h-5" style={{ color: skill.color }} />
+              {skill.name}
+            </motion.span>
+          ))}
         </div>
       </motion.section>
 
+      {/* Cards de estatísticas */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
+        transition={{ delay: 0.8 }}
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"
+      >
+        <a href="#experience" className="block group">
+          <motion.div 
+            className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 md:p-8 rounded-xl text-white transition-all duration-300 transform group-hover:scale-105 group-hover:shadow-xl"
+            whileHover={{ scale: 1.05 }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-3xl md:text-4xl font-bold mb-2">{formatNumber(totalExperience)}</div>
+                <div className="text-sm opacity-90">Anos de Experiência</div>
+              </div>
+              <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
+            </div>
+          </motion.div>
+        </a>
+        
+        <a href="#projects" className="block group">
+          <motion.div 
+            className="bg-gradient-to-r from-green-500 to-green-600 p-6 md:p-8 rounded-xl text-white transition-all duration-300 transform group-hover:scale-105 group-hover:shadow-xl"
+            whileHover={{ scale: 1.05 }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-3xl md:text-4xl font-bold mb-2">{formatNumber(totalProjects)}</div>
+                <div className="text-sm opacity-90">Projetos Open Source</div>
+              </div>
+              <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
+            </div>
+          </motion.div>
+        </a>
+        
+        <a href="#education" className="block group">
+          <motion.div 
+            className="bg-gradient-to-r from-purple-500 to-purple-600 p-6 md:p-8 rounded-xl text-white transition-all duration-300 transform group-hover:scale-105 group-hover:shadow-xl"
+            whileHover={{ scale: 1.05 }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-3xl md:text-4xl font-bold mb-2">{formatNumber(totalEducation)}</div>
+                <div className="text-sm opacity-90">Formações e Certificações</div>
+              </div>
+              <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
+            </div>
+          </motion.div>
+        </a>
+      </motion.section>
+
+      {/* Especialidades */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9 }}
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"
       >
         {[
@@ -156,11 +243,11 @@ export default function HomeRenderer({
             key={specialty.title}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 + index * 0.1 }}
-            className="bg-white p-4 md:p-6 rounded-xl shadow-lg"
+            transition={{ delay: 1.0 + index * 0.1 }}
+            className="bg-white p-6 md:p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
           >
-            <div className="text-2xl md:text-3xl mb-3 md:mb-4">{specialty.icon}</div>
-            <h3 className="text-lg md:text-xl font-bold text-blue-600 mb-1 md:mb-2">{specialty.title}</h3>
+            <div className="text-3xl md:text-4xl mb-4">{specialty.icon}</div>
+            <h3 className="text-lg md:text-xl font-bold text-blue-600 mb-2">{specialty.title}</h3>
             <p className="text-sm md:text-base text-gray-600">{specialty.description}</p>
           </motion.div>
         ))}
