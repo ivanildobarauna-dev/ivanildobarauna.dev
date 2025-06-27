@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import { FaArrowRight, FaPython, FaDatabase, FaChartBar, FaChartLine } from 'react-icons/fa';
 import { SiFlask, SiApacheairflow, SiDocker, SiApache, SiGooglebigquery, SiGooglecloud, SiGooglepubsub } from 'react-icons/si';
 import { useSocialLinks } from '@/app/social-links/hooks/useSocialLinks';
@@ -9,7 +8,6 @@ interface HomeRendererProps {
   totalExperience: number;
   totalProjects: number;
   totalEducation: number;
-  activeButton: number | null;
 }
 
 const formatNumber = (value: number): string => {
@@ -19,8 +17,7 @@ const formatNumber = (value: number): string => {
 export default function HomeRenderer({ 
   totalExperience, 
   totalProjects, 
-  totalEducation, 
-  activeButton 
+  totalEducation 
 }: HomeRendererProps) {
   const { socialLinks, loading, error } = useSocialLinks();
 
@@ -90,9 +87,9 @@ export default function HomeRenderer({
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          <Link href="/experience" className="block group">
+          <a href="#experience" className="block group">
             <motion.div 
-              className={`bg-white/10 p-4 md:p-6 rounded-lg backdrop-blur-sm transition-all duration-300 transform group-hover:bg-white/20 group-hover:scale-105 ${activeButton === 0 ? 'bg-white/20 scale-105' : ''}`}
+              className={`bg-white/10 p-4 md:p-6 rounded-lg backdrop-blur-sm transition-all duration-300 transform group-hover:bg-white/20 group-hover:scale-105`}
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -102,10 +99,10 @@ export default function HomeRenderer({
                 <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
               </div>
             </motion.div>
-          </Link>
-          <Link href="/projects" className="block group">
+          </a>
+          <a href="#projects" className="block group">
             <motion.div 
-              className={`bg-white/10 p-4 md:p-6 rounded-lg backdrop-blur-sm transition-all duration-300 transform group-hover:bg-white/20 group-hover:scale-105 ${activeButton === 1 ? 'bg-white/20 scale-105' : ''}`}
+              className={`bg-white/10 p-4 md:p-6 rounded-lg backdrop-blur-sm transition-all duration-300 transform group-hover:bg-white/20 group-hover:scale-105`}
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -115,10 +112,10 @@ export default function HomeRenderer({
                 <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
               </div>
             </motion.div>
-          </Link>
-          <Link href="/education" className="block group">
+          </a>
+          <a href="#education" className="block group">
             <motion.div 
-              className={`bg-white/10 p-4 md:p-6 rounded-lg backdrop-blur-sm transition-all duration-300 transform group-hover:bg-white/20 group-hover:scale-105 ${activeButton === 2 ? 'bg-white/20 scale-105' : ''}`}
+              className={`bg-white/10 p-4 md:p-6 rounded-lg backdrop-blur-sm transition-all duration-300 transform group-hover:bg-white/20 group-hover:scale-105`}
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -128,7 +125,7 @@ export default function HomeRenderer({
                 <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
               </div>
             </motion.div>
-          </Link>
+          </a>
         </div>
       </motion.section>
 
@@ -170,4 +167,4 @@ export default function HomeRenderer({
       </motion.section>
     </div>
   );
-} 
+}
