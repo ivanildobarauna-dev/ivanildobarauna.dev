@@ -1,28 +1,38 @@
+'use client';
+
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaGraduationCap, FaCalendarAlt, FaBook, FaCertificate } from 'react-icons/fa';
-import { Formation, Certification } from '../interfaces';
+import { Formation, Certification } from '@/interfaces/Education';
 
-interface EducationRendererProps {
+interface EducationSectionProps {
   formations: Formation[];
   certifications: Record<string, Certification[]>;
 }
 
-export function EducationRenderer({ formations, certifications }: EducationRendererProps) {
+export function EducationSection({ formations, certifications }: EducationSectionProps) {
+  const [isFormationsExpanded, setIsFormationsExpanded] = useState(false);
+  const [isCertificationsExpanded, setIsCertificationsExpanded] = useState(false);
+
+  const visibleFormations = isFormationsExpanded ? formations : formations.slice(0, 3);
+  const certificationEntries = Object.entries(certifications);
+  const visibleCertifications = isCertificationsExpanded ? certificationEntries : certificationEntries.slice(0, 3);
+
   return (
     <div className="space-y-6 md:space-y-8 p-4 md:p-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-2xl p-4 md:p-6 shadow-lg"
+        className="text-center"
       >
-        <h1 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4 text-blue-600">Formação Acadêmica</h1>
-        <p className="text-sm md:text-base text-gray-600 mb-2 md:mb-4">
+        <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4 text-blue-600">Formação Acadêmica</h2>
+        <p className="text-sm md:text-base text-gray-600 mb-2 md:mb-4 max-w-2xl mx-auto">
           Minha jornada acadêmica e qualificações que fundamentam minha expertise profissional.
         </p>
       </motion.div>
 
       <div className="space-y-4 md:space-y-6">
-        {formations.map((formation, index) => (
+        {visibleFormations.map((formation, index) => (
           <motion.div
             key={formation.institution}
             initial={{ opacity: 0, y: 20 }}
@@ -43,7 +53,7 @@ export function EducationRenderer({ formations, certifications }: EducationRende
                     </div>
                   )}
                   <div>
-                    <h2 className="text-xl md:text-2xl font-bold">{formation.institution}</h2>
+                    <h3 className="text-xl md:text-2xl font-bold">{formation.institution}</h3>
                     <div className="flex items-center gap-2 text-blue-100 text-sm md:text-base">
                       <FaGraduationCap className="w-3 h-3 md:w-4 md:h-4" />
                       <span>{formation.type}</span>
@@ -57,7 +67,7 @@ export function EducationRenderer({ formations, certifications }: EducationRende
               <div>
                 <div className="flex items-center gap-2 text-blue-600 mb-2">
                   <FaBook className="w-4 h-4 md:w-5 md:h-5" />
-                  <h3 className="text-lg md:text-xl font-bold">{formation.course}</h3>
+                  <h4 className="text-lg md:text-xl font-bold">{formation.course}</h4>
                 </div>
                 <div className="flex items-center gap-2 text-gray-600 mb-3 md:mb-4 text-sm md:text-base">
                   <FaCalendarAlt className="w-3 h-3 md:w-4 md:h-4" />
@@ -70,21 +80,34 @@ export function EducationRenderer({ formations, certifications }: EducationRende
         ))}
       </div>
 
-      {Object.entries(certifications).length > 0 && (
+      {formations.length > 3 && (
+        <div className="text-center mt-8">
+          <motion.button
+            onClick={() => setIsFormationsExpanded(!isFormationsExpanded)}
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {isFormationsExpanded ? 'Mostrar Menos' : 'Mostrar Mais'}
+          </motion.button>
+        </div>
+      )}
+
+      {certificationEntries.length > 0 && (
         <>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-2xl p-4 md:p-6 shadow-lg mt-6 md:mt-8"
+            className="text-center mt-12"
           >
             <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4 text-blue-600">Certificações</h2>
-            <p className="text-sm md:text-base text-gray-600 mb-2 md:mb-4">
+            <p className="text-sm md:text-base text-gray-600 mb-2 md:mb-4 max-w-2xl mx-auto">
               Certificações e cursos especializados que complementam minha formação.
             </p>
           </motion.div>
 
           <div className="space-y-4 md:space-y-8">
-            {Object.entries(certifications).map(([institution, certs], index) => (
+            {visibleCertifications.map(([institution, certs], index) => (
               <motion.div
                 key={institution}
                 initial={{ opacity: 0, y: 20 }}
@@ -105,7 +128,7 @@ export function EducationRenderer({ formations, certifications }: EducationRende
                         </div>
                       )}
                       <div>
-                        <h2 className="text-lg md:text-xl font-bold">{institution}</h2>
+                        <h3 className="text-lg md:text-xl font-bold">{institution}</h3>
                         <p className="text-blue-100 text-xs md:text-sm">
                           {certs.length} {certs.length === 1 ? 'certificação' : 'certificações'}
                         </p>
@@ -124,7 +147,7 @@ export function EducationRenderer({ formations, certifications }: EducationRende
                         transition={{ delay: (index * 0.1) + (certIndex * 0.05) }}
                         className="bg-gray-50 rounded-lg p-3 md:p-4"
                       >
-                        <h3 className="text-base md:text-lg font-bold text-blue-600 mb-2">{certification.name}</h3>
+                        <h4 className="text-base md:text-lg font-bold text-blue-600 mb-2">{certification.name}</h4>
                         {certification.credential_url && (
                           <a
                             href={certification.credential_url}
@@ -143,8 +166,21 @@ export function EducationRenderer({ formations, certifications }: EducationRende
               </motion.div>
             ))}
           </div>
+
+          {certificationEntries.length > 3 && (
+            <div className="text-center mt-8">
+              <motion.button
+                onClick={() => setIsCertificationsExpanded(!isCertificationsExpanded)}
+                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {isCertificationsExpanded ? 'Mostrar Menos' : 'Mostrar Mais'}
+              </motion.button>
+            </div>
+          )}
         </>
       )}
     </div>
   );
-} 
+}

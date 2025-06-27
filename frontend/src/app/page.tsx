@@ -1,50 +1,28 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useTotalExperience } from './experience/hooks/useTotalExperience';
-import { useTotalProjects } from './projects/hooks/useTotalProjects';
-import { useTotalEducation } from './education/hooks/useTotalEducation';
+import { useExperience } from './experience/hooks/useExperience';
+import { useProjects } from './projects/hooks/useProjects';
+import { useEducation } from './education/hooks/useEducation';
 import Loading from '@/components/Loading';
 import AlertMessage from '@/components/AlertMessage';
 import HomeRenderer from './components/HomeRenderer';
-
-const parseNumber = (value: any): number => {
-  if (typeof value === 'string') {
-    // Remove o '+' do final da string, se existir
-    const cleanValue = value.replace(/\+$/, '');
-    const num = Number(cleanValue);
-    return isNaN(num) ? 0 : num;
-  }
-  const num = Number(value);
-  return isNaN(num) ? 0 : num;
-};
+import { ExperienceSection } from '@/components/sections/ExperienceSection';
+import { ProjectsSection } from '@/components/sections/ProjectsSection';
+import { EducationSection } from '@/components/sections/EducationSection';
 
 export default function Home() {
-  const [activeButton, setActiveButton] = useState<number | null>(null);
-  const { totalExperience, loading: loadingExperience, error: errorExperience } = useTotalExperience();
-  const { totalProjects, loading: loadingProjects, error: errorProjects } = useTotalProjects();
-  const { totalEducation, loading: loadingEducation, error: errorEducation } = useTotalEducation();
+  const { experiences, loading: loadingExperience, error: errorExperience, tempoTotalCarreira } = useExperience();
+  const { projects, loading: loadingProjects, error: errorProjects } = useProjects();
+  const { formations, certifications, loading: loadingEducation, error: errorEducation } = useEducation();
 
-  useEffect(() => {
-    const animateButtons = async () => {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      setActiveButton(0);
-      await new Promise(resolve => setTimeout(resolve, 300));
-      setActiveButton(1);
-      await new Promise(resolve => setTimeout(resolve, 300));
-      setActiveButton(2);
-      await new Promise(resolve => setTimeout(resolve, 300));
-      setActiveButton(null);
-    };
+  const isLoading = loadingExperience || loadingProjects || loadingEducation;
+  const isError = errorExperience || errorProjects || errorEducation;
 
-    animateButtons();
-  }, []);
-
-  if (loadingExperience || loadingProjects || loadingEducation) {
+  if (isLoading) {
     return <Loading />;
   }
 
-  if (errorExperience || errorProjects || errorEducation) {
+  if (isError) {
     return (
       <AlertMessage 
         message="Erro ao carregar dados"
@@ -54,13 +32,26 @@ export default function Home() {
   }
 
   return (
-    <main>
-      <HomeRenderer
-        totalExperience={parseNumber(totalExperience)}
-        totalProjects={parseNumber(totalProjects)}
-        totalEducation={parseNumber(totalEducation)}
-        activeButton={activeButton}
-      />
-    </main>
+    <div className="container mx-auto px-4 md:px-8 py-8 md:py-12">
+      <main className="space-y-16 md:space-y-24">
+        <HomeRenderer
+          totalExperience={Object.values(experiences).flat().length}
+          totalProjects={projects.length}
+          totalEducation={formations.length + Object.values(certifications).flat().length}
+        />
+        
+        <section id="experience">
+          <ExperienceSection experiences={experiences} tempoTotalCarreira={tempoTotalCarreira} />
+        </section>
+        
+        <section id="projects">
+          <ProjectsSection projects={projects} />
+        </section>
+        
+        <section id="education">
+          <EducationSection formations={formations} certifications={certifications} />
+        </section>
+      </main>
+    </div>
   );
 }
