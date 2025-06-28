@@ -110,7 +110,7 @@ jobs:
               image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:main
               container_name: portfolio-frontend
               ports:
-                - "8080:8080"
+                - "8081:8081"
               environment:
                 - DD_SERVICE=ivanildobarauna.dev
                 - DD_ENV=production

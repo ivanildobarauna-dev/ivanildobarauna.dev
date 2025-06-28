@@ -32,7 +32,7 @@ RUN npm install --omit=dev --no-audit --prefer-offline
 # Injeção automática via NODE_OPTIONS
 ENV NODE_OPTIONS="-r /tracer/tracing.js"
 ENV NODE_ENV=production
-ENV PORT=8080
-EXPOSE 8080
+ENV PORT=8081
+EXPOSE 8081
 
-CMD ["node_modules/.bin/next", "start", "-p", "8080"]
+CMD ["node_modules/.bin/next", "start", "-p", "8081"]
