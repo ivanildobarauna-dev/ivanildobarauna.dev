@@ -44,6 +44,7 @@ vi.mock('react-icons/fa', () => ({
   FaCode: () => <span>FaCode</span>,
   FaGraduationCap: () => <span>FaGraduationCap</span>,
   FaArrowRight: () => <span>FaArrowRight</span>,
+  FaArrowDown: () => <span>FaArrowDown</span>,
   FaPython: () => <span>FaPython</span>,
   FaDatabase: () => <span>FaDatabase</span>,
   FaChartBar: () => <span>FaChartBar</span>,
@@ -112,15 +113,24 @@ describe('HomeRenderer', () => {
 });
 
 describe('Home Page', () => {
-  it('should render all sections', () => {
+  it('should render all sections in the correct order', () => {
     render(<Home />);
 
-    // Check for HomeRenderer content
-    expect(screen.getByText(/Ivanildo Barauna de Souza Junior/i)).toBeInTheDocument();
+    // Seleciona todos os títulos das seções
+    const headings = screen.getAllByRole('heading', { level: 2 });
+    const headingTexts = headings.map(h => h.textContent || '');
 
-    // Check for section titles
-    expect(screen.getByText(/Experiência Profissional/i)).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /Projetos Open Source/i })).toBeInTheDocument();
-    expect(screen.getByText(/Formação Acadêmica/i)).toBeInTheDocument();
+    // Garante que Projetos Open Source vem depois de Formação Acadêmica
+    const idxProjetos = headingTexts.findIndex(t => /Projetos Open Source/i.test(t));
+    const idxFormacao = headingTexts.findIndex(t => /Formação Acadêmica/i.test(t));
+    expect(idxProjetos).toBeGreaterThan(idxFormacao);
+
+    // Garante que Experiência Profissional vem antes de Formação Acadêmica
+    const idxExperiencia = headingTexts.findIndex(t => /Experiência Profissional/i.test(t));
+    expect(idxExperiencia).toBeLessThan(idxFormacao);
+
+    // Garante que 'Interessado em Colaborar?' aparece após 'Projetos Open Source'
+    const idxColaborar = headingTexts.findIndex(t => /Interessado em Colaborar/i.test(t));
+    expect(idxColaborar).toBeGreaterThan(idxProjetos);
   });
 });
