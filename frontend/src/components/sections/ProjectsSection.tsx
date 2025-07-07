@@ -18,10 +18,10 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center"
+        className="text-left"
       >
         <h2 className="text-2xl md:text-4xl font-bold mb-4 text-blue-600">Projetos Open Source</h2>
-        <p className="text-gray-600 mb-4 max-w-2xl mx-auto">
+        <p className="text-gray-600 mb-4 max-w-2xl ml-2">
           Uma seleção dos meus projetos mais recentes e relevantes em engenharia de dados e desenvolvimento.
         </p>
       </motion.div>

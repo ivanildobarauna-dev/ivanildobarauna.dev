@@ -11,7 +11,7 @@ services:
       - DD_ENV=production
       - DD_VERSION=1.0.0
       - DD_TRACE_SAMPLE_RATE=1.0
-      - DD_AGENT_HOST=192.168.15.44
+      - DD_AGENT_HOST=192.168.1.4
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:nextjs,role:frontend"
     labels:
@@ -37,10 +37,10 @@ services:
       - DD_ENV=production
       - DD_VERSION=1.0.0
       - DD_TRACE_SAMPLE_RATE=1.0
-      - DD_AGENT_HOST=192.168.15.44
+      - DD_AGENT_HOST=192.168.1.4
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:python,role:backend"
-      - POSTGRES_HOST=192.168.15.44
+      - POSTGRES_HOST=192.168.1.4
       - POSTGRES_PORT=5432
       - POSTGRES_USER=backend
       - POSTGRES_PASSWORD=backend

@@ -20,7 +20,7 @@ export function ExperienceSection({ experiences, tempoTotalCarreira }: Experienc
       <motion.h2 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-2xl md:text-4xl font-bold mb-4 md:mb-8 text-blue-600 text-center"
+        className="text-2xl md:text-4xl font-bold mb-4 md:mb-8 text-blue-600 text-left"
       >
         Experiência Profissional - {tempoTotalCarreira}
       </motion.h2>

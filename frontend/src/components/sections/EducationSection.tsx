@@ -23,10 +23,10 @@ export function EducationSection({ formations, certifications }: EducationSectio
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center"
+        className="text-left"
       >
         <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4 text-blue-600">Formação Acadêmica</h2>
-        <p className="text-sm md:text-base text-gray-600 mb-2 md:mb-4 max-w-2xl mx-auto">
+        <p className="text-sm md:text-base text-gray-600 mb-2 md:mb-4 max-w-2xl ml-2">
           Minha jornada acadêmica e qualificações que fundamentam minha expertise profissional.
         </p>
       </motion.div>
@@ -98,10 +98,10 @@ export function EducationSection({ formations, certifications }: EducationSectio
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mt-12"
+            className="text-left mt-12"
           >
             <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4 text-blue-600">Certificações</h2>
-            <p className="text-sm md:text-base text-gray-600 mb-2 md:mb-4 max-w-2xl mx-auto">
+            <p className="text-sm md:text-base text-gray-600 mb-2 md:mb-4 max-w-2xl ml-2">
               Certificações e cursos especializados que complementam minha formação.
             </p>
           </motion.div>
