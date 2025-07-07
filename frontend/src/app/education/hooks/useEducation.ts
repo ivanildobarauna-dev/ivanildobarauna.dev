@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Formation, Certification } from '../interfaces';
+import { Formation, Certification } from '@/interfaces/Education';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
 import { retryAsync } from '@/utils/retryAsync';
 
@@ -46,7 +46,6 @@ export function useEducation(): EducationData {
           return jsonData as { formations: Formation[]; certifications: Certification[] };
         });
 
-        // No need to map formations as the format is already compatible
         setFormations(data.formations);
         setCertifications(data.certifications);
       } catch (error: unknown) {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Experience } from '../interfaces';
+import { Experience } from '@/interfaces/Experience';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
 import { retryAsync } from '@/utils/retryAsync';
 
