@@ -44,12 +44,12 @@ export default function Home() {
           <ExperienceSection experiences={experiences} tempoTotalCarreira={tempoTotalCarreira} />
         </section>
         
-        <section id="projects">
-          <ProjectsSection projects={projects} />
-        </section>
-        
         <section id="education">
           <EducationSection formations={formations} certifications={certifications} />
+        </section>
+        
+        <section id="projects">
+          <ProjectsSection projects={projects} />
         </section>
       </main>
     </div>

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { FaArrowRight, FaPython, FaDatabase, FaChartBar, FaChartLine, FaUser, FaCode, FaGraduationCap } from 'react-icons/fa';
+import { FaArrowRight, FaArrowDown, FaPython, FaDatabase, FaChartBar, FaChartLine, FaUser, FaCode, FaGraduationCap } from 'react-icons/fa';
 import { SiFlask, SiApacheairflow, SiDocker, SiApache, SiGooglebigquery, SiGooglecloud, SiGooglepubsub } from 'react-icons/si';
 import { useSocialLinks } from '@/app/social-links/hooks/useSocialLinks';
 import { socialIconMap } from '@/utils/socialIconMap';
@@ -179,7 +179,7 @@ export default function HomeRenderer({
                 <div className="text-3xl md:text-4xl font-bold mb-2">{formatNumber(totalExperience)}</div>
                 <div className="text-sm opacity-90">Anos de Experiência</div>
               </div>
-              <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
+              <FaArrowDown className="transform transition-all duration-300 group-hover:translate-y-2" />
             </div>
           </motion.div>
         </a>
@@ -194,7 +194,7 @@ export default function HomeRenderer({
                 <div className="text-3xl md:text-4xl font-bold mb-2">{formatNumber(totalProjects)}</div>
                 <div className="text-sm opacity-90">Projetos Open Source</div>
               </div>
-              <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
+              <FaArrowDown className="transform transition-all duration-300 group-hover:translate-y-2" />
             </div>
           </motion.div>
         </a>
@@ -209,7 +209,7 @@ export default function HomeRenderer({
                 <div className="text-3xl md:text-4xl font-bold mb-2">{formatNumber(totalEducation)}</div>
                 <div className="text-sm opacity-90">Formações e Certificações</div>
               </div>
-              <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
+              <FaArrowDown className="transform transition-all duration-300 group-hover:translate-y-2" />
             </div>
           </motion.div>
         </a>
