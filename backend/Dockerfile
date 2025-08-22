@@ -20,4 +20,7 @@ COPY . .
 
 EXPOSE 8090
 
-CMD ["ddtrace-run" ,"gunicorn", "-b", "0.0.0.0:8090", "--workers=2", "--threads=2", "app.__main__:app"]
+ENV PYTHONPATH=/app
+
+CMD ["ddtrace-run", "gunicorn", "-b", "0.0.0.0:8090", "--workers=4", "--threads=4", "app.main:app"]
+

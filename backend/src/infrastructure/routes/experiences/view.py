@@ -3,12 +3,18 @@
 from flask import jsonify, request
 from flask_restx import Namespace, Resource
 
-from src.infrastructure.application_dependencies import portfolio_data_service
+from src.infrastructure.dependencie_injection import ApplicationDependencies
 from src.infrastructure.utils.constants import HTTP_INTERNAL_SERVER_ERROR
 from src.infrastructure.utils.logger import logger
 
 experiences_ns = Namespace("Experiences", description="Companies experiences")
 
+portfolio_data_service = (
+    ApplicationDependencies
+        .builder()
+        .build()
+        .porfolio_data_service()
+)
 
 @experiences_ns.route("/experiences")
 class Experiences(Resource):
