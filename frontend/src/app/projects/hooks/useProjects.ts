@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Project } from '../interfaces';
+import { Project } from '@/interfaces/Project';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
 import { retryAsync } from '@/utils/retryAsync';
 

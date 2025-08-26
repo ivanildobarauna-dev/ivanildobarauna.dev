@@ -19,6 +19,7 @@
 /* Ensure everything is mobile-first */
 html {
   font-size: 16px;
+  scroll-behavior: smooth;
 }
 
 /* Prevent overscroll on mobile devices */

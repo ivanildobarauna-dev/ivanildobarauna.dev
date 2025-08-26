@@ -1,15 +1,9 @@
-"""Setup Application"""
-
 import subprocess
 
 from flask import Flask
 from flask_cors import CORS
-from flask_migrate import Migrate, upgrade
 from flask_restx import Api
-from sqlalchemy import inspect
 
-from app.admin.setup import setup_admin
-from src.infrastructure.application_dependencies import db, setup_database
 from src.infrastructure.routes.education.view import education_ns
 from src.infrastructure.routes.experiences.view import experiences_ns
 
@@ -17,8 +11,8 @@ from src.infrastructure.routes.experiences.view import experiences_ns
 from src.infrastructure.routes.health_check.view import health_check_ns
 from src.infrastructure.routes.projects.view import projects_ns
 from src.infrastructure.routes.social_media.view import social_media_ns
-from src.infrastructure.utils.logger import logger
 
+from src.infrastructure.dependencie_injection import ApplicationDependencies
 
 class ApplicationSetup:
     def __init__(self):
@@ -36,7 +30,6 @@ class ApplicationSetup:
             ordered=True,
             validate=True,
         )
-        setup_database(self.app)
 
     def get_application_version(self) -> str:
         result = subprocess.run(
@@ -67,25 +60,11 @@ class ApplicationSetup:
         for namespace in namespaces:
             self.api.add_namespace(namespace, path="/api/v1")
 
-    def database_initializer(self):
-        with self.app.app_context():
-            Migrate(self.app, db)
-
-            inspector = inspect(db.engine)
-            if not inspector.has_table("alembic_version"):
-                try:
-                    db.create_all()
-                except Exception as e:
-                    logger.error(f"Error creating tables: {e}")
-                    raise e
-            else:
-                upgrade()
-
     def setup(self):
+        print("Running ApplicationDependencies setup...")
+        ApplicationDependencies.builder().build()
         self.setup_cors()
-        self.database_initializer()
         self.register_namespaces()
-        setup_admin(self.app)
         return self.app
 
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { SocialLink } from '../interfaces';
+import { SocialLink } from '@/interfaces/SocialLinks';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
 import { retryAsync } from '@/utils/retryAsync';
 
