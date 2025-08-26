@@ -5,6 +5,9 @@ Este repositório contempla o código fonte do site [ivanildobarauna.dev](https:
 👉 Leia meu artigo no Medium: [Ter um site pessoal é o melhor projeto de engenharia que você vai fazer por você mesmo](https://medium.com/@IvanildoBarauna/ter-um-site-pessoal-%C3%A9-o-melhor-projeto-de-engenharia-que-voc%C3%AA-pode-fazer-por-voc%C3%AA-mesmo-ac21ddce01d7)
 
 
+## Pergunte para a IA sobre este projeto
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ivanildobarauna-dev/ivanildobarauna.dev)
+
  ## Componentes Principais
 
 - **Backend**: API RESTful desenvolvida em Python (Flask), responsável por fornecer dados dinâmicos para o frontend através de storage local ou dados fornecidos por Fornecedores externos como o Github.
