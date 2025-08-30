@@ -3,116 +3,207 @@
 import { motion } from 'framer-motion';
 import { useSocialLinks } from '@/app/social-links/hooks/useSocialLinks';
 import { socialIconMap } from '@/utils/socialIconMap';
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaPaperPlane, FaLinkedin, FaGithub } from 'react-icons/fa';
 
 export default function Footer() {
   const { socialLinks, loading, error } = useSocialLinks();
-
   const currentYear = new Date().getFullYear();
 
+  const contactInfo = [
+    {
+      icon: <FaEnvelope className="w-5 h-5" />,
+      label: "Email",
+      value: "contato@ivanildobarauna.dev",
+      href: "mailto:contato@ivanildobarauna.dev"
+    },
+    {
+      icon: <FaPhone className="w-5 h-5" />,
+      label: "Telefone",
+      value: "+55 (11) 99999-9999",
+      href: "tel:+5511999999999"
+    },
+    {
+      icon: <FaMapMarkerAlt className="w-5 h-5" />,
+      label: "Localização",
+      value: "São Paulo, Brasil",
+      href: "#"
+    }
+  ];
+
   return (
-    <footer id="contact" className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Informações pessoais */}
+    <section id="contact" className="py-20 px-4 bg-gradient-subtle">
+      <div className="container max-w-6xl mx-auto">
+        <div className="text-center mb-16 fade-in">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Vamos <span className="text-gradient">Conversar</span>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Interessado em trabalhar juntos? Entre em contato e vamos discutir 
+            como posso ajudar no seu próximo projeto.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            className="professional-card p-8 slide-up"
           >
-            <h3 className="text-xl font-bold mb-4 text-primary-400">Ivanildo Baraúna</h3>
-            <p className="text-gray-300 mb-4">
-              Engenheiro de Dados Senior especializado em soluções escaláveis e arquiteturas distribuídas.
-            </p>
-            <p className="text-gray-400 text-sm">
-              Transformando dados em insights estratégicos para diferentes áreas de negócio.
-            </p>
-          </motion.div>
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Envie uma mensagem</h3>
+                <p className="text-muted-foreground">
+                  Preencha o formulário abaixo e retornarei o contato em breve.
+                </p>
+              </div>
 
-          {/* Links de navegação */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h3 className="text-xl font-bold mb-4 text-primary-400">Navegação</h3>
-            <ul className="space-y-2">
-              {[
-                { href: '#home', label: 'Início' },
-                { href: '#skills', label: 'Habilidades' },
-                { href: '#experience', label: 'Experiência' },
-                { href: '#projects', label: 'Projetos' },
-                { href: '#education', label: 'Formação' }
-              ].map((item) => (
-                <li key={item.href}>
-                  <button
-                    onClick={() => {
-                      const element = document.querySelector(item.href);
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
-                    className="text-gray-300 hover:text-primary-400 transition-colors duration-300"
-                  >
-                    {item.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+              <form className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Nome</label>
+                    <input 
+                      type="text"
+                      placeholder="Seu nome completo" 
+                      className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Email</label>
+                    <input 
+                      type="email"
+                      placeholder="seu@email.com" 
+                      className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                    />
+                  </div>
+                </div>
 
-          {/* Links sociais */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <h3 className="text-xl font-bold mb-4 text-primary-400">Conecte-se</h3>
-            <div className="flex space-x-4 mb-4">
-              {!loading && !error && socialLinks.map((link) => {
-                const Icon = socialIconMap[link.type];
-                return (
-                  <motion.a
-                    key={link.label}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-300 hover:bg-primary-500 hover:text-white transition-all duration-300"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    aria-label={link.label}
-                  >
-                    {Icon && <Icon className="w-5 h-5" />}
-                  </motion.a>
-                );
-              })}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Assunto</label>
+                  <input 
+                    type="text"
+                    placeholder="Sobre o que gostaria de conversar?" 
+                    className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Mensagem</label>
+                  <textarea 
+                    placeholder="Conte-me mais sobre seu projeto ou ideia..."
+                    rows={5}
+                    className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent resize-none"
+                  />
+                </div>
+
+                <button className="w-full inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors group">
+                  <FaPaperPlane className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
+                  Enviar Mensagem
+                </button>
+              </form>
             </div>
-            <p className="text-gray-400 text-sm">
-              Disponível para projetos interessantes e colaborações.
-            </p>
           </motion.div>
+
+          {/* Contact Info */}
+          <div className="space-y-8 slide-up" style={{ animationDelay: '0.2s' }}>
+            <div>
+              <h3 className="text-xl font-semibold mb-6">Informações de Contato</h3>
+              <div className="space-y-4">
+                {contactInfo.map((item, index) => (
+                  <motion.div
+                    key={item.label}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                  >
+                    <a 
+                      href={item.href} 
+                      className="professional-card p-4 cursor-pointer group hover:border-primary/50 transition-colors block"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg text-primary group-hover:scale-110 transition-transform">
+                          {item.icon}
+                        </div>
+                        <div>
+                          <p className="font-medium">{item.label}</p>
+                          <p className="text-muted-foreground text-sm">{item.value}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4">Redes Sociais</h4>
+              <div className="flex gap-3">
+                {!loading && !error && socialLinks.map((link) => {
+                  const Icon = socialIconMap[link.type];
+                  return (
+                    <a
+                      key={link.label}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-border hover:border-primary/50 hover:text-primary transition-colors group"
+                    >
+                      <span className="group-hover:scale-110 transition-transform">
+                        {Icon && <Icon className="w-5 h-5" />}
+                      </span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4">Status</h4>
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-500/10 text-green-600 border border-green-500/20">
+                🟢 Disponível para projetos
+              </span>
+              <p className="text-sm text-muted-foreground mt-2">
+                Atualmente aceitando novos projetos e colaborações interessantes.
+              </p>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="professional-card p-6 bg-primary/5 border-primary/10"
+            >
+              <h4 className="font-semibold mb-2">Resposta Rápida</h4>
+              <p className="text-sm text-muted-foreground">
+                Geralmente respondo emails em até 24 horas. Para projetos urgentes, 
+                entre em contato via WhatsApp.
+              </p>
+            </motion.div>
+          </div>
         </div>
 
-        {/* Linha divisória */}
+        {/* Footer bottom */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="border-t border-gray-800 mt-12 pt-8"
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="border-t border-border mt-16 pt-8"
         >
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm text-center md:text-left">
+            <p className="text-muted-foreground text-sm text-center md:text-left">
               © {currentYear} Ivanildo Baraúna. Todos os direitos reservados.
             </p>
-            <p className="text-gray-400 text-sm text-center md:text-right mt-2 md:mt-0">
+            <p className="text-muted-foreground text-sm text-center md:text-right mt-2 md:mt-0">
               Desenvolvido com ❤️ usando Next.js e Tailwind CSS
             </p>
           </div>
         </motion.div>
       </div>
-    </footer>
+    </section>
   );
 }

@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FaArrowRight, FaPython, FaDatabase, FaChartBar, FaChartLine } from 'react-icons/fa';
-import { SiFlask, SiApacheairflow, SiDocker, SiApache, SiGooglebigquery, SiGooglecloud, SiGooglepubsub } from 'react-icons/si';
+import Image from 'next/image';
+import { FaGithub, FaLinkedin, FaEnvelope, FaDownload } from 'react-icons/fa';
 import { useSocialLinks } from '@/app/social-links/hooks/useSocialLinks';
 import { socialIconMap } from '@/utils/socialIconMap';
 
@@ -25,122 +25,149 @@ export default function HeroSection({
 }: HeroSectionProps) {
   const { socialLinks, loading, error } = useSocialLinks();
 
-  const skills = [
-    { name: 'Python', icon: FaPython, color: '#3776AB' },
-    { name: 'Flask', icon: SiFlask, color: '#000000' },
-    { name: 'SQL', icon: FaDatabase, color: '#336791' },
-    { name: 'Airflow', icon: SiApacheairflow, color: '#017CEE' },
-    { name: 'Docker', icon: SiDocker, color: '#2496ED' },
-    { name: 'Apache Beam', icon: SiApache, color: '#D22128' },
-    { name: 'BigQuery', icon: SiGooglebigquery, color: '#669DF6' },
-    { name: 'Cloud Run', icon: SiGooglecloud, color: '#4285F4' },
-    { name: 'Pub/Sub', icon: SiGooglepubsub, color: '#4285F4' },
-    { name: 'Power BI', icon: FaChartBar, color: '#F2C811' },
-    { name: 'Looker Studio', icon: FaChartLine, color: '#4285F4' }
-  ];
-
   return (
-    <section id="home" className="section bg-gradient-to-br from-primary-500 to-primary-700 text-white">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-            Ivanildo Barauna de Souza Junior
-          </h1>
-          <p className="text-xl md:text-2xl opacity-90 max-w-4xl mx-auto leading-relaxed">
-            Engenheiro de Dados Senior com experiência em desenvolvimento de soluções de dados end-to-end. 
-            Especializado em transformar dados em insights estratégicos para diferentes áreas de negócio, 
-            com foco atual em observabilidade de microsserviços e arquiteturas distribuídas.
-          </p>
-          
-          {/* Links sociais */}
-          <div className="flex justify-center items-center space-x-6 mt-8">
-            {!loading && !error && socialLinks.map((link) => {
-              const Icon = socialIconMap[link.type];
-              return (
-                <motion.a
-                  key={link.label}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white opacity-80 hover:opacity-100 transition-all hover:scale-110 p-3 rounded-full bg-white/10 hover:bg-white/20"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  aria-label={link.label}
-                >
-                  {Icon && <Icon className="w-6 h-6" />}
-                </motion.a>
-              );
-            })}
-          </div>
-        </motion.div>
-
-        {/* Cards de estatísticas */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
-        >
-          <motion.div 
-            className={`bg-white/10 p-6 rounded-2xl backdrop-blur-sm transition-all duration-300 transform hover:scale-105 ${activeButton === 0 ? 'bg-white/20 scale-105' : ''}`}
-            whileHover={{ scale: 1.05 }}
-          >
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold mb-2">{formatNumber(totalExperience)}</div>
-              <div className="text-lg opacity-90">Anos de Experiência</div>
-            </div>
-          </motion.div>
-          
-          <motion.div 
-            className={`bg-white/10 p-6 rounded-2xl backdrop-blur-sm transition-all duration-300 transform hover:scale-105 ${activeButton === 1 ? 'bg-white/20 scale-105' : ''}`}
-            whileHover={{ scale: 1.05 }}
-          >
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold mb-2">{formatNumber(totalProjects)}</div>
-              <div className="text-lg opacity-90">Projetos Open Source</div>
-            </div>
-          </motion.div>
-          
-          <motion.div 
-            className={`bg-white/10 p-6 rounded-2xl backdrop-blur-sm transition-all duration-300 transform hover:scale-105 ${activeButton === 2 ? 'bg-white/20 scale-105' : ''}`}
-            whileHover={{ scale: 1.05 }}
-          >
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold mb-2">{formatNumber(totalEducation)}</div>
-              <div className="text-lg opacity-90">Formações e Certificações</div>
-            </div>
-          </motion.div>
-        </motion.div>
-
-        {/* Habilidades técnicas */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="bg-white/10 p-8 rounded-2xl backdrop-blur-sm"
-        >
-          <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-center">Habilidades Técnicas</h2>
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-            {skills.map((skill, index) => (
-              <motion.span
-                key={skill.name}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.05 }}
-                className="px-4 py-2 md:px-5 md:py-3 bg-white/10 text-white rounded-full text-sm md:text-base flex items-center gap-2 hover:bg-white/20 transition-colors"
+    <section className="hero-section min-h-screen flex items-center justify-center px-4 py-20">
+      <div className="container max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Content */}
+          <div className="text-center lg:text-left space-y-8 fade-in">
+            <div className="space-y-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-secondary text-secondary-foreground"
               >
-                <skill.icon className="w-4 h-4 md:w-5 md:h-5" style={{ color: skill.color }} />
-                {skill.name}
-              </motion.span>
-            ))}
+                Disponível para novos projetos
+              </motion.div>
+              
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight"
+              >
+                Ivanildo
+                <span className="block text-gradient">Baraúna</span>
+              </motion.h1>
+              
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-xl md:text-2xl text-primary-foreground/80 max-w-lg"
+              >
+                Engenheiro de Dados apaixonado por criar soluções escaláveis e eficientes
+              </motion.p>
+              
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="text-lg text-primary-foreground/60 max-w-xl leading-relaxed"
+              >
+                Especializado em Python, Golang, Apache Airflow e BigQuery. Focado em arquiteturas de dados, 
+                pipelines ETL/ELT e observabilidade de microsserviços.
+              </motion.p>
+            </div>
+
+            {/* CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-col sm:flex-row gap-4 items-center lg:items-start"
+            >
+              <a
+                href="#contact"
+                className="btn-hero group inline-flex items-center px-6 py-3 rounded-lg font-semibold"
+                onClick={() => {
+                  const element = document.querySelector('#contact');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
+                <FaEnvelope className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                Entre em contato
+              </a>
+              
+              <button className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-white/10 border border-white/20 text-primary-foreground hover:bg-white/20 transition-colors">
+                <FaDownload className="w-5 h-5 mr-2" />
+                Download CV
+              </button>
+            </motion.div>
+
+            {/* Social Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex gap-4 justify-center lg:justify-start"
+            >
+              {!loading && !error && socialLinks.map((link) => {
+                const Icon = socialIconMap[link.type];
+                return (
+                  <a
+                    key={link.label}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-primary-foreground/60 hover:text-primary-foreground hover:bg-white/10 transition-colors"
+                  >
+                    {Icon && <Icon className="w-5 h-5" />}
+                  </a>
+                );
+              })}
+            </motion.div>
           </div>
-        </motion.div>
+
+          {/* Profile Image */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="relative slide-up"
+          >
+            <div className="relative">
+              <div className="absolute -inset-4 bg-gradient-to-r from-white/10 to-white/5 rounded-3xl blur-2xl"></div>
+              <div className="relative bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
+                <Image
+                  src="/images/profile/profile.png"
+                  alt="Ivanildo Baraúna"
+                  width={400}
+                  height={400}
+                  className="w-full max-w-md mx-auto rounded-2xl shadow-hero animate-float"
+                />
+              </div>
+            </div>
+            
+            {/* Floating badges */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="absolute -top-4 -right-4 animate-float"
+              style={{ animationDelay: '1s' }}
+            >
+              <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-primary-foreground border border-white/20">
+                Python
+              </div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 1.0 }}
+              className="absolute -bottom-4 -left-4 animate-float"
+              style={{ animationDelay: '2s' }}
+            >
+              <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-primary-foreground border border-white/20">
+                Airflow
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -1,0 +1,150 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import { FaCode, FaDatabase, FaPalette, FaRocket, FaPython, FaDocker, FaCloud } from 'react-icons/fa';
+import { SiApacheairflow, SiGooglebigquery, SiKubernetes, SiPostgresql, SiGo } from 'react-icons/si';
+
+interface AboutProps {
+  totalExperience: number;
+  totalProjects: number;
+  totalEducation: number;
+}
+
+const formatNumber = (value: number): string => {
+  return isNaN(value) ? '0' : `${value}`;
+};
+
+export default function About({ totalExperience, totalProjects, totalEducation }: AboutProps) {
+  const skills = [
+    {
+      category: "Frontend & Backend",
+      icon: <FaCode className="w-6 h-6" />,
+      technologies: ["React", "Next.js", "TypeScript", "Python", "Golang", "Flask"]
+    },
+    {
+      category: "Dados & Analytics",
+      icon: <FaDatabase className="w-6 h-6" />,
+      technologies: ["Apache Airflow", "BigQuery", "PostgreSQL", "Apache Beam", "Power BI"]
+    },
+    {
+      category: "DevOps & Cloud",
+      icon: <FaRocket className="w-6 h-6" />,
+      technologies: ["Docker", "Kubernetes", "GCP", "CI/CD", "Git", "Linux"]
+    },
+    {
+      category: "Arquitetura",
+      icon: <FaCloud className="w-6 h-6" />,
+      technologies: ["Microsserviços", "Data Pipelines", "ETL/ELT", "Observabilidade"]
+    }
+  ];
+
+  return (
+    <section className="py-20 px-4 bg-gradient-subtle">
+      <div className="container max-w-6xl mx-auto">
+        <div className="text-center mb-16 fade-in">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Sobre <span className="text-gradient">Mim</span>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Com mais de {formatNumber(totalExperience)} anos de experiência, desenvolvo soluções de dados que combinam 
+            arquitetura robusta com performance otimizada e escalabilidade.
+          </p>
+        </div>
+
+        {/* Estatísticas */}
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+          >
+            <div className="text-4xl md:text-5xl font-bold text-primary mb-2">{formatNumber(totalExperience)}</div>
+            <div className="text-muted-foreground">Anos de Experiência</div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-center"
+          >
+            <div className="text-4xl md:text-5xl font-bold text-primary mb-2">{formatNumber(totalProjects)}</div>
+            <div className="text-muted-foreground">Projetos Open Source</div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-center"
+          >
+            <div className="text-4xl md:text-5xl font-bold text-primary mb-2">{formatNumber(totalEducation)}</div>
+            <div className="text-muted-foreground">Formações e Certificações</div>
+          </motion.div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="space-y-6 slide-up">
+            <h3 className="text-2xl font-semibold">Minha Jornada</h3>
+            <div className="space-y-4 text-muted-foreground">
+              <p>
+                Iniciei minha carreira como desenvolvedor apaixonado por transformar dados em insights estratégicos. 
+                Ao longo dos anos, desenvolvi expertise em tecnologias modernas de dados e metodologias ágeis.
+              </p>
+              <p>
+                Acredito que a melhor tecnologia é aquela que serve às pessoas, e por isso 
+                sempre busco equilibrar inovação técnica com usabilidade e performance.
+              </p>
+              <p>
+                Quando não estou codando, gosto de contribuir com a comunidade open source, 
+                estudar novas tecnologias e compartilhar conhecimento através de artigos e palestras.
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-6 slide-up" style={{ animationDelay: '0.2s' }}>
+            <h3 className="text-2xl font-semibold">Valores</h3>
+            <div className="grid gap-4">
+              {["Código Limpo", "Performance", "Escalabilidade", "Experiência do Usuário"].map((value, index) => (
+                <div key={value} className="flex items-center gap-3" style={{ animationDelay: `${0.1 * index}s` }}>
+                  <div className="w-2 h-2 bg-primary rounded-full"></div>
+                  <span className="font-medium">{value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Skills Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {skills.map((skill, index) => (
+            <motion.div
+              key={skill.category}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="professional-card p-6 text-center"
+            >
+              <div className="mb-4 inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg text-primary">
+                {skill.icon}
+              </div>
+              <h4 className="font-semibold mb-3">{skill.category}</h4>
+              <div className="flex flex-wrap gap-2 justify-center">
+                {skill.technologies.map((tech) => (
+                  <span key={tech} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-secondary text-secondary-foreground">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

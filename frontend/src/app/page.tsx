@@ -10,7 +10,7 @@ import { useEducation } from './education/hooks/useEducation';
 import Loading from '@/components/Loading';
 import AlertMessage from '@/components/AlertMessage';
 import HeroSection from '@/components/HeroSection';
-import SkillsSection from '@/components/SkillsSection';
+import About from '@/components/About';
 import ExperienceSection from '@/components/ExperienceSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import EducationSection from '@/components/EducationSection';
@@ -29,7 +29,7 @@ const parseNumber = (value: any): number => {
 export default function Home() {
   const [activeButton, setActiveButton] = useState<number | null>(null);
   
-  // Hooks para dados totais (usados no Hero)
+  // Hooks para dados totais (usados no Hero e About)
   const { totalExperience, loading: loadingExperience, error: errorExperience } = useTotalExperience();
   const { totalProjects, loading: loadingProjects, error: errorProjects } = useTotalProjects();
   const { totalEducation, loading: loadingEducation, error: errorEducation } = useTotalEducation();
@@ -38,22 +38,6 @@ export default function Home() {
   const { experiences, loading: loadingExpData, error: errorExpData, tempoTotalCarreira } = useExperience();
   const { projects, loading: loadingProjData, error: errorProjData } = useProjects();
   const { formations, certifications, loading: loadingEduData, error: errorEduData } = useEducation();
-
-  // Animação dos botões do hero
-  useEffect(() => {
-    const animateButtons = async () => {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      setActiveButton(0);
-      await new Promise(resolve => setTimeout(resolve, 300));
-      setActiveButton(1);
-      await new Promise(resolve => setTimeout(resolve, 300));
-      setActiveButton(2);
-      await new Promise(resolve => setTimeout(resolve, 300));
-      setActiveButton(null);
-    };
-
-    animateButtons();
-  }, []);
 
   // Verificar se todos os dados estão carregando
   const isLoading = loadingExperience || loadingProjects || loadingEducation || 
@@ -86,8 +70,12 @@ export default function Home() {
         activeButton={activeButton}
       />
 
-      {/* Skills Section */}
-      <SkillsSection />
+      {/* About Section */}
+      <About 
+        totalExperience={parseNumber(totalExperience)}
+        totalProjects={parseNumber(totalProjects)}
+        totalEducation={parseNumber(totalEducation)}
+      />
 
       {/* Experience Section */}
       <ExperienceSection 
