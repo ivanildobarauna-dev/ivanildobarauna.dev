@@ -10,14 +10,18 @@ from src.infrastructure.dependencie_injection import ApplicationDependencies
 education_blueprint = Blueprint("education_bp", __name__)
 education_ns = Namespace("Education", description="My formations and certifications")
 
-portfolio_data_service = (
-    ApplicationDependencies
-        .builder()
-        .build()
-        .porfolio_data_service()
-        .portfolio_data_service
-)
-
+# Inicialização lazy - apenas quando necessário
+def get_portfolio_data_service():
+    """Get portfolio data service instance (lazy initialization)."""
+    if not hasattr(get_portfolio_data_service, '_instance'):
+        get_portfolio_data_service._instance = (
+            ApplicationDependencies
+                .builder()
+                .build()
+                .porfolio_data_service()
+                .portfolio_data_service
+        )
+    return get_portfolio_data_service._instance
 
 
 @education_ns.route("/education")
@@ -25,6 +29,7 @@ class Education(Resource):
     def get(self):
         """Get all education and formations from the injected adapter."""
         try:
+            portfolio_data_service = get_portfolio_data_service()
             formations = portfolio_data_service.formations()
             certifications = portfolio_data_service.certifications()
 
