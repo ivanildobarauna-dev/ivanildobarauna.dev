@@ -14,6 +14,7 @@ portfolio_data_service = (
         .builder()
         .build()
         .porfolio_data_service()
+        .portfolio_data_service
 )
 
 @experiences_ns.route("/experiences")
