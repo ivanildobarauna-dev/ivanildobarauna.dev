@@ -38,7 +38,7 @@ export default function HeroSection({
                 transition={{ duration: 0.6 }}
                 className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-secondary text-secondary-foreground"
               >
-                Disponível para novos projetos
+                Gerando impacto real na humanidade usando tecnologia
               </motion.div>
               
               <motion.h1
@@ -48,7 +48,7 @@ export default function HeroSection({
                 className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight"
               >
                 Ivanildo
-                <span className="block text-gradient">Baraúna</span>
+                <span className="block text-gradient-light">Barauna</span>
               </motion.h1>
               
               <motion.p
@@ -57,7 +57,7 @@ export default function HeroSection({
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-xl md:text-2xl text-primary-foreground/80 max-w-lg"
               >
-                Engenheiro de Dados apaixonado por criar soluções escaláveis e eficientes
+                Senior Data Engineer & Open Source Maintainer
               </motion.p>
               
               <motion.p
@@ -66,8 +66,7 @@ export default function HeroSection({
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="text-lg text-primary-foreground/60 max-w-xl leading-relaxed"
               >
-                Especializado em Python, Golang, Apache Airflow e BigQuery. Focado em arquiteturas de dados, 
-                pipelines ETL/ELT e observabilidade de microsserviços.
+                Especialização em Engenharia, Análise de Dados e mantenedor de bibliotecas e serviços Open Source.
               </motion.p>
             </div>
 
@@ -134,7 +133,7 @@ export default function HeroSection({
               <div className="relative bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
                 <Image
                   src="/images/profile/profile.png"
-                  alt="Ivanildo Baraúna"
+                  alt="Ivanildo Barauna"
                   width={400}
                   height={400}
                   className="w-full max-w-md mx-auto rounded-2xl shadow-hero animate-float"

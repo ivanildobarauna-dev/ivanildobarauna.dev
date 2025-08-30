@@ -63,7 +63,7 @@ const Navigation = () => {
               <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">IB</span>
               </div>
-              <span className="text-xl font-bold text-text-primary">Ivanildo Baraúna</span>
+              <span className="text-xl font-bold text-text-primary">Ivanildo Barauna</span>
             </motion.div>
 
             {/* Menu Desktop */}

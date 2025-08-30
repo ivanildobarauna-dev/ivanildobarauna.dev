@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Formação Acadêmica',
-  description: 'Formação acadêmica e certificações de Ivanildo Baraúna em tecnologia, engenharia de dados e desenvolvimento de software.',
+  description: 'Formação acadêmica e certificações de Ivanildo Barauna em tecnologia, engenharia de dados e desenvolvimento de software.',
   openGraph: {
-    title: 'Formação Acadêmica - Ivanildo Baraúna',
-    description: 'Conheça a formação acadêmica, cursos e certificações profissionais de Ivanildo Baraúna.',
+    title: 'Formação Acadêmica - Ivanildo Barauna',
+    description: 'Conheça a formação acadêmica, cursos e certificações profissionais de Ivanildo Barauna.',
     url: 'https://ivanildobarauna.dev/education',
   },
 };

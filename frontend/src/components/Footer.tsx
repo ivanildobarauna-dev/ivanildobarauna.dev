@@ -196,7 +196,7 @@ export default function Footer() {
         >
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-muted-foreground text-sm text-center md:text-left">
-              © {currentYear} Ivanildo Baraúna. Todos os direitos reservados.
+              © {currentYear} Ivanildo Barauna. Todos os direitos reservados.
             </p>
             <p className="text-muted-foreground text-sm text-center md:text-right mt-2 md:mt-0">
               Desenvolvido com ❤️ usando Next.js e Tailwind CSS

@@ -21,8 +21,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             Meus <span className="text-gradient">Projetos</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Uma seleção dos projetos que desenvolvi, desde aplicações web complexas 
-            até sistemas de grande escala.
+            Uma seleção dos projetos que desenvolvi publicamente, desde aplicações web, projetos pessoais e SDKs.
           </p>
         </div>
 

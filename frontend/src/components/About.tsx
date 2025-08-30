@@ -92,16 +92,15 @@ export default function About({ totalExperience, totalProjects, totalEducation }
             <h3 className="text-2xl font-semibold">Minha Jornada</h3>
             <div className="space-y-4 text-muted-foreground">
               <p>
-                Iniciei minha carreira como desenvolvedor apaixonado por transformar dados em insights estratégicos. 
-                Ao longo dos anos, desenvolvi expertise em tecnologias modernas de dados e metodologias ágeis.
+                Iniciei minha carreira como desenvolvedor apaixonado por automação. 
+                Ao longo dos anos, desenvolvi expertise transformar dados em insights estratégicos e em tecnologias modernas de dados e metodologias ágeis.
               </p>
               <p>
-                Acredito que a melhor tecnologia é aquela que serve às pessoas, e por isso 
-                sempre busco equilibrar inovação técnica com usabilidade e performance.
+                Acredito que a melhor tecnologia é aquela que serve e transforma a vida prática das pessoas e, por isso 
+                sempre busco equilibrar inovação e performance técnica aliada ao impacto real.
               </p>
               <p>
-                Quando não estou codando, gosto de contribuir com a comunidade open source, 
-                estudar novas tecnologias e compartilhar conhecimento através de artigos e palestras.
+                Além de desenvolvedor, adoro churrasco, dirigir, estudar novas tecnologias e compartilhar conhecimento via artigos do Medium/Linkedin.
               </p>
             </div>
           </div>

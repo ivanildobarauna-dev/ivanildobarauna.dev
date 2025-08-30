@@ -21,13 +21,13 @@ export default function EducationSection({ formations, certifications }: Educati
             Formação e <span className="text-gradient">Certificações</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Educação formal e certificações que validam expertise técnico e conhecimento especializado
+            Educação formal e certificações que colaboram na minha expertise técnica e conhecimento especializado
           </p>
         </div>
 
         {/* Formações */}
         <div className="mb-16">
-          <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center">
+          <h3 className="text-2xl md:text-3xl font-bold mb-8 text-left">
             Formação Acadêmica
           </h3>
           
@@ -83,7 +83,7 @@ export default function EducationSection({ formations, certifications }: Educati
 
         {/* Certificações */}
         <div>
-          <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center">
+          <h3 className="text-2xl md:text-3xl font-bold mb-8 text-left">
             Certificações Profissionais
           </h3>
           
@@ -95,7 +95,7 @@ export default function EducationSection({ formations, certifications }: Educati
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="professional-card p-6 text-center group slide-up"
+                className="professional-card p-6 text-left group slide-up"
               >
                 <div className="w-16 h-16 bg-gradient-to-r from-primary/10 to-primary/20 rounded-2xl flex items-center justify-center text-primary mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   <FaCertificate className="w-8 h-8" />
@@ -131,7 +131,7 @@ export default function EducationSection({ formations, certifications }: Educati
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-center mt-16"
+          className="text-left mt-16"
         >
           <div className="bg-gradient-hero rounded-2xl p-8 text-primary-foreground">
             <h3 className="text-2xl md:text-3xl font-bold mb-4">

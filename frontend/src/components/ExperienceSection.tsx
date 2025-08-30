@@ -19,7 +19,7 @@ export default function ExperienceSection({ experiences, tempoTotalCarreira }: E
             Experiência <span className="text-gradient">Profissional</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {tempoTotalCarreira} de carreira construindo soluções inovadoras e escaláveis
+            {tempoTotalCarreira} de carreira construindo soluções usando tecnologia
           </p>
         </div>
 

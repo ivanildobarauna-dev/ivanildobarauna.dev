@@ -15,13 +15,13 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Ivanildo Baraúna - Engenheiro de Dados e Open Source Maintainer',
-    template: '%s | Ivanildo Baraúna'
+    default: 'Ivanildo Barauna - Engenheiro de Dados e Open Source Maintainer',
+    template: '%s | Ivanildo Barauna'
   },
-  description: 'Portfólio de Ivanildo Baraúna, com projetos em Python, Golang, automações e dados.',
+  description: 'Portfólio de Ivanildo Barauna, com projetos em Dados & Analytics',
   openGraph: {
-    title: 'Ivanildo Baraúna - Engenheiro de Dados',
-    description: 'Portfólio com projetos reais, automações e soluções para backend e dados.',
+    title: 'Ivanildo Barauna - Especialista em Dados & Analytics',
+    description: 'Portfólio com projetos, experiência profissional e soluções para backend e Dados & Analytics.',
     url: 'https://ivanildobarauna.dev',
     type: 'website',
   },
