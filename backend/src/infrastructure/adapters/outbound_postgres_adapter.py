@@ -34,8 +34,12 @@ class PostgresAdapter(RepositoryInterface):
     def build_connection_string(self) -> str:
         return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
     
-    def build_engine(self, retry_time: int = 10):
-        while True:
+    def build_engine(self, retry_time: int = 3):
+        max_retries = 3
+        attempt = 0
+        
+        while attempt < max_retries:
+            attempt += 1
             try:
                 engine = create_engine(self.connection_string, echo=False)
                 with engine.connect() as connection:
@@ -43,7 +47,11 @@ class PostgresAdapter(RepositoryInterface):
                 logger.info(f"Connected on Database ✅ [Worker PID: {os.getpid()}]")
                 break
             except SQLAlchemyError as e:
-                logger.error(f"\n{'='*60}\n❌ Falha ao conectar ao banco de dados! [Worker PID: {os.getpid()}]\n{'-'*60}\nDetalhes do erro:\n{str(e)}\n{'='*60}\nTentando novamente em {retry_time} segundos...\n")
+                if attempt >= max_retries:
+                    logger.error(f"\n{'='*60}\n❌ Falha definitiva ao conectar ao banco após {max_retries} tentativas! [Worker PID: {os.getpid()}]\n{'-'*60}\nDetalhes do erro:\n{str(e)}\n{'='*60}\n")
+                    raise Exception(f"Falha ao conectar ao banco após {max_retries} tentativas: {str(e)}")
+                
+                logger.error(f"\n{'='*60}\n❌ Tentativa {attempt}/{max_retries} falhou ao conectar ao banco! [Worker PID: {os.getpid()}]\n{'-'*60}\nDetalhes do erro:\n{str(e)}\n{'='*60}\nTentando novamente em {retry_time} segundos...\n")
                 time.sleep(retry_time)
             
         return engine

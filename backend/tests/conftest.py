@@ -1,6 +1,18 @@
 """Test fixtures for the application."""
 
-from unittest.mock import MagicMock
+# IMPORTANTE: Mocks devem vir ANTES de qualquer import para interceptar conexões de banco
+from unittest.mock import MagicMock, patch
+
+# Mock do PostgresAdapter ANTES de importar qualquer rota
+with patch('src.infrastructure.adapters.outbound_postgres_adapter.PostgresAdapter') as mock_adapter:
+    mock_instance = MagicMock()
+    mock_adapter.return_value = mock_instance
+
+# Mock do ApplicationDependencies ANTES de importar qualquer rota
+with patch('src.infrastructure.dependencie_injection.ApplicationDependencies') as mock_class:
+    mock_instance = MagicMock()
+    mock_class.builder.return_value = mock_instance
+    mock_instance.build.return_value = mock_instance
 
 import pytest
 from flask import Flask
@@ -17,6 +29,27 @@ from src.infrastructure.routes.health_check.view import health_check_ns
 from src.infrastructure.routes.projects.view import projects_ns
 from src.infrastructure.routes.social_media.view import social_media_ns
 from src.infrastructure.services.portfolio_data_service import PortfolioDataService
+
+
+@pytest.fixture(autouse=True)
+def mock_application_dependencies():
+    """Mock ApplicationDependencies to prevent database initialization during tests."""
+    with patch('src.infrastructure.dependencie_injection.ApplicationDependencies') as mock_class:
+        # Cria uma instância mock que não inicializa o banco
+        mock_instance = MagicMock()
+        mock_class.builder.return_value = mock_instance
+        mock_instance.build.return_value = mock_instance
+        yield mock_class
+
+
+@pytest.fixture(autouse=True)
+def mock_postgres_adapter():
+    """Mock PostgresAdapter to prevent database connection attempts during tests."""
+    with patch('src.infrastructure.adapters.outbound_postgres_adapter.PostgresAdapter') as mock_adapter:
+        # Cria um mock que não tenta conectar ao banco
+        mock_instance = MagicMock()
+        mock_adapter.return_value = mock_instance
+        yield mock_adapter
 
 
 @pytest.fixture

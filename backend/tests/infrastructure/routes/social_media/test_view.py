@@ -10,8 +10,8 @@ def test_get_social_media_returns_active_social_media(
 ):
     """Test that get_social_media returns only active social media."""
     with patch(
-        "src.infrastructure.routes.social_media.view.portfolio_data_service",
-        mock_portfolio_service,
+        "src.infrastructure.routes.social_media.view.get_portfolio_data_service",
+        return_value=mock_portfolio_service,
     ):
         mock_portfolio_service.social_media.return_value = sample_social_media
         
@@ -23,8 +23,8 @@ def test_get_social_media_returns_active_social_media(
 def test_get_social_media_error_handling(client, mock_portfolio_service):
     """Test that get_social_media handles errors correctly."""
     with patch(
-        "src.infrastructure.routes.social_media.view.portfolio_data_service",
-        mock_portfolio_service,
+        "src.infrastructure.routes.social_media.view.get_portfolio_data_service",
+        return_value=mock_portfolio_service,
     ):
         mock_portfolio_service.social_media.side_effect = Exception("Test error")
         

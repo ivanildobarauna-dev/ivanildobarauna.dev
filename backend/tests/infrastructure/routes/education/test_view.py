@@ -11,8 +11,8 @@ def test_get_education_returns_active_formations_and_certifications(
 ):
     """Test that get_education returns only active formations and certifications."""
     with patch(
-        "src.infrastructure.routes.education.view.portfolio_data_service",
-        mock_portfolio_service,
+        "src.infrastructure.routes.education.view.get_portfolio_data_service",
+        return_value=mock_portfolio_service,
     ):
         mock_portfolio_service.formations.return_value = sample_formations
         mock_portfolio_service.certifications.return_value = sample_certifications
@@ -35,8 +35,8 @@ def test_get_education_returns_active_formations_and_certifications(
 def test_get_education_error_handling(client, mock_portfolio_service):
     """Test that get_education handles errors correctly."""
     with patch(
-        "src.infrastructure.routes.education.view.portfolio_data_service",
-        mock_portfolio_service,
+        "src.infrastructure.routes.education.view.get_portfolio_data_service",
+        return_value=mock_portfolio_service,
     ):
         mock_portfolio_service.formations.side_effect = Exception("Test error")
         
