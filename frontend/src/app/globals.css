@@ -16,27 +16,82 @@
   }
 }
 
-/* Ensure everything is mobile-first */
+/* Scroll suave para navegação por âncoras */
 html {
+  scroll-behavior: smooth;
   font-size: 16px;
 }
 
-/* Prevent overscroll on mobile devices */
+/* Prevenir overscroll em dispositivos móveis */
 html, body {
   overscroll-behavior: none;
   overflow-x: hidden;
   max-width: 100vw;
 }
 
-/* Responsive text sizing for mobile */
+/* Estilos base para seções */
+section {
+  scroll-margin-top: 80px; /* Espaço para o header fixo */
+}
+
+/* Responsividade para mobile */
 @media (max-width: 640px) {
   html {
     font-size: 14px;
   }
 }
 
-/* Make images responsive */
+/* Imagens responsivas */
 img {
   max-width: 100%;
   height: auto;
+}
+
+/* Estilos para scroll personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #007bff;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0056b3;
+}
+
+/* Animações de entrada para seções */
+.section-fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.section-fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Estilos para botões primários */
+.btn-primary {
+  @apply bg-primary-500 hover:bg-primary-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+}
+
+/* Estilos para cards */
+.card {
+  @apply bg-white rounded-xl shadow-lg border border-border-default hover:shadow-xl transition-all duration-300;
+}
+
+/* Estilos para seções */
+.section {
+  @apply py-16 px-4 md:px-8 lg:px-16;
+}
+
+.section-alt {
+  @apply bg-background-secondary;
 }
