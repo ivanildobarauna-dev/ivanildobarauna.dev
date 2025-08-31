@@ -14,11 +14,11 @@ export default function ExperienceSection({ experiences, tempoTotalCarreira }: E
   return (
     <section className="py-20 px-4 bg-background">
       <div className="container max-w-6xl mx-auto">
-        <div className="text-center mb-16 fade-in">
+        <div className="text-left mb-16 fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Experiência <span className="text-gradient">Profissional</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl">
             {tempoTotalCarreira} de carreira construindo soluções usando tecnologia
           </p>
         </div>

@@ -41,11 +41,11 @@ export default function About({ totalExperience, totalProjects, totalEducation }
   return (
     <section className="py-20 px-4 bg-gradient-subtle">
       <div className="container max-w-6xl mx-auto">
-        <div className="text-center mb-16 fade-in">
+        <div className="text-left mb-16 fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Sobre <span className="text-gradient">Mim</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
             Com mais de {formatNumber(totalExperience)} anos de experiência, desenvolvo soluções de dados que combinam 
             arquitetura robusta com performance otimizada e escalabilidade.
           </p>

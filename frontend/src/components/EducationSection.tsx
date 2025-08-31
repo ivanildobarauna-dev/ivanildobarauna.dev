@@ -16,11 +16,11 @@ export default function EducationSection({ formations, certifications }: Educati
   return (
     <section className="py-20 px-4 bg-background">
       <div className="container max-w-6xl mx-auto">
-        <div className="text-center mb-16 fade-in">
+        <div className="text-left mb-16 fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Formação e <span className="text-gradient">Certificações</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-3xl">
             Educação formal e certificações que colaboram na minha expertise técnica e conhecimento especializado
           </p>
         </div>
@@ -125,36 +125,6 @@ export default function EducationSection({ formations, certifications }: Educati
           </div>
         </div>
 
-        {/* Call to action */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-left mt-16"
-        >
-          <div className="bg-gradient-hero rounded-2xl p-8 text-primary-foreground">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">
-              Aprendizado Contínuo
-            </h3>
-            <p className="text-primary-foreground/80 text-lg mb-6 max-w-2xl mx-auto">
-              Acredito que o conhecimento é a base para inovação. 
-              Estou sempre buscando novas tecnologias e metodologias para aprimorar minhas habilidades.
-            </p>
-            <a
-              href="#contact"
-              className="bg-white text-primary hover:bg-gray-100 px-6 py-3 rounded-lg font-semibold transition-colors duration-300 inline-flex items-center gap-2"
-              onClick={() => {
-                const element = document.querySelector('#contact');
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-            >
-              Vamos trocar experiências
-            </a>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
