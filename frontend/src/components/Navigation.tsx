@@ -38,9 +38,13 @@ const Navigation = () => {
 
   // Scroll suave para seção
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (href === '#') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
     setIsOpen(false);
   };
@@ -55,16 +59,21 @@ const Navigation = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Logo/Nome */}
-            <motion.div
+            {/* Logo/Nome - Link para o topo */}
+            <motion.a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
               whileHover={{ scale: 1.05 }}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 no-underline"
             >
               <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">IB</span>
               </div>
               <span className="text-xl font-bold text-text-primary">Ivanildo Barauna</span>
-            </motion.div>
+            </motion.a>
 
             {/* Menu Desktop */}
             <nav className="hidden md:flex space-x-8">

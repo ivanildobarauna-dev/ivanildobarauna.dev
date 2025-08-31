@@ -63,34 +63,44 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <HeroSection
-        totalExperience={parseNumber(totalExperience)}
-        totalProjects={parseNumber(totalProjects)}
-        totalEducation={parseNumber(totalEducation)}
-        activeButton={activeButton}
-      />
+      <section id="home" className="scroll-mt-20">
+        <HeroSection
+          totalExperience={parseNumber(totalExperience)}
+          totalProjects={parseNumber(totalProjects)}
+          totalEducation={parseNumber(totalEducation)}
+          activeButton={activeButton}
+        />
+      </section>
 
       {/* About Section */}
-      <About 
-        totalExperience={parseNumber(totalExperience)}
-        totalProjects={parseNumber(totalProjects)}
-        totalEducation={parseNumber(totalEducation)}
-      />
+      <section id="about" className="scroll-mt-20">
+        <About 
+          totalExperience={parseNumber(totalExperience)}
+          totalProjects={parseNumber(totalProjects)}
+          totalEducation={parseNumber(totalEducation)}
+        />
+      </section>
 
       {/* Experience Section */}
-      <ExperienceSection 
-        experiences={experiences} 
-        tempoTotalCarreira={tempoTotalCarreira} 
-      />
+      <section id="experience" className="scroll-mt-20">
+        <ExperienceSection 
+          experiences={experiences} 
+          tempoTotalCarreira={tempoTotalCarreira} 
+        />
+      </section>
 
       {/* Projects Section */}
-      <ProjectsSection projects={projects} />
+      <section id="projects" className="scroll-mt-20">
+        <ProjectsSection projects={projects} />
+      </section>
 
       {/* Education Section */}
-      <EducationSection 
-        formations={formations} 
-        certifications={certifications} 
-      />
+      <section id="education" className="scroll-mt-20">
+        <EducationSection 
+          formations={formations} 
+          certifications={certifications} 
+        />
+      </section>
 
       {/* Footer */}
       <Footer />
