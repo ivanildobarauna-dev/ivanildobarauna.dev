@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DD_SERVICE=frontend-ivanildobarauna-dev
+      - DD_SERVICE=ivanildobarauna.dev
       - DD_ENV=production
       - DD_VERSION=1.0.0
       - DD_TRACE_SAMPLE_RATE=1.0
@@ -15,9 +15,9 @@ services:
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:nextjs,role:frontend"
     labels:
-      com.datadoghq.ad.logs: '[{"source": "nodejs", "service": "frontend-ivanildobarauna-dev"}]'
+      com.datadoghq.ad.logs: '[{"source": "nodejs", "service": "ivanildobarauna.dev"}]'
       tags.env: "production"
-      tags.service: "frontend-ivanildobarauna-dev"
+      tags.service: "ivanildobarauna.dev"
       tags.tech: "nextjs"
       tags.app: "portfolio"
       tags.role: "frontend"
@@ -33,7 +33,7 @@ services:
     ports:
       - "8090:8090"
     environment:
-      - DD_SERVICE=api-ivanildobarauna-dev
+      - DD_SERVICE=api.ivanildobarauna.dev
       - DD_ENV=production
       - DD_VERSION=1.0.0
       - DD_TRACE_SAMPLE_RATE=1.0
@@ -46,9 +46,9 @@ services:
       - POSTGRES_PASSWORD=backend
       - POSTGRES_DB=portfolio
     labels:
-      com.datadoghq.ad.logs: '[{"source": "python", "service": "api-ivanildobarauna-dev"}]'
+      com.datadoghq.ad.logs: '[{"source": "python", "service": "api.ivanildobarauna.dev"}]'
       tags.env: "production"
-      tags.service: "api-ivanildobarauna-dev"
+      tags.service: "api.ivanildobarauna.dev"
       tags.tech: "python"
       tags.app: "portfolio"
       tags.role: "backend"
