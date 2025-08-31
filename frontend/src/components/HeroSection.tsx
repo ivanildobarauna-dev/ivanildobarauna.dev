@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { FaGithub, FaLinkedin, FaEnvelope, FaDownload } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import CvDownloadButton from './CvDownloadButton';
 import { useSocialLinks } from '@/app/social-links/hooks/useSocialLinks';
 import { socialIconMap } from '@/utils/socialIconMap';
 
@@ -91,10 +92,7 @@ export default function HeroSection({
                 Entre em contato
               </a>
               
-              <button className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-white/10 border border-white/20 text-primary-foreground hover:bg-white/20 transition-colors">
-                <FaDownload className="w-5 h-5 mr-2" />
-                Download CV
-              </button>
+              <CvDownloadButton />
             </motion.div>
 
             {/* Social Links */}

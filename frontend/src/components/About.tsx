@@ -17,14 +17,14 @@ const formatNumber = (value: number): string => {
 export default function About({ totalExperience, totalProjects, totalEducation }: AboutProps) {
   const skills = [
     {
-      category: "Frontend & Backend",
+      category: "Software Engineering",
       icon: <FaCode className="w-6 h-6" />,
-      technologies: ["React", "Next.js", "TypeScript", "Python", "Golang", "Flask"]
+      technologies: ["Python", "Flask", "FastAPI", "Golang", "API REST", "Unit Testing", "Software Architecture"]
     },
     {
       category: "Dados & Analytics",
       icon: <FaDatabase className="w-6 h-6" />,
-      technologies: ["Apache Airflow", "BigQuery", "PostgreSQL", "Apache Beam", "Power BI"]
+      technologies: ["SQL", "Python", "BigQuery", "Clickhouse", "Power BI", "Apache Airflow", "Apache Beam"]
     },
     {
       category: "DevOps & Cloud",
@@ -108,7 +108,7 @@ export default function About({ totalExperience, totalProjects, totalEducation }
           <div className="space-y-6 slide-up" style={{ animationDelay: '0.2s' }}>
             <h3 className="text-2xl font-semibold">Valores</h3>
             <div className="grid gap-4">
-              {["Código Limpo", "Performance", "Escalabilidade", "Experiência do Usuário"].map((value, index) => (
+              {["Transparência", "Autenticidade", "Eficiência", "Impacto"].map((value, index) => (
                 <div key={value} className="flex items-center gap-3" style={{ animationDelay: `${0.1 * index}s` }}>
                   <div className="w-2 h-2 bg-primary rounded-full"></div>
                   <span className="font-medium">{value}</span>
