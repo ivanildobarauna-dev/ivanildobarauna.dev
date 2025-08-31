@@ -105,27 +105,33 @@ vi.mock('react-country-flag', () => ({
 // Mock framer-motion to avoid animation issues
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }: any) => {
+    div: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
       const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
       return <div {...domProps}>{children}</div>;
     },
-    section: ({ children, ...props }: any) => {
+    section: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
       const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
       return <section {...domProps}>{children}</section>;
     },
-    span: ({ children, ...props }: any) => {
+    span: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
       const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
       return <span {...domProps}>{children}</span>;
     },
-    a: ({ children, ...props }: any) => {
+    a: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
       const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
       return <a {...domProps}>{children}</a>;
     },
-    h1: ({ children, ...props }: any) => {
+    h1: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
       const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
       return <h1 {...domProps}>{children}</h1>;
     },
-    p: ({ children, ...props }: any) => {
+    p: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
       const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
       return <p {...domProps}>{children}</p>;
     },
@@ -135,7 +141,7 @@ vi.mock('framer-motion', () => ({
 // Mock Next.js Image component
 vi.mock('next/image', () => ({
   __esModule: true,
-  default: ({ src, alt, ...props }: any) => (
+  default: ({ src, alt, ...props }: { src: string; alt: string; [key: string]: unknown }) => (
     <img src={src} alt={alt} {...props} />
   ),
 }));

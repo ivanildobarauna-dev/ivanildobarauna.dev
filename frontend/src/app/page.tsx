@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTotalExperience } from './experience/hooks/useTotalExperience';
 import { useTotalProjects } from './projects/hooks/useTotalProjects';
 import { useTotalEducation } from './education/hooks/useTotalEducation';
@@ -16,7 +16,7 @@ import ProjectsSection from '@/components/ProjectsSection';
 import EducationSection from '@/components/EducationSection';
 import Footer from '@/components/Footer';
 
-const parseNumber = (value: any): number => {
+const parseNumber = (value: string | number): number => {
   if (typeof value === 'string') {
     const cleanValue = value.replace(/\+$/, '');
     const num = Number(cleanValue);
@@ -27,7 +27,7 @@ const parseNumber = (value: any): number => {
 };
 
 export default function Home() {
-  const [activeButton, setActiveButton] = useState<number | null>(null);
+  const [activeButton] = useState<number | null>(null);
   
   // Hooks para dados totais (usados no Hero e About)
   const { totalExperience, loading: loadingExperience, error: errorExperience } = useTotalExperience();

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import Footer from '../Footer';
 
@@ -31,11 +31,13 @@ vi.mock('react-icons/si', () => ({
 // Mock framer-motion to avoid prop warnings
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }: any) => {
+    div: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
       const { initial, whileInView, viewport, transition, ...domProps } = props;
       return <div {...domProps}>{children}</div>;
     },
-    section: ({ children, ...props }: any) => {
+    section: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
       const { initial, whileInView, viewport, transition, ...domProps } = props;
       return <section {...domProps}>{children}</section>;
     },
