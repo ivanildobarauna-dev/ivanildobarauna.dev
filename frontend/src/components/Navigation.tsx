@@ -10,7 +10,7 @@ const Navigation = () => {
 
   const menuItems = [
     { id: 'home', label: 'Início', href: '#home' },
-    { id: 'skills', label: 'Habilidades', href: '#skills' },
+    { id: 'about', label: 'Sobre Mim', href: '#about' },
     { id: 'experience', label: 'Experiência', href: '#experience' },
     { id: 'projects', label: 'Projetos', href: '#projects' },
     { id: 'education', label: 'Formação', href: '#education' },
