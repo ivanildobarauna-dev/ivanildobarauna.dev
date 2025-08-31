@@ -99,3 +99,69 @@
 2025-05-20 20:17:54,898 - portfolio_api - ERROR - Error getting experiences: Test error
 2025-05-20 20:17:54,908 - portfolio_api - ERROR - Error getting projects: Test error
 2025-05-20 20:17:54,916 - portfolio_api - ERROR - Error getting social media: Test error
+2025-07-10 18:06:38,565 - portfolio_api - ERROR - 
+============================================================
+❌ Falha ao conectar ao banco de dados! [Worker PID: 31436]
+------------------------------------------------------------
+Detalhes do erro:
+(psycopg2.OperationalError) could not translate host name "postgres" to address: nodename nor servname provided, or not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+============================================================
+Tentando novamente em 10 segundos...
+
+2025-07-10 18:06:48,575 - portfolio_api - ERROR - 
+============================================================
+❌ Falha ao conectar ao banco de dados! [Worker PID: 31436]
+------------------------------------------------------------
+Detalhes do erro:
+(psycopg2.OperationalError) could not translate host name "postgres" to address: nodename nor servname provided, or not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+============================================================
+Tentando novamente em 10 segundos...
+
+2025-07-10 18:06:58,590 - portfolio_api - ERROR - 
+============================================================
+❌ Falha ao conectar ao banco de dados! [Worker PID: 31436]
+------------------------------------------------------------
+Detalhes do erro:
+(psycopg2.OperationalError) could not translate host name "postgres" to address: nodename nor servname provided, or not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+============================================================
+Tentando novamente em 10 segundos...
+
+2025-07-10 18:07:08,606 - portfolio_api - ERROR - 
+============================================================
+❌ Falha ao conectar ao banco de dados! [Worker PID: 31436]
+------------------------------------------------------------
+Detalhes do erro:
+(psycopg2.OperationalError) could not translate host name "postgres" to address: nodename nor servname provided, or not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+============================================================
+Tentando novamente em 10 segundos...
+
+2025-07-10 18:07:18,619 - portfolio_api - ERROR - 
+============================================================
+❌ Falha ao conectar ao banco de dados! [Worker PID: 31436]
+------------------------------------------------------------
+Detalhes do erro:
+(psycopg2.OperationalError) could not translate host name "postgres" to address: nodename nor servname provided, or not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+============================================================
+Tentando novamente em 10 segundos...
+
+2025-07-10 18:07:28,637 - portfolio_api - ERROR - 
+============================================================
+❌ Falha ao conectar ao banco de dados! [Worker PID: 31436]
+------------------------------------------------------------
+Detalhes do erro:
+(psycopg2.OperationalError) could not translate host name "postgres" to address: nodename nor servname provided, or not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+============================================================
+Tentando novamente em 10 segundos...
+
