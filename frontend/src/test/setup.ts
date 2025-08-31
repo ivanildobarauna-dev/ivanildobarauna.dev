@@ -3,7 +3,7 @@ import { expect, afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import * as matchers from '@testing-library/jest-dom/matchers';
 
-expect.extend(matchers as any);
+expect.extend(matchers);
 
 // Mock fetch globally for tests
 global.fetch = vi.fn();

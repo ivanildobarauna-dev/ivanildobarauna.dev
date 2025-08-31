@@ -65,6 +65,87 @@ vi.mock('../app/social-links/hooks/useSocialLinks', () => ({
   })
 }));
 
+// Mock react-icons to avoid import issues
+vi.mock('react-icons/fa', () => ({
+  FaGithub: () => <span data-testid="github-icon" />,
+  FaLinkedin: () => <span data-testid="linkedin-icon" />,
+  FaEnvelope: () => <span data-testid="email-icon" />,
+  FaStackOverflow: () => <span data-testid="stackoverflow-icon" />,
+  FaDownload: () => <span data-testid="download-icon" />,
+  FaChevronDown: () => <span data-testid="chevron-down-icon" />,
+  FaMapMarkerAlt: () => <span data-testid="location-icon" />,
+  FaCode: () => <span data-testid="code-icon" />,
+  FaDatabase: () => <span data-testid="database-icon" />,
+  FaPalette: () => <span data-testid="palette-icon" />,
+  FaRocket: () => <span data-testid="rocket-icon" />,
+  FaPython: () => <span data-testid="python-icon" />,
+  FaDocker: () => <span data-testid="docker-icon" />,
+  FaCloud: () => <span data-testid="cloud-icon" />,
+  FaExternalLinkAlt: () => <span data-testid="external-link-icon" />,
+}));
+
+vi.mock('react-icons/si', () => ({
+  SiCoursera: () => <span data-testid="coursera-icon" />,
+  SiGravatar: () => <span data-testid="gravatar-icon" />,
+  SiApacheairflow: () => <span data-testid="airflow-icon" />,
+  SiGooglebigquery: () => <span data-testid="bigquery-icon" />,
+  SiKubernetes: () => <span data-testid="kubernetes-icon" />,
+  SiPostgresql: () => <span data-testid="postgresql-icon" />,
+  SiGo: () => <span data-testid="go-icon" />,
+}));
+
+// Mock react-country-flag
+vi.mock('react-country-flag', () => ({
+  __esModule: true,
+  default: ({ countryCode }: { countryCode: string }) => (
+    <span data-testid={`flag-${countryCode}`} />
+  ),
+}));
+
+// Mock framer-motion to avoid animation issues
+vi.mock('framer-motion', () => ({
+  motion: {
+    div: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
+      const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
+      return <div {...domProps}>{children}</div>;
+    },
+    section: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
+      const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
+      return <section {...domProps}>{children}</section>;
+    },
+    span: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
+      const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
+      return <span {...domProps}>{children}</span>;
+    },
+    a: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
+      const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
+      return <a {...domProps}>{children}</a>;
+    },
+    h1: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
+      const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
+      return <h1 {...domProps}>{children}</h1>;
+    },
+    p: ({ children, ...props }: Record<string, unknown>) => {
+      // Remove framer-motion specific props and keep only DOM props
+      const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
+      return <p {...domProps}>{children}</p>;
+    },
+  },
+}));
+
+// Mock Next.js Image component
+vi.mock('next/image', () => ({
+  __esModule: true,
+  default: ({ src, alt, ...props }: { src: string; alt: string; [key: string]: unknown }) => (
+    <img src={src} alt={alt} {...props} />
+  ),
+}));
+
 describe('Pages Rendering Test', () => {
   beforeEach(() => {
     vi.clearAllMocks();

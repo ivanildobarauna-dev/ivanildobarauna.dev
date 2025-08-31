@@ -1,20 +1,27 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
-import Footer from "@/components/Footer";
+import Navigation from "@/components/Navigation";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--font-inter"
+});
+
+const jetbrainsMono = JetBrains_Mono({ 
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono"
+});
 
 export const metadata: Metadata = {
   title: {
-    default: 'Ivanildo Baraúna - Engenheiro de Dados e Open Source Maintainer',
-    template: '%s | Ivanildo Baraúna'
+    default: 'Ivanildo Barauna - Engenheiro de Dados e Open Source Maintainer',
+    template: '%s | Ivanildo Barauna'
   },
-  description: 'Portfólio de Ivanildo Baraúna, com projetos em Python, Golang, automações e dados.',
+  description: 'Portfólio de Ivanildo Barauna, com projetos em Dados & Analytics',
   openGraph: {
-    title: 'Ivanildo Baraúna - Engenheiro de Dados',
-    description: 'Portfólio com projetos reais, automações e soluções para backend e dados.',
+    title: 'Ivanildo Barauna - Especialista em Dados & Analytics',
+    description: 'Portfólio com projetos, experiência profissional e soluções para backend e Dados & Analytics.',
     url: 'https://ivanildobarauna.dev',
     type: 'website',
   },
@@ -35,14 +42,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={inter.className}>
-        <div className="flex min-h-screen bg-gray-100">
-          <Sidebar />
-          <main className="flex-1 md:ml-64 p-4 md:p-8 flex flex-col">
-            <div className="flex-grow">
-              {children}
-            </div>
-            <Footer />
+      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`}>
+        <div className="min-h-screen bg-background">
+          <Navigation />
+          <main className="flex flex-col">
+            {children}
           </main>
         </div>
         <script

@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Experiência Profissional',
-  description: 'Conheça a trajetória profissional de Ivanildo Baraúna, com mais de 10 anos de experiência em engenharia de dados e desenvolvimento de software.',
+  description: 'Conheça a trajetória profissional de Ivanildo Barauna, com mais de 10 anos de experiência em engenharia de dados e desenvolvimento de software.',
   openGraph: {
-    title: 'Experiência Profissional - Ivanildo Baraúna',
+    title: 'Experiência Profissional - Ivanildo Barauna',
     description: 'Histórico profissional detalhado com foco em engenharia de dados, automações e desenvolvimento de software.',
     url: 'https://ivanildobarauna.dev/experience',
   },

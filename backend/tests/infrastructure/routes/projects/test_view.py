@@ -10,8 +10,8 @@ def test_get_projects_returns_active_projects(
 ):
     """Test that get_projects returns only active projects."""
     with patch(
-        "src.infrastructure.routes.projects.view.portfolio_data_service",
-        mock_portfolio_service,
+        "src.infrastructure.routes.projects.view.get_portfolio_data_service",
+        return_value=mock_portfolio_service,
     ):
         mock_portfolio_service.projects.return_value = sample_projects
         
@@ -23,8 +23,8 @@ def test_get_projects_returns_active_projects(
 def test_get_projects_error_handling(client, mock_portfolio_service):
     """Test that get_projects handles errors correctly."""
     with patch(
-        "src.infrastructure.routes.projects.view.portfolio_data_service",
-        mock_portfolio_service,
+        "src.infrastructure.routes.projects.view.get_portfolio_data_service",
+        return_value=mock_portfolio_service,
     ):
         mock_portfolio_service.projects.side_effect = Exception("Test error")
         

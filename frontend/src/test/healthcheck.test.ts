@@ -6,7 +6,6 @@ import { getBackendEndpoint } from '../utils/backend_endpoint';
 vi.mock('axios');
 
 const BASE_URL = process.env.APP_URL || 'http://localhost:3000';
-const TIMEOUT = 30000; // 30 segundos
 
 const routes = [
   '/',
@@ -17,7 +16,7 @@ const routes = [
 ];
 
 describe('Application Health Check', () => {
-  const mockedAxios = axios as any;
+  const mockedAxios = vi.mocked(axios);
 
   beforeEach(() => {
     vi.clearAllMocks();
