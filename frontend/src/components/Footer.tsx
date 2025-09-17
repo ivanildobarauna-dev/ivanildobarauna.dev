@@ -25,7 +25,7 @@ export default function Footer() {
   ];
 
   return (
-    <section id="contact" className="py-20 px-4 bg-black text-white">
+    <section id="contact" className="py-20 px-4 bg-black text-white" data-testid="contact-section">
       <div className="container max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -49,7 +49,7 @@ export default function Footer() {
             >
               <h3 className="text-xl font-semibold text-white">Contato</h3>
               <div className="space-y-4">
-                {contactInfo.map((item, index) => (
+                {contactInfo.map((item) => (
                   <a 
                     key={item.label}
                     href={item.href} 

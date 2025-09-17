@@ -31,15 +31,11 @@ vi.mock('react-icons/si', () => ({
 // Mock framer-motion to avoid prop warnings
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }: Record<string, unknown>) => {
-      // Remove framer-motion specific props and keep only DOM props
-      const { initial, whileInView, viewport, transition, ...domProps } = props;
-      return <div {...domProps}>{children}</div>;
+    div: ({ children, ...domProps }: { children: React.ReactNode; [key: string]: unknown }) => {
+      return <div {...domProps}>{children as React.ReactNode}</div>;
     },
-    section: ({ children, ...props }: Record<string, unknown>) => {
-      // Remove framer-motion specific props and keep only DOM props
-      const { initial, whileInView, viewport, transition, ...domProps } = props;
-      return <section {...domProps}>{children}</section>;
+    section: ({ children, ...domProps }: { children: React.ReactNode; [key: string]: unknown }) => {
+      return <section {...domProps}>{children as React.ReactNode}</section>;
     },
   },
 }));

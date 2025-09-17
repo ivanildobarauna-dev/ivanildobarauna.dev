@@ -2,32 +2,16 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { FaEnvelope } from 'react-icons/fa';
 import CvDownloadButton from './CvDownloadButton';
 import { useSocialLinks } from '@/app/social-links/hooks/useSocialLinks';
 import { socialIconMap } from '@/utils/socialIconMap';
 
-interface HeroSectionProps {
-  totalExperience: number;
-  totalProjects: number;
-  totalEducation: number;
-  activeButton: number | null;
-}
-
-const formatNumber = (value: number): string => {
-  return isNaN(value) ? '0' : `${value}+`;
-};
-
-export default function HeroSection({ 
-  totalExperience, 
-  totalProjects, 
-  totalEducation, 
-  activeButton 
-}: HeroSectionProps) {
+export default function HeroSection() {
   const { socialLinks, loading, error } = useSocialLinks();
 
   return (
-    <section className="hero-section min-h-screen flex items-center justify-center px-4 py-20">
+    <section className="hero-section min-h-screen flex items-center justify-center px-4 py-20" data-testid="hero-section">
       <div className="container max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}

@@ -49,7 +49,13 @@ export function useExperience(): ExperienceData {
             throw new Error('Resposta inválida: os dados não são um array');
           }
 
-          return jsonData as Experience[];
+          // Garantir que os campos opcionais tenham valores padrão
+          return jsonData.map(exp => ({
+            ...exp,
+            skills: exp.skills || '',
+            companyLogo: exp.companyLogo || exp.logo,
+            website: exp.website || exp.companyUrl
+          })) as Experience[];
         });
 
         setExperiences(experiencesData);

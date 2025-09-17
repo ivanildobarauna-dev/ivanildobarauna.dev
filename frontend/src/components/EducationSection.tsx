@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Formation, Certification } from '@/app/education/interfaces';
+import { Formation, Certification } from '../app/education/interfaces';
 import { FaGraduationCap, FaCertificate, FaCalendarAlt, FaMapMarkerAlt, FaExternalLinkAlt } from 'react-icons/fa';
 
 interface EducationSectionProps {
@@ -14,7 +14,7 @@ export default function EducationSection({ formations, certifications }: Educati
   const certificationsArray = Object.values(certifications).flat();
 
   return (
-    <section className="py-20 px-4 bg-background">
+    <section className="py-20 px-4 bg-background" data-testid="education-section">
       <div className="container max-w-6xl mx-auto">
         <div className="text-left mb-16 fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">

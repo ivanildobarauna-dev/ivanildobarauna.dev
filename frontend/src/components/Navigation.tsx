@@ -1,21 +1,28 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBars, FaTimes } from 'react-icons/fa';
+
+// Tipagem para os itens do menu
+type MenuItem = {
+  id: string;
+  label: string;
+  href: string;
+};
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  const menuItems = [
+  const menuItems: MenuItem[] = useMemo(() => [
     { id: 'home', label: 'Início', href: '#home' },
     { id: 'about', label: 'Sobre Mim', href: '#about' },
     { id: 'experience', label: 'Experiência', href: '#experience' },
     { id: 'projects', label: 'Projetos', href: '#projects' },
     { id: 'education', label: 'Formação', href: '#education' },
     { id: 'contact', label: 'Contato', href: '#contact' },
-  ];
+  ], []); // Array vazio como dependência, pois não depende de props ou estado
 
   // Detectar seção ativa durante o scroll
   useEffect(() => {
@@ -34,7 +41,7 @@ const Navigation = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [menuItems]);
 
   // Scroll suave para seção
   const scrollToSection = (href: string) => {
@@ -77,7 +84,7 @@ const Navigation = () => {
 
             {/* Menu Desktop */}
             <nav className="hidden md:flex space-x-8">
-              {menuItems.map((item) => (
+              {menuItems.map((item: MenuItem) => (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.href)}
@@ -126,7 +133,7 @@ const Navigation = () => {
               className="fixed top-16 right-0 w-64 h-screen bg-white shadow-xl z-50 md:hidden"
             >
               <nav className="p-6 space-y-4">
-                {menuItems.map((item) => (
+                {menuItems.map((item: MenuItem) => (
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.href)}

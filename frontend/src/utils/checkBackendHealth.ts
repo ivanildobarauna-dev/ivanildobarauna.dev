@@ -20,7 +20,7 @@ export async function checkBackendHealth(
       if (response.status === 200 && response.data.message === 'pong') {
         return true;
       }
-    } catch (error) {
+    } catch {
       // Aguarda antes de tentar novamente
       await new Promise(resolve => setTimeout(resolve, interval));
     }

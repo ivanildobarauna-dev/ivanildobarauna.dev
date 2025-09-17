@@ -12,7 +12,7 @@ interface ExperienceSectionProps {
 
 export default function ExperienceSection({ experiences, tempoTotalCarreira }: ExperienceSectionProps) {
   return (
-    <section className="py-20 px-4 bg-background">
+    <section className="py-20 px-4 bg-background" data-testid="experience-section">
       <div className="container max-w-6xl mx-auto">
         <div className="text-left mb-16 fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -37,10 +37,10 @@ export default function ExperienceSection({ experiences, tempoTotalCarreira }: E
               <div className="bg-gradient-hero p-6 md:p-8 text-primary-foreground">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                   <div className="flex items-center gap-4">
-                    {exps[0].logo && (
+                    {exps[0].companyLogo && (
                       <div className="w-16 h-16 bg-white/10 rounded-xl p-2 flex items-center justify-center backdrop-blur-sm">
                         <Image
-                          src={exps[0].logo}
+                          src={exps[0].companyLogo}
                           alt={`Logo ${empresa}`}
                           width={48}
                           height={48}
@@ -52,7 +52,7 @@ export default function ExperienceSection({ experiences, tempoTotalCarreira }: E
                       <h3 className="text-2xl md:text-3xl font-bold break-words">{empresa}</h3>
                       <p className="text-primary-foreground/80 text-lg">
                         Tempo total: {exps[0].duration}
-                        {exps[0].actual_job && ' (Emprego Atual)'}
+                        {exps[0].current && ' (Emprego Atual)'}
                       </p>
                     </div>
                   </div>
@@ -108,12 +108,12 @@ export default function ExperienceSection({ experiences, tempoTotalCarreira }: E
                     {/* Skills */}
                     {exp.skills && (
                       <div className="flex flex-wrap gap-2 pt-3">
-                        {exp.skills.split(';').map((skill, idx) => (
+                        {exp.skills.split(';').filter(Boolean).map((skill: string, idx: number) => (
                           <span
                             key={idx}
-                            className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
+                            className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium whitespace-nowrap"
                           >
-                            {skill}
+                            {skill.trim()}
                           </span>
                         ))}
                       </div>
