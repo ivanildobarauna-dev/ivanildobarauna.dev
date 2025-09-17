@@ -1,6 +1,4 @@
 'use client';
-
-import { useState } from 'react';
 import { useTotalExperience } from './experience/hooks/useTotalExperience';
 import { useTotalProjects } from './projects/hooks/useTotalProjects';
 import { useTotalEducation } from './education/hooks/useTotalEducation';
@@ -27,8 +25,6 @@ const parseNumber = (value: string | number): number => {
 };
 
 export default function Home() {
-  const [activeButton] = useState<number | null>(null);
-  
   // Hooks para dados totais (usados no Hero e About)
   const { totalExperience, loading: loadingExperience, error: errorExperience } = useTotalExperience();
   const { totalProjects, loading: loadingProjects, error: errorProjects } = useTotalProjects();
@@ -64,12 +60,7 @@ export default function Home() {
     <main className="min-h-screen">
       {/* Hero Section */}
       <section id="home" className="scroll-mt-20">
-        <HeroSection
-          totalExperience={parseNumber(totalExperience)}
-          totalProjects={parseNumber(totalProjects)}
-          totalEducation={parseNumber(totalEducation)}
-          activeButton={activeButton}
-        />
+        <HeroSection />
       </section>
 
       {/* About Section */}

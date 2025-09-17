@@ -3,21 +3,15 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { checkBackendHealth } from '../utils/checkBackendHealth';
 import { getBackendEndpoint } from '../utils/backend_endpoint';
 
+// Mock do axios com tipagem correta
 vi.mock('axios');
+const mockedAxios = vi.mocked(axios, true);
 
 const BASE_URL = process.env.APP_URL || 'http://localhost:3000';
 
-const routes = [
-  '/',
-  '/projects',
-  '/experience',
-  '/education',
-  '/contact'
-];
+const routes = ['/'];
 
 describe('Application Health Check', () => {
-  const mockedAxios = vi.mocked(axios);
-
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -26,8 +20,16 @@ describe('Application Health Check', () => {
     // Mock successful axios response
     mockedAxios.get.mockResolvedValue({
       status: 200,
-      data: { message: 'pong' }
-    });
+      data: { message: 'pong' },
+      statusText: 'OK',
+      headers: {},
+      config: { 
+        headers: {} as Record<string, string>,
+        url: '',
+        method: 'get',
+        data: undefined
+      }
+    } as const);
 
     const isBackendHealthy = await checkBackendHealth(1000);
     expect(isBackendHealthy).toBe(true);
@@ -43,12 +45,20 @@ describe('Application Health Check', () => {
       // Mock successful page response
       mockedAxios.get.mockResolvedValue({
         status: 200,
-        data: '<html>Mock page content</html>'
-      });
+        data: '<html>Mock page content</html>',
+        statusText: 'OK',
+        headers: {},
+        config: { 
+          headers: {} as Record<string, string>,
+          url: '',
+          method: 'get',
+          data: undefined
+        }
+      } as const);
 
       const response = await axios.get(`${BASE_URL}${route}`);
       expect(response.status).toBe(200);
       expect(mockedAxios.get).toHaveBeenCalledWith(`${BASE_URL}${route}`);
     });
   });
-}); 
+});

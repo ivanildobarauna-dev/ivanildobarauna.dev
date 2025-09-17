@@ -60,24 +60,28 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                   </div>
 
                   <div className="flex gap-4">
-                    <a
-                      href={featuredProject.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors group"
-                    >
-                      <FaExternalLinkAlt className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
-                      Ver Demo
-                    </a>
-                    <a
-                      href={featuredProject.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium border border-border hover:border-primary/50 hover:text-primary transition-colors"
-                    >
-                      <FaGithub className="w-4 h-4 mr-2" />
-                      Código
-                    </a>
+                    {(featuredProject.projectUrl || featuredProject.demoUrl) && (
+                      <a
+                        href={featuredProject.projectUrl || featuredProject.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors group"
+                      >
+                        <FaExternalLinkAlt className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
+                        {featuredProject.projectUrl?.includes('github') ? 'Ver Código' : 'Ver Demo'}
+                      </a>
+                    )}
+                    {(featuredProject.githubUrl && featuredProject.githubUrl !== (featuredProject.projectUrl || featuredProject.demoUrl)) && (
+                      <a
+                        href={featuredProject.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium border border-border hover:border-primary/50 hover:text-primary transition-colors"
+                      >
+                        <FaGithub className="w-4 h-4 mr-2" />
+                        Código
+                      </a>
+                    )}
                   </div>
                 </div>
 
@@ -139,24 +143,28 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                   )}
 
                   <div className="flex gap-3 pt-2">
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center px-3 py-2 rounded-md text-sm font-medium border border-border hover:border-primary/50 hover:text-primary transition-colors"
-                    >
-                      <FaExternalLinkAlt className="w-4 h-4 mr-2" />
-                      Demo
-                    </a>
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center px-3 py-2 rounded-md text-sm font-medium border border-border hover:border-primary/50 hover:text-primary transition-colors"
-                    >
-                      <FaGithub className="w-4 h-4 mr-2" />
-                      Código
-                    </a>
+                    {(project.projectUrl || project.demoUrl) && (
+                      <a
+                        href={project.projectUrl || project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 inline-flex items-center justify-center px-3 py-2 rounded-md text-sm font-medium border border-border hover:border-primary/50 hover:text-primary transition-colors"
+                      >
+                        <FaExternalLinkAlt className="w-4 h-4 mr-2" />
+                        {project.projectUrl?.includes('github') ? 'Código' : 'Demo'}
+                      </a>
+                    )}
+                    {(project.githubUrl && project.githubUrl !== (project.projectUrl || project.demoUrl)) && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 inline-flex items-center justify-center px-3 py-2 rounded-md text-sm font-medium border border-border hover:border-primary/50 hover:text-primary transition-colors"
+                      >
+                        <FaGithub className="w-4 h-4 mr-2" />
+                        Código
+                      </a>
+                    )}
                   </div>
                 </div>
               </motion.div>

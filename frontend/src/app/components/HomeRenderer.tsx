@@ -12,9 +12,7 @@ interface HomeRendererProps {
   activeButton: number | null;
 }
 
-const formatNumber = (value: number): string => {
-  return isNaN(value) ? '0' : `${value}+`;
-};
+import { formatNumber } from '@/utils/numberUtils';
 
 export default function HomeRenderer({ 
   totalExperience, 
@@ -96,7 +94,7 @@ export default function HomeRenderer({
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">{formatNumber(totalExperience)}</div>
+                  <div className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">{formatNumber(totalExperience, true)}</div>
                   <div className="text-xs md:text-sm opacity-80">Anos de Experiência</div>
                 </div>
                 <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
@@ -109,7 +107,7 @@ export default function HomeRenderer({
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">{formatNumber(totalProjects)}</div>
+                  <div className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">{formatNumber(totalProjects, true)}</div>
                   <div className="text-xs md:text-sm opacity-80">Projetos Open Source</div>
                 </div>
                 <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />
@@ -122,7 +120,7 @@ export default function HomeRenderer({
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">{formatNumber(totalEducation)}</div>
+                  <div className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">{formatNumber(totalEducation, true)}</div>
                   <div className="text-xs md:text-sm opacity-80">Formações e Certificações</div>
                 </div>
                 <FaArrowRight className="transform transition-all duration-300 group-hover:translate-x-2" />

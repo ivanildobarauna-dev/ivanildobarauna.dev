@@ -41,7 +41,12 @@ export function useProjects(): ProjectsData {
             throw new Error('Resposta inválida: os dados não são um array');
           }
 
-          return jsonData as Project[];
+          // Processar os dados para garantir que todos os campos necessários existam
+          return jsonData.map(project => ({
+            ...project,
+            projectUrl: project.projectUrl || project.url,
+            tags: project.tags || project.technologies?.slice(0, 3) || []
+          })) as Project[];
         });
 
         setProjects(data);

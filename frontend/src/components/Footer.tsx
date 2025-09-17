@@ -49,7 +49,7 @@ export default function Footer() {
             >
               <h3 className="text-xl font-semibold text-white">Contato</h3>
               <div className="space-y-4">
-                {contactInfo.map((item, index) => (
+                {contactInfo.map((item) => (
                   <a 
                     key={item.label}
                     href={item.href} 

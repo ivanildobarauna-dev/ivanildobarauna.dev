@@ -1,10 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import HomePage from '../app/page';
-import ProjectsPage from '../app/projects/page';
-import ExperiencePage from '../app/experience/page';
-import EducationPage from '../app/education/page';
-import ContactPage from '../app/contact/page';
 
 // Mock all the hooks that make API calls
 vi.mock('../app/experience/hooks/useTotalExperience', () => ({
@@ -50,8 +46,7 @@ vi.mock('../app/projects/hooks/useProjects', () => ({
 
 vi.mock('../app/education/hooks/useEducation', () => ({
   useEducation: () => ({
-    formations: [],
-    certifications: {},
+    education: [],
     loading: false,
     error: null
   })
@@ -105,33 +100,33 @@ vi.mock('react-country-flag', () => ({
 // Mock framer-motion to avoid animation issues
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }: Record<string, unknown>) => {
-      // Remove framer-motion specific props and keep only DOM props
+    div: ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
       return <div {...domProps}>{children}</div>;
     },
-    section: ({ children, ...props }: Record<string, unknown>) => {
-      // Remove framer-motion specific props and keep only DOM props
+    section: ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
       return <section {...domProps}>{children}</section>;
     },
-    span: ({ children, ...props }: Record<string, unknown>) => {
-      // Remove framer-motion specific props and keep only DOM props
+    span: ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
       return <span {...domProps}>{children}</span>;
     },
-    a: ({ children, ...props }: Record<string, unknown>) => {
-      // Remove framer-motion specific props and keep only DOM props
+    a: ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
       return <a {...domProps}>{children}</a>;
     },
-    h1: ({ children, ...props }: Record<string, unknown>) => {
-      // Remove framer-motion specific props and keep only DOM props
+    h1: ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
       return <h1 {...domProps}>{children}</h1>;
     },
-    p: ({ children, ...props }: Record<string, unknown>) => {
-      // Remove framer-motion specific props and keep only DOM props
+    p: ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { initial, animate, whileInView, viewport, transition, ...domProps } = props;
       return <p {...domProps}>{children}</p>;
     },
@@ -141,9 +136,32 @@ vi.mock('framer-motion', () => ({
 // Mock Next.js Image component
 vi.mock('next/image', () => ({
   __esModule: true,
-  default: ({ src, alt, ...props }: { src: string; alt: string; [key: string]: unknown }) => (
-    <img src={src} alt={alt} {...props} />
-  ),
+  default: ({ 
+    src, 
+    alt, 
+    width = 100, 
+    height = 100,
+    ...props 
+  }: { 
+    src: string; 
+    alt: string; 
+    width?: number | string; 
+    height?: number | string;
+    children?: React.ReactNode; 
+    [key: string]: unknown 
+  }) => {
+    // Usando um simples mock de imagem para testes
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img 
+        src={src} 
+        alt={alt} 
+        width={width}
+        height={height}
+        {...props}
+      />
+    );
+  },
 }));
 
 describe('Pages Rendering Test', () => {
@@ -151,48 +169,28 @@ describe('Pages Rendering Test', () => {
     vi.clearAllMocks();
   });
 
-  it('should render Home page with main content', async () => {
+  it('should render Home page with all sections', async () => {
     await act(async () => {
       render(<HomePage />);
     });
     
-    const homeElement = screen.getByRole('main');
-    expect(homeElement).toBeInTheDocument();
-  });
-
-  it('should render Projects page with project list', async () => {
-    await act(async () => {
-      render(<ProjectsPage />);
-    });
+    // Verifica se o elemento principal está presente
+    const mainElement = screen.getByRole('main');
+    expect(mainElement).toBeInTheDocument();
     
-    const projectsElement = screen.getByRole('main');
-    expect(projectsElement).toBeInTheDocument();
-  });
-
-  it('should render Experience page with experience timeline', async () => {
-    await act(async () => {
-      render(<ExperiencePage />);
-    });
+    // Verifica se as seções principais estão presentes
+    const heroSection = screen.getByTestId('hero-section');
+    const aboutSection = screen.getByTestId('about-section');
+    const experienceSection = screen.getByTestId('experience-section');
+    const projectsSection = screen.getByTestId('projects-section');
+    const educationSection = screen.getByTestId('education-section');
+    const contactSection = screen.getByTestId('contact-section');
     
-    const experienceElement = screen.getByRole('main');
-    expect(experienceElement).toBeInTheDocument();
-  });
-
-  it('should render Education page with education history', async () => {
-    await act(async () => {
-      render(<EducationPage />);
-    });
-    
-    const educationElement = screen.getByRole('main');
-    expect(educationElement).toBeInTheDocument();
-  });
-
-  it('should render Contact page with contact form', async () => {
-    await act(async () => {
-      render(<ContactPage />);
-    });
-    
-    const contactElement = screen.getByRole('main');
-    expect(contactElement).toBeInTheDocument();
+    expect(heroSection).toBeInTheDocument();
+    expect(aboutSection).toBeInTheDocument();
+    expect(experienceSection).toBeInTheDocument();
+    expect(projectsSection).toBeInTheDocument();
+    expect(educationSection).toBeInTheDocument();
+    expect(contactSection).toBeInTheDocument();
   });
 }); 

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Formation, Certification } from '@/app/education/interfaces';
+import { Formation, Certification } from '../app/education/interfaces';
 import { FaGraduationCap, FaCertificate, FaCalendarAlt, FaMapMarkerAlt, FaExternalLinkAlt } from 'react-icons/fa';
 
 interface EducationSectionProps {
