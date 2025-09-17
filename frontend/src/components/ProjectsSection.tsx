@@ -14,7 +14,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const otherProjects = projects.slice(1);
 
   return (
-    <section className="py-20 px-4 bg-gradient-subtle">
+    <section className="py-20 px-4 bg-gradient-subtle" data-testid="projects-section">
       <div className="container max-w-6xl mx-auto">
         <div className="text-left mb-16 fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">

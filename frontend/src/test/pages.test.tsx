@@ -46,7 +46,8 @@ vi.mock('../app/projects/hooks/useProjects', () => ({
 
 vi.mock('../app/education/hooks/useEducation', () => ({
   useEducation: () => ({
-    education: [],
+    formations: [],
+    certifications: {},
     loading: false,
     error: null
   })

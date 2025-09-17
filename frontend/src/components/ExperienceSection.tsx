@@ -12,7 +12,7 @@ interface ExperienceSectionProps {
 
 export default function ExperienceSection({ experiences, tempoTotalCarreira }: ExperienceSectionProps) {
   return (
-    <section className="py-20 px-4 bg-background">
+    <section className="py-20 px-4 bg-background" data-testid="experience-section">
       <div className="container max-w-6xl mx-auto">
         <div className="text-left mb-16 fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">

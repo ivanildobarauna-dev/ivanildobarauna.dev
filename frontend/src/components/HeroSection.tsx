@@ -11,7 +11,7 @@ export default function HeroSection() {
   const { socialLinks, loading, error } = useSocialLinks();
 
   return (
-    <section className="hero-section min-h-screen flex items-center justify-center px-4 py-20">
+    <section className="hero-section min-h-screen flex items-center justify-center px-4 py-20" data-testid="hero-section">
       <div className="container max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
