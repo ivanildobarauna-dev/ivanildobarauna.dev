@@ -109,14 +109,14 @@ jobs:
             frontend:
               image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:main
               container_name: portfolio-frontend
-              ports:
-                - "8080:8080"
+              # ports:
+              #   - "8080:8080"
               environment:
                 - DD_SERVICE=ivanildobarauna.dev
                 - DD_ENV=production
                 - DD_VERSION=1.0.0
                 - DD_TRACE_SAMPLE_RATE=1.0
-                - DD_AGENT_HOST=172.18.0.1
+                - DD_AGENT_HOST=localhost
                 - DD_PROCESS_AGENT_ENABLED=true
                 - DD_TAGS="app:portfolio,tech:nextjs,role:frontend"
               labels:
@@ -129,21 +129,21 @@ jobs:
               depends_on:
                 - backend
               restart: unless-stopped
-              networks:
-                - app_network
+              network_mode: host
 
 
             backend:
               image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:main
               container_name: portfolio-backend
-              ports:
-                - "8090:8090"
+              # ports:
+              #   - "8090:8090"
               environment:
+                - POSTGRES_HOST=localhost
                 - DD_SERVICE=api.ivanildobarauna.dev
                 - DD_ENV=production
                 - DD_VERSION=1.0.0
                 - DD_TRACE_SAMPLE_RATE=1.0
-                - DD_AGENT_HOST=172.18.0.1
+                - DD_AGENT_HOST=localhost
                 - DD_PROCESS_AGENT_ENABLED=true
                 - DD_TAGS="app:portfolio,tech:python,role:backend"
                 - DD_RUNTIME_METRICS_ENABLED=true
@@ -155,19 +155,14 @@ jobs:
                 tags.app: "portfolio"
                 tags.role: "backend"
               restart: unless-stopped
-              networks:
-                - app_network
+              network_mode: host
               healthcheck:
                 test: ["CMD", "curl", "-f", "http://localhost:8090/api/v1/ping"]
                 interval: 300s
                 timeout: 10s
                 retries: 3
                 start_period: 40s
-          
-          networks:
-            app_network:
-              external: true
-              
+                        
           EOF
 
       - name: Sync docker-compose and env to VPS
