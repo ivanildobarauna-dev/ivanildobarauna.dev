@@ -41,7 +41,7 @@ services:
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:python,role:backend"
       - DD_RUNTIME_METRICS_ENABLED=true
-      - POSTGRES_HOST=192.168.15.44
+      - POSTGRES_HOST=192.168.15.51
       - POSTGRES_PORT=5432
       - POSTGRES_USER=backend
       - POSTGRES_PASSWORD=backend
