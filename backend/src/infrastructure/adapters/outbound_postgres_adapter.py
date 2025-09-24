@@ -19,7 +19,7 @@ from src.infrastructure.utils.logger import logger
 
 
 class PostgresAdapter(RepositoryInterface):
-    POSTGRES_HOST = os.getenv("POSTGRES_HOST", "postgres")
+    POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
     POSTGRES_PORT = int(os.getenv("POSTGRES_PORT", "5432"))
     POSTGRES_USER = os.getenv("POSTGRES_USER", "backend")
     POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "backend")
@@ -34,34 +34,54 @@ class PostgresAdapter(RepositoryInterface):
     def build_connection_string(self) -> str:
         return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
     
-    def build_engine(self, retry_time: int = 3):
-        max_retries = 3
+    def build_engine(self, retry_interval: int = 5):
         attempt = 0
         
-        while attempt < max_retries:
+        while True:
             attempt += 1
             try:
                 engine = create_engine(self.connection_string, 
-                                       echo=False,
-                                       pool_size=5,          
-                                       max_overflow=10,      
-                                       pool_timeout=30,      
-                                       pool_recycle=1800,    
-                                       pool_pre_ping=True)
+                                    echo=False,
+                                    pool_size=5,          
+                                    max_overflow=10,      
+                                    pool_timeout=30,      
+                                    pool_recycle=1800,    
+                                    pool_pre_ping=True)
                 
                 with engine.connect() as connection:
                     connection.execute(text("SELECT 1"))
-                logger.info(f"Connected on Database ✅ [Worker PID: {os.getpid()}]")
-                break
-            except SQLAlchemyError as e:
-                if attempt >= max_retries:
-                    logger.error(f"\n{'='*60}\n❌ Falha definitiva ao conectar ao banco após {max_retries} tentativas! [Worker PID: {os.getpid()}]\n{'-'*60}\nDetalhes do erro:\n{str(e)}\n{'='*60}\n")
-                    raise Exception(f"Falha ao conectar ao banco após {max_retries} tentativas: {str(e)}")
                 
-                logger.error(f"\n{'='*60}\n❌ Tentativa {attempt}/{max_retries} falhou ao conectar ao banco! [Worker PID: {os.getpid()}]\n{'-'*60}\nDetalhes do erro:\n{str(e)}\n{'='*60}\nTentando novamente em {retry_time} segundos...\n")
-                time.sleep(retry_time)
+                logger.info(f"✅ Conexão com o banco de dados estabelecida com sucesso! [Tentativa: {attempt}] [PID: {os.getpid()}]")
+                return engine
+                
+            except SQLAlchemyError as e:
+                logger.error(
+                    f"\n{'='*80}\n"
+                    f"❌ Falha na tentativa de conexão #{attempt} [PID: {os.getpid()}]\n"
+                    f"{'-'*80}\n"
+                    f"Erro: {str(e)}\n"
+                    f"String de conexão: {self._obfuscated_connection_string()}\n"
+                    f"Tentando novamente em {retry_interval} segundos...\n"
+                    f"{'='*80}\n"
+                )
+                time.sleep(retry_interval)
+    
+    def _obfuscated_connection_string(self) -> str:
+        """Retorna a string de conexão com a senha ofuscada para logs."""
+        if not hasattr(self, '_connection_string'):
+            self._connection_string = self.build_connection_string()
             
-        return engine
+        # Ofusca a senha na string de conexão para logs
+        if '://' in self._connection_string:
+            parts = self._connection_string.split('@', 1)
+            if len(parts) == 2:
+                auth_part, rest = parts
+                if ':' in auth_part.split('://', 1)[1]:  # Verifica se há senha
+                    user_pass = auth_part.split('://', 1)[1]
+                    user = user_pass.split(':', 1)[0]
+                    auth_part = f"{auth_part.split('://', 1)[0]}://{user}:***"
+                return f"{auth_part}@{rest}"
+        return '***'
 
 
     @contextmanager

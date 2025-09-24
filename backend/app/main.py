@@ -11,7 +11,6 @@ from src.infrastructure.routes.experiences.view import experiences_ns
 from src.infrastructure.routes.health_check.view import health_check_ns
 from src.infrastructure.routes.projects.view import projects_ns
 from src.infrastructure.routes.social_media.view import social_media_ns
-
 from src.infrastructure.dependencie_injection import ApplicationDependencies
 
 class ApplicationSetup:
@@ -62,6 +61,7 @@ class ApplicationSetup:
 
     def setup(self):
         self.setup_cors()
+        self.app.dps = ApplicationDependencies()
         self.register_namespaces()
         return self.app
 
