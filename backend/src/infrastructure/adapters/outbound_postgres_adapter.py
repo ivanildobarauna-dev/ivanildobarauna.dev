@@ -41,7 +41,14 @@ class PostgresAdapter(RepositoryInterface):
         while attempt < max_retries:
             attempt += 1
             try:
-                engine = create_engine(self.connection_string, echo=False)
+                engine = create_engine(self.connection_string, 
+                                       echo=False,
+                                       pool_size=5,          
+                                       max_overflow=10,      
+                                       pool_timeout=30,      
+                                       pool_recycle=1800,    
+                                       pool_pre_ping=True)
+                
                 with engine.connect() as connection:
                     connection.execute(text("SELECT 1"))
                 logger.info(f"Connected on Database ✅ [Worker PID: {os.getpid()}]")
