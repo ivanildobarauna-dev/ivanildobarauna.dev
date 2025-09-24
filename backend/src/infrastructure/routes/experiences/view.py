@@ -4,23 +4,13 @@ from flask import jsonify, request
 from flask_restx import Namespace, Resource
 
 from src.infrastructure.dependencie_injection import ApplicationDependencies
+
+def get_portfolio_data_service():
+    return ApplicationDependencies().portfolio_data_service
 from src.infrastructure.utils.constants import HTTP_INTERNAL_SERVER_ERROR
 from src.infrastructure.utils.logger import logger
 
 experiences_ns = Namespace("Experiences", description="Companies experiences")
-
-# Inicialização lazy - apenas quando necessário
-def get_portfolio_data_service():
-    """Get portfolio data service instance (lazy initialization)."""
-    if not hasattr(get_portfolio_data_service, '_instance'):
-        get_portfolio_data_service._instance = (
-            ApplicationDependencies
-                .builder()
-                .build()
-                .porfolio_data_service()
-                .portfolio_data_service
-        )
-    return get_portfolio_data_service._instance
 
 @experiences_ns.route("/experiences")
 class Experiences(Resource):

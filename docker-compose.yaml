@@ -4,19 +4,18 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: portfolio-frontend
-    ports:
-      - "8080:8080"
+    network_mode: host
     environment:
       - DD_SERVICE=ivanildobarauna.dev
-      - DD_ENV=production
+      - DD_ENV=local
       - DD_VERSION=1.0.0
       - DD_TRACE_SAMPLE_RATE=1.0
-      - DD_AGENT_HOST=192.168.15.44
+      - DD_AGENT_HOST=host.docker.internal
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:nextjs,role:frontend"
     labels:
       com.datadoghq.ad.logs: '[{"source": "nodejs", "service": "ivanildobarauna.dev"}]'
-      tags.env: "production"
+      tags.env: "local"
       tags.service: "ivanildobarauna.dev"
       tags.tech: "nextjs"
       tags.app: "portfolio"
@@ -30,16 +29,16 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: portfolio-backend
-    ports:
-      - "8090:8090"
+    network_mode: host
     environment:
       - DD_SERVICE=api.ivanildobarauna.dev
-      - DD_ENV=production
+      - DD_ENV=local
       - DD_VERSION=1.0.0
       - DD_TRACE_SAMPLE_RATE=1.0
-      - DD_AGENT_HOST=192.168.15.44
+      - DD_AGENT_HOST=host.docker.internal
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:python,role:backend"
+      - DD_RUNTIME_METRICS_ENABLED=true
       - POSTGRES_HOST=192.168.15.44
       - POSTGRES_PORT=5432
       - POSTGRES_USER=backend
@@ -47,7 +46,7 @@ services:
       - POSTGRES_DB=portfolio
     labels:
       com.datadoghq.ad.logs: '[{"source": "python", "service": "api.ivanildobarauna.dev"}]'
-      tags.env: "production"
+      tags.env: "local"
       tags.service: "api.ivanildobarauna.dev"
       tags.tech: "python"
       tags.app: "portfolio"

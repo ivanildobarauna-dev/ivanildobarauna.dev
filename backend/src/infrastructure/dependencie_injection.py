@@ -2,21 +2,15 @@ from src.infrastructure.adapters.outbound_postgres_adapter import PostgresAdapte
 from src.infrastructure.services.portfolio_data_service import PortfolioDataService
 
 class ApplicationDependencies:
-    def __init__(self) -> None:
-        self.data_repository = None
-        self.portfolio_data_service = None
+    _instance = None
 
-    @classmethod
-    def builder(cls):
-        return cls()
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
 
-    def build(self):
-        self.data_repository = PostgresAdapter()
-        return self
+            cls._instance.data_repository = PostgresAdapter()
+            cls._instance.portfolio_data_service = PortfolioDataService(
+                cls._instance.data_repository
+            )
 
-    def porfolio_data_service(self):
-        self.portfolio_data_service = PortfolioDataService(self.data_repository)
-        return self
-    
-        
-    
+        return cls._instance

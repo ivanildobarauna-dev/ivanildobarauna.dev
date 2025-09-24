@@ -226,3 +226,7 @@ Detalhes do erro:
 2025-08-30 18:11:52,559 - portfolio_api - ERROR - Error getting experiences: Test error
 2025-08-30 18:11:52,576 - portfolio_api - ERROR - Error getting projects: Test error
 2025-08-30 18:11:52,585 - portfolio_api - ERROR - Error getting social media: Test error
+2025-09-24 00:20:34,126 - portfolio_api - ERROR - Error getting education: Test error
+2025-09-24 00:20:34,138 - portfolio_api - ERROR - Error getting experiences: Test error
+2025-09-24 00:20:34,148 - portfolio_api - ERROR - Error getting projects: Test error
+2025-09-24 00:20:34,154 - portfolio_api - ERROR - Error getting social media: Test error
