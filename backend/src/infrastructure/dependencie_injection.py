@@ -1,5 +1,6 @@
 import logging
 from src.infrastructure.adapters.outbound_postgres_adapter import PostgresAdapter
+from src.infrastructure.adapters.outbound_redis_adapter import RedisAdapter
 from src.infrastructure.services.portfolio_data_service import PortfolioDataService
 
 logger = logging.getLogger(__name__)
@@ -15,7 +16,8 @@ class ApplicationDependencies:
             
             try:
                 logger.info("🔄 Inicializando PostgresAdapter...")
-                cls._instance.data_repository = PostgresAdapter()
+                postgres_adapter = PostgresAdapter()
+                cls._instance.data_repository = RedisAdapter(fallback_repository=postgres_adapter)
                 logger.info("✅ PostgresAdapter inicializado com sucesso!")
                 
                 logger.info("🔄 Inicializando PortfolioDataService...")
