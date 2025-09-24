@@ -14,20 +14,6 @@ social_media_ns = Namespace(
     path="/social-media",
 )
 
-# Inicialização lazy - apenas quando necessário
-def get_portfolio_data_service():
-    """Get portfolio data service instance (lazy initialization)."""
-    if not hasattr(get_portfolio_data_service, '_instance'):
-        get_portfolio_data_service._instance = (
-            ApplicationDependencies
-                .builder()
-                .build()
-                .porfolio_data_service()
-                .portfolio_data_service
-        )
-    return get_portfolio_data_service._instance
-
-
 @social_media_ns.route("/social-media-links")
 class SocialMediaLinks(Resource):
     @social_media_ns.response(200, "Success")
@@ -35,7 +21,7 @@ class SocialMediaLinks(Resource):
     def get(self):
         """Get all social media from the social_media.json file."""
         try:
-            portfolio_data_service = get_portfolio_data_service()
+            portfolio_data_service = ApplicationDependencies().portfolio_data_service
             social_media_list = portfolio_data_service.social_media()
 
             response = [sm.to_dict() for sm in social_media_list if sm.active]

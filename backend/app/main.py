@@ -61,8 +61,6 @@ class ApplicationSetup:
             self.api.add_namespace(namespace, path="/api/v1")
 
     def setup(self):
-        print("Running ApplicationDependencies setup...")
-        ApplicationDependencies.builder().build()
         self.setup_cors()
         self.register_namespaces()
         return self.app

@@ -9,25 +9,12 @@ from src.infrastructure.utils.logger import logger
 
 experiences_ns = Namespace("Experiences", description="Companies experiences")
 
-# Inicialização lazy - apenas quando necessário
-def get_portfolio_data_service():
-    """Get portfolio data service instance (lazy initialization)."""
-    if not hasattr(get_portfolio_data_service, '_instance'):
-        get_portfolio_data_service._instance = (
-            ApplicationDependencies
-                .builder()
-                .build()
-                .porfolio_data_service()
-                .portfolio_data_service
-        )
-    return get_portfolio_data_service._instance
-
 @experiences_ns.route("/experiences")
 class Experiences(Resource):
     def get(self):
         """Get all experiences from the injected adapter"""
         try:
-            portfolio_data_service = get_portfolio_data_service()
+            portfolio_data_service = ApplicationDependencies().portfolio_data_service
             total_duration_param = (
                 request.args.get("total_duration", "false").lower() == "true"
             )
