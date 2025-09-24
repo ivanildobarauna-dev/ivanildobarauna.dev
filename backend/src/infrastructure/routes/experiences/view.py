@@ -4,6 +4,9 @@ from flask import jsonify, request
 from flask_restx import Namespace, Resource
 
 from src.infrastructure.dependencie_injection import ApplicationDependencies
+
+def get_portfolio_data_service():
+    return ApplicationDependencies().portfolio_data_service
 from src.infrastructure.utils.constants import HTTP_INTERNAL_SERVER_ERROR
 from src.infrastructure.utils.logger import logger
 
@@ -14,7 +17,7 @@ class Experiences(Resource):
     def get(self):
         """Get all experiences from the injected adapter"""
         try:
-            portfolio_data_service = ApplicationDependencies().portfolio_data_service
+            portfolio_data_service = get_portfolio_data_service()
             total_duration_param = (
                 request.args.get("total_duration", "false").lower() == "true"
             )

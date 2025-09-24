@@ -7,6 +7,9 @@ from src.infrastructure.utils.constants import HTTP_INTERNAL_SERVER_ERROR
 from src.infrastructure.utils.logger import logger
 from src.infrastructure.dependencie_injection import ApplicationDependencies
 
+def get_portfolio_data_service():
+    return ApplicationDependencies().portfolio_data_service
+
 education_blueprint = Blueprint("education_bp", __name__)
 education_ns = Namespace("Education", description="My formations and certifications")
 
@@ -16,7 +19,7 @@ class Education(Resource):
     def get(self):
         """Get all education and formations from the injected adapter."""
         try:
-            portfolio_data_service = ApplicationDependencies().portfolio_data_service
+            portfolio_data_service = get_portfolio_data_service()
             formations = portfolio_data_service.formations()
             certifications = portfolio_data_service.certifications()
 

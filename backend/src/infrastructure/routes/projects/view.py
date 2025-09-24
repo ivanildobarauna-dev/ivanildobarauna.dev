@@ -4,6 +4,9 @@ from flask import Blueprint, jsonify
 from flask_restx import Namespace, Resource
 
 from src.infrastructure.dependencie_injection import ApplicationDependencies
+
+def get_portfolio_data_service():
+    return ApplicationDependencies().portfolio_data_service
 from src.infrastructure.utils.constants import HTTP_INTERNAL_SERVER_ERROR
 from src.infrastructure.utils.logger import logger
 
@@ -18,7 +21,7 @@ class Projects(Resource):
     def get(self):
         """Get all projects from the projects.json file."""
         try:
-            portfolio_data_service = ApplicationDependencies().portfolio_data_service
+            portfolio_data_service = get_portfolio_data_service()
             projects = portfolio_data_service.projects()
 
             response = [project.to_dict() for project in projects if project.active]
