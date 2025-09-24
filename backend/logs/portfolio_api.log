@@ -230,3 +230,21 @@ Detalhes do erro:
 2025-09-24 00:20:34,138 - portfolio_api - ERROR - Error getting experiences: Test error
 2025-09-24 00:20:34,148 - portfolio_api - ERROR - Error getting projects: Test error
 2025-09-24 00:20:34,154 - portfolio_api - ERROR - Error getting social media: Test error
+2025-09-24 19:12:38,073 - portfolio_api - INFO - ✅ Conexão com o banco de dados estabelecida com sucesso! [Tentativa: 1] [PID: 20878]
+2025-09-24 19:12:38,180 - portfolio_api - ERROR - Erro ao conectar ao Redis: Error 8 connecting to redis:6379. nodename nor servname provided, or not known.
+2025-09-24 19:12:39,263 - portfolio_api - INFO - ✅ Conexão com o banco de dados estabelecida com sucesso! [Tentativa: 1] [PID: 20888]
+2025-09-24 19:12:39,273 - portfolio_api - ERROR - Erro ao conectar ao Redis: Error 8 connecting to redis:6379. nodename nor servname provided, or not known.
+2025-09-24 19:12:54,727 - portfolio_api - ERROR - Erro ao acessar o Redis: Error 8 connecting to redis:6379. nodename nor servname provided, or not known.
+2025-09-24 19:12:57,521 - portfolio_api - ERROR - Erro ao acessar o Redis: Error 8 connecting to redis:6379. nodename nor servname provided, or not known.
+2025-09-24 19:12:59,336 - portfolio_api - ERROR - Erro ao acessar o Redis: Error 8 connecting to redis:6379. nodename nor servname provided, or not known.
+2025-09-24 19:13:01,402 - portfolio_api - ERROR - Erro ao acessar o Redis: Error 8 connecting to redis:6379. nodename nor servname provided, or not known.
+2025-09-24 19:13:01,471 - portfolio_api - ERROR - Erro ao acessar o Redis: Error 8 connecting to redis:6379. nodename nor servname provided, or not known.
+2025-09-24 19:13:04,010 - portfolio_api - ERROR - Erro ao acessar o Redis: Error 8 connecting to redis:6379. nodename nor servname provided, or not known.
+2025-09-24 19:13:05,541 - portfolio_api - ERROR - Erro ao acessar o Redis: Error 8 connecting to redis:6379. nodename nor servname provided, or not known.
+2025-09-24 19:13:40,313 - portfolio_api - INFO - ✅ Conexão com o banco de dados estabelecida com sucesso! [Tentativa: 1] [PID: 21028]
+2025-09-24 19:13:41,318 - portfolio_api - INFO - ✅ Conexão com o banco de dados estabelecida com sucesso! [Tentativa: 1] [PID: 21039]
+2025-09-24 19:13:46,119 - portfolio_api - ERROR - Error getting social media: 'str' object has no attribute 'active'
+2025-09-24 19:13:46,713 - portfolio_api - ERROR - Error getting social media: 'str' object has no attribute 'active'
+2025-09-24 19:15:03,171 - portfolio_api - INFO - ✅ Conexão com o banco de dados estabelecida com sucesso! [Tentativa: 1] [PID: 21290]
+2025-09-24 19:15:04,178 - portfolio_api - INFO - ✅ Conexão com o banco de dados estabelecida com sucesso! [Tentativa: 1] [PID: 21297]
+2025-09-24 19:15:09,248 - portfolio_api - ERROR - Error getting projects: 'str' object has no attribute 'active'
