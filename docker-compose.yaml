@@ -1,29 +1,38 @@
+version: '3.8'
+
 services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.local  # Usa o Dockerfile local para desenvolvimento
     container_name: portfolio-frontend
     ports:
-      - "8080:8080"
+      - "3000:3000"  # Porta padrão do Next.js em desenvolvimento
     environment:
-      - DD_SERVICE=ivanildobarauna.dev
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+      - DD_SERVICE=ivanildobarauna.local
       - DD_ENV=local
-      - DD_VERSION=1.0.0
+      - DD_VERSION=local
       - DD_TRACE_SAMPLE_RATE=1.0
       - DD_AGENT_HOST=host.docker.internal
       - DD_PROCESS_AGENT_ENABLED=true
-      - DD_TAGS="app:portfolio,tech:nextjs,role:frontend"
+      - DD_TAGS="app:portfolio,tech:nextjs,role:frontend,env:local"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # Permite acessar serviços do host
     labels:
-      com.datadoghq.ad.logs: '[{"source": "nodejs", "service": "ivanildobarauna.dev"}]'
+      com.datadoghq.ad.logs: '[{"source": "nodejs", "service": "ivanildobarauna.local"}]'
       tags.env: "local"
-      tags.service: "ivanildobarauna.dev"
+      tags.service: "ivanildobarauna.local"
       tags.tech: "nextjs"
       tags.app: "portfolio"
       tags.role: "frontend"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     restart: unless-stopped
+    networks:
+      - portfolio-network
 
   backend:
     build:
@@ -35,11 +44,11 @@ services:
     environment:
       - DD_SERVICE=api.ivanildobarauna.dev
       - DD_ENV=local
-      - DD_VERSION=1.0.0
+      - DD_VERSION=local
       - DD_TRACE_SAMPLE_RATE=1.0
       - DD_AGENT_HOST=host.docker.internal
       - DD_PROCESS_AGENT_ENABLED=true
-      - DD_TAGS="app:portfolio,tech:python,role:backend"
+      - DD_TAGS="app:portfolio,tech:python,role:backend,env:local"
       - DD_RUNTIME_METRICS_ENABLED=true
       - POSTGRES_HOST=192.168.15.51
       - POSTGRES_PORT=5432
@@ -56,7 +65,13 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8090/api/v1/ping"]
-      interval: 300s
-      timeout: 10s
+      interval: 10s
+      timeout: 5s
       retries: 3
-      start_period: 40s
+      start_period: 10s
+    networks:
+      - portfolio-network
+
+networks:
+  portfolio-network:
+    driver: bridge
