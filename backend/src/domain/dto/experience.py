@@ -3,6 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 
+
 class Experience(BaseModel):
     position: str
     company: str
@@ -13,7 +14,7 @@ class Experience(BaseModel):
     skills: str
     duration: str
 
-    def to_dict(self):
+    def to_response(self):
         return {
             "position": self.position,
             "company": self.company,

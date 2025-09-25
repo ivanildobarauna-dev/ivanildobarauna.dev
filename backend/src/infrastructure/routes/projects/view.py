@@ -24,7 +24,7 @@ class Projects(Resource):
             portfolio_data_service = get_portfolio_data_service()
             projects = portfolio_data_service.projects()
 
-            response = [project.to_dict() for project in projects if project.active]
+            response = [project.to_response() for project in projects if project.active]
 
             return jsonify(response)
         except Exception as error:

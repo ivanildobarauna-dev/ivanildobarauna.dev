@@ -1,5 +1,6 @@
 from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy.orm import declarative_base
+from sqlalchemy.inspection import inspect
 
 Base = declarative_base()
 
@@ -17,7 +18,7 @@ class Formation(Base):
     logo = Column(String(200), nullable=True, comment="Logo da formação")
     active = Column(Boolean, default=False, comment="Flag para indicar se está ativa")
 
-    def to_dict(self):
+    def to_response(self):
         """
         Converte o objeto Formation em um dicionário.
         """
@@ -29,3 +30,10 @@ class Formation(Base):
             "description": self.description,
             "logo": self.logo,
         }
+
+    def to_dict(self):
+        """
+        Converte o objeto Project em um dicionário.
+        """
+        return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
+

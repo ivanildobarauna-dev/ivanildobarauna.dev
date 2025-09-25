@@ -33,7 +33,7 @@ class Experiences(Resource):
             if company_duration_param:
                 company_durations = portfolio_data_service.companies_duration()
                 response = [
-                    company_duration.to_dict()
+                    company_duration.to_response()
                     for company_duration in company_durations
                 ]
                 return jsonify(response)
@@ -41,7 +41,7 @@ class Experiences(Resource):
             experiences = portfolio_data_service.experiences()
 
             response = [
-                experience.to_dict() for experience in experiences
+                experience.to_response() for experience in experiences
             ]
 
             return jsonify(response)

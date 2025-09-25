@@ -1,5 +1,6 @@
 import logging
 from src.infrastructure.adapters.outbound_postgres_adapter import PostgresAdapter
+from src.infrastructure.adapters.outbound_redis_adapter import RedisAdapter
 from src.infrastructure.services.portfolio_data_service import PortfolioDataService
 
 logger = logging.getLogger(__name__)
@@ -17,10 +18,12 @@ class ApplicationDependencies:
                 logger.info("🔄 Inicializando PostgresAdapter...")
                 cls._instance.data_repository = PostgresAdapter()
                 logger.info("✅ PostgresAdapter inicializado com sucesso!")
-                
+                logger.info("🔄 Inicializando RedisAdapter...")
+                cls._instance.cache_provider = RedisAdapter()
+                logger.info("✅ RedisAdapter inicializado com sucesso!")
                 logger.info("🔄 Inicializando PortfolioDataService...")
                 cls._instance.portfolio_data_service = PortfolioDataService(
-                    cls._instance.data_repository
+                    cls._instance.data_repository, cls._instance.cache_provider
                 )
                 logger.info("✅ PortfolioDataService inicializado com sucesso!")
                 
@@ -30,6 +33,6 @@ class ApplicationDependencies:
                 
             logger.info("🎉 ApplicationDependencies inicializado com sucesso!")
         else:
-            logger.info("♻️  Reutilizando instância existente de ApplicationDependencies")
+            logger.info("♻️Reutilizando instância existente de ApplicationDependencies")
             
         return cls._instance

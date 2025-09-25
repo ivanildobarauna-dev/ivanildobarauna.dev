@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 
 from sqlalchemy import Boolean, Column, DateTime, Integer, String
 from sqlalchemy.orm import declarative_base
+from sqlalchemy.inspection import inspect
 
 Base = declarative_base()
 
@@ -23,7 +24,7 @@ class Certification(Base):
         DateTime(timezone=True), onupdate=lambda: datetime.now(timezone.utc)
     )
 
-    def to_dict(self):
+    def to_response(self):
         """
         Converte o objeto Certification em um dicionário.
         """
@@ -33,3 +34,9 @@ class Certification(Base):
             "credential_url": self.credential_url,
             "logo": self.logo,
         }
+
+    def to_dict(self):
+        """
+        Converte o objeto Project em um dicionário.
+        """
+        return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}

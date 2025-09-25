@@ -4,10 +4,10 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.local  # Usa o Dockerfile local para desenvolvimento
+      dockerfile: Dockerfile.local
     container_name: portfolio-frontend
     ports:
-      - "3000:3000"  # Porta padrão do Next.js em desenvolvimento
+      - "3000:3000"
     environment:
       - NODE_ENV=development
       - NEXT_TELEMETRY_DISABLED=1
@@ -18,8 +18,11 @@ services:
       - DD_AGENT_HOST=host.docker.internal
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:nextjs,role:frontend,env:local"
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=redis
     extra_hosts:
-      - "host.docker.internal:host-gateway"  # Permite acessar serviços do host
+      - "host.docker.internal:host-gateway"
     labels:
       com.datadoghq.ad.logs: '[{"source": "nodejs", "service": "ivanildobarauna.local"}]'
       tags.env: "local"
@@ -29,6 +32,8 @@ services:
       tags.role: "frontend"
     depends_on:
       backend:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     restart: unless-stopped
     networks:
@@ -69,6 +74,22 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+    networks:
+      - portfolio-network
+
+  redis:
+    image: redis:7
+    container_name: portfolio-redis
+    command: redis-server --requirepass redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redis", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
     networks:
       - portfolio-network
 
