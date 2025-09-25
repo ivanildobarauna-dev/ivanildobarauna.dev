@@ -4,11 +4,24 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { FaEnvelope } from 'react-icons/fa';
 import CvDownloadButton from './CvDownloadButton';
-import { useSocialLinks } from '@/app/social-links/hooks/useSocialLinks';
 import { socialIconMap } from '@/utils/socialIconMap';
 
-export default function HeroSection() {
-  const { socialLinks, loading, error } = useSocialLinks();
+export interface SocialMediaLink {
+  id: string;
+  name: string;
+  url: string;
+  icon: string;
+  displayName: string;
+  order: number;
+}
+
+interface HeroSectionProps {
+  socialMedia: SocialMediaLink[];
+}
+
+export default function HeroSection({ socialMedia }: HeroSectionProps) {
+  // Sort social media links by order
+  const sortedSocialMedia = [...socialMedia].sort((a, b) => a.order - b.order);
 
   return (
     <section className="hero-section min-h-screen flex items-center justify-center px-4 py-20" data-testid="hero-section">
@@ -84,20 +97,23 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex gap-4 justify-center lg:justify-start"
+              className="flex flex-wrap justify-center lg:justify-start gap-3 pt-4"
             >
-              {!loading && !error && socialLinks.map((link) => {
-                const Icon = socialIconMap[link.type];
+              {sortedSocialMedia.map((link) => {
+                const Icon = socialIconMap[link.name.toLowerCase()] || socialIconMap.default;
                 return (
-                  <a
-                    key={link.label}
+                  <motion.a
+                    key={link.id}
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-primary-foreground/60 hover:text-primary-foreground hover:bg-white/10 transition-colors"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors text-primary-foreground/80 hover:text-primary-foreground"
+                    whileHover={{ y: -3, scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    aria-label={link.name}
                   >
-                    {Icon && <Icon className="w-5 h-5" />}
-                  </a>
+                    <Icon className="w-5 h-5" />
+                  </motion.a>
                 );
               })}
             </motion.div>
