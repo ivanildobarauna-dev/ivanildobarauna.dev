@@ -15,14 +15,13 @@ from src.infrastructure.utils.logger import logger
 
 
 class RedisAdapter(CacheProvider):
-    # Configurações padrão do Redis
-    REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+    REDIS_HOST = os.getenv("REDIS_HOST", "localhost") 
     REDIS_PORT = int(os.getenv("REDIS_PORT", "6379"))
-    REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", "redis")
+    REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", "redis") ## password redis only local
     REDIS_DB = int(os.getenv("REDIS_DB", "0"))
-    REDIS_TTL = int(os.getenv("REDIS_TTL", "3600"))  # 1 hora de TTL padrão
+    REDIS_TTL = int(os.getenv("REDIS_TTL", "2592000"))  ## 30 days
     
-    # Prefixos para as chaves no Redis
+    
     PROJECTS_KEY = "portfolio:projects"
     FORMATIONS_KEY = "portfolio:formations"
     CERTIFICATIONS_KEY = "portfolio:certifications"
