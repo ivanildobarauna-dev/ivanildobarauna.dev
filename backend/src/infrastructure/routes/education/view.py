@@ -25,10 +25,10 @@ class Education(Resource):
 
             response = {
                 "formations": [
-                    formation.to_dict() for formation in formations if formation.active
+                    formation.to_response() for formation in formations if formation.active
                 ],
                 "certifications": [
-                    certification.to_dict()
+                    certification.to_response()
                     for certification in certifications
                     if certification.active
                 ],

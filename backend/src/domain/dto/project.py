@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 
 from sqlalchemy import JSON, Boolean, Column, DateTime, Integer, String
 from sqlalchemy.orm import declarative_base
+from sqlalchemy.inspection import inspect
 
 Base = declarative_base()
 
@@ -31,7 +32,7 @@ class Project(Base):
         comment="Data de atualização do projeto",
     )
 
-    def to_dict(self):
+    def to_response(self):
         """
         Converte o objeto Project em um dicionário.
         """
@@ -41,3 +42,9 @@ class Project(Base):
             "url": self.url,
             "tags": self.tags,
         }
+
+    def to_dict(self):
+        """
+        Converte o objeto Project em um dicionário.
+        """
+        return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}

@@ -27,7 +27,7 @@ class SocialMediaLinks(Resource):
             portfolio_data_service = get_portfolio_data_service()
             social_media_list = portfolio_data_service.social_media()
 
-            response = [sm.to_dict() for sm in social_media_list if sm.active]
+            response = [sm.to_response() for sm in social_media_list if sm.active]
 
             return jsonify(response)
         except Exception as error:

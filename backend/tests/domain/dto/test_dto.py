@@ -18,7 +18,7 @@ def test_project_to_dict():
         active=True,
     )
     
-    result = project.to_dict()
+    result = project.to_response()
     
 
     assert result["title"] == "Test Project"
@@ -41,7 +41,7 @@ def test_experience_to_dict():
         duration="test duration"
     )
     
-    result = experience.to_dict()
+    result = experience.to_response()
     
 
     assert result["position"] == "Test Position"
@@ -67,7 +67,7 @@ def test_formation_to_dict():
         active=True,
     )
     
-    result = formation.to_dict()
+    result = formation.to_response()
 
     assert result["institution"] == "Test Institution"
     assert result["type"] == "Test Type"
@@ -88,7 +88,7 @@ def test_certification_to_dict():
         active=True,
     )
     
-    result = certification.to_dict()
+    result = certification.to_response()
 
     assert result["name"] == "Test Certification"
     assert result["institution"] == "Test Institution"
@@ -106,7 +106,7 @@ def test_social_media_to_dict():
         active=True,
     )
     
-    result = social_media.to_dict()
+    result = social_media.to_response()
 
     assert result["label"] == "Test Social"
     assert result["url"] == "https://example.com/social"

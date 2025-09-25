@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 
 from sqlalchemy import Boolean, Column, DateTime, Integer, String
 from sqlalchemy.orm import declarative_base
+from sqlalchemy.inspection import inspect
 
 Base = declarative_base()
 
@@ -32,7 +33,7 @@ class SocialMedia(Base):
         comment="Data de atualização da rede social",
     )
 
-    def to_dict(self):
+    def to_response(self):
         """
         Converte o objeto SocialMedia em um dicionário.
         """
@@ -41,3 +42,10 @@ class SocialMedia(Base):
             "url": self.url,
             "type": self.type,
         }
+
+    def to_dict(self):
+        """
+        Converte o objeto Project em um dicionário.
+        """
+        return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
+
