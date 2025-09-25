@@ -3,15 +3,7 @@
 import { motion } from 'framer-motion';
 import { FaCode, FaDatabase, FaRocket, FaCloud } from 'react-icons/fa';
 
-interface AboutProps {
-  totalExperience: number;
-  totalProjects: number;
-  totalEducation: number;
-}
-
-import { formatNumber } from '@/utils/numberUtils';
-
-export default function About({ totalExperience, totalProjects, totalEducation }: AboutProps) {
+export default function About() {
   const skills = [
     {
       category: "Software Engineering",
@@ -43,7 +35,7 @@ export default function About({ totalExperience, totalProjects, totalEducation }
             Sobre <span className="text-gradient">Mim</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
-            Com mais de {formatNumber(totalExperience)} anos de experiência, desenvolvo soluções de dados que combinam 
+            Com mais de 10 anos de experiência, desenvolvo soluções de dados que combinam 
             arquitetura robusta com performance otimizada e escalabilidade.
           </p>
         </div>
@@ -57,7 +49,7 @@ export default function About({ totalExperience, totalProjects, totalEducation }
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <div className="text-4xl md:text-5xl font-bold text-primary mb-2">{formatNumber(totalExperience, true)}</div>
+            <div className="text-3xl font-bold text-gradient">10+</div>
             <div className="text-muted-foreground">Anos de Experiência</div>
           </motion.div>
           
@@ -68,7 +60,7 @@ export default function About({ totalExperience, totalProjects, totalEducation }
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-center"
           >
-            <div className="text-4xl md:text-5xl font-bold text-primary mb-2">{formatNumber(totalProjects, true)}</div>
+            <div className="text-3xl font-bold text-gradient">50+</div>
             <div className="text-muted-foreground">Projetos Open Source</div>
           </motion.div>
           
@@ -79,7 +71,7 @@ export default function About({ totalExperience, totalProjects, totalEducation }
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-center"
           >
-            <div className="text-4xl md:text-5xl font-bold text-primary mb-2">{formatNumber(totalEducation, true)}</div>
+            <div className="text-3xl font-bold text-gradient">10+</div>
             <div className="text-muted-foreground">Formações e Certificações</div>
           </motion.div>
         </div>

@@ -1,56 +1,38 @@
 'use client';
-import { useTotalExperience } from './experience/hooks/useTotalExperience';
-import { useTotalProjects } from './projects/hooks/useTotalProjects';
-import { useTotalEducation } from './education/hooks/useTotalEducation';
-import { useExperience } from './experience/hooks/useExperience';
-import { useProjects } from './projects/hooks/useProjects';
-import { useEducation } from './education/hooks/useEducation';
+import { useEffect, useState } from 'react';
+import { SectionDataProvider } from '@/contexts/SectionDataContext';
+import { useSocialMedia } from './hooks/useSocialMedia';
 import Loading from '@/components/Loading';
 import AlertMessage from '@/components/AlertMessage';
 import HeroSection from '@/components/HeroSection';
 import About from '@/components/About';
-import ExperienceSection from '@/components/ExperienceSection';
-import ProjectsSection from '@/components/ProjectsSection';
-import EducationSection from '@/components/EducationSection';
+import LazyExperienceSection from '@/components/LazyExperienceSection';
+import LazyProjectsSection from '@/components/LazyProjectsSection';
+import LazyEducationSection from '@/components/LazyEducationSection';
 import Footer from '@/components/Footer';
 
-const parseNumber = (value: string | number): number => {
-  if (typeof value === 'string') {
-    const cleanValue = value.replace(/\+$/, '');
-    const num = Number(cleanValue);
-    return isNaN(num) ? 0 : num;
+// This component wraps the app to provide section data context
+function AppContent() {
+  const { socialMedia, loading, error } = useSocialMedia();
+  const [isClient, setIsClient] = useState(false);
+
+  // This ensures we're in the browser before rendering
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null; // or a loading spinner
   }
-  const num = Number(value);
-  return isNaN(num) ? 0 : num;
-};
 
-export default function Home() {
-  // Hooks para dados totais (usados no Hero e About)
-  const { totalExperience, loading: loadingExperience, error: errorExperience } = useTotalExperience();
-  const { totalProjects, loading: loadingProjects, error: errorProjects } = useTotalProjects();
-  const { totalEducation, loading: loadingEducation, error: errorEducation } = useTotalEducation();
-  
-  // Hooks para dados completos (usados nas seções)
-  const { experiences, loading: loadingExpData, error: errorExpData, tempoTotalCarreira } = useExperience();
-  const { projects, loading: loadingProjData, error: errorProjData } = useProjects();
-  const { formations, certifications, loading: loadingEduData, error: errorEduData } = useEducation();
-
-  // Verificar se todos os dados estão carregando
-  const isLoading = loadingExperience || loadingProjects || loadingEducation || 
-                   loadingExpData || loadingProjData || loadingEduData;
-
-  // Verificar se há algum erro
-  const hasError = errorExperience || errorProjects || errorEducation || 
-                  errorExpData || errorProjData || errorEduData;
-
-  if (isLoading) {
+  if (loading) {
     return <Loading />;
   }
 
-  if (hasError) {
+  if (error) {
     return (
       <AlertMessage 
-        message="Erro ao carregar dados"
+        message="Erro ao carregar dados iniciais"
         severity="error"
       />
     );
@@ -60,41 +42,33 @@ export default function Home() {
     <main className="min-h-screen">
       {/* Hero Section */}
       <section id="home" className="scroll-mt-20">
-        <HeroSection />
+        <HeroSection socialMedia={socialMedia} />
       </section>
 
-      {/* About Section */}
+      {/* About Section - Always loaded since it's lightweight */}
       <section id="about" className="scroll-mt-20">
-        <About 
-          totalExperience={parseNumber(totalExperience)}
-          totalProjects={parseNumber(totalProjects)}
-          totalEducation={parseNumber(totalEducation)}
-        />
+        <About />
       </section>
 
-      {/* Experience Section */}
-      <section id="experience" className="scroll-mt-20">
-        <ExperienceSection 
-          experiences={experiences} 
-          tempoTotalCarreira={tempoTotalCarreira} 
-        />
-      </section>
+      {/* Experience Section - Lazy loaded */}
+      <LazyExperienceSection />
 
-      {/* Projects Section */}
-      <section id="projects" className="scroll-mt-20">
-        <ProjectsSection projects={projects} />
-      </section>
+      {/* Projects Section - Lazy loaded */}
+      <LazyProjectsSection />
 
-      {/* Education Section */}
-      <section id="education" className="scroll-mt-20">
-        <EducationSection 
-          formations={formations} 
-          certifications={certifications} 
-        />
-      </section>
+      {/* Education Section - Lazy loaded */}
+      <LazyEducationSection />
 
       {/* Footer */}
       <Footer />
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <SectionDataProvider>
+      <AppContent />
+    </SectionDataProvider>
   );
 }
