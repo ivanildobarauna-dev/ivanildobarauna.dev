@@ -16,13 +16,14 @@ class ApplicationDependencies:
             
             try:
                 logger.info("🔄 Inicializando PostgresAdapter...")
-                postgres_adapter = PostgresAdapter()
-                cls._instance.data_repository = RedisAdapter(fallback_repository=postgres_adapter)
+                cls._instance.data_repository = PostgresAdapter()
                 logger.info("✅ PostgresAdapter inicializado com sucesso!")
-                
+                logger.info("🔄 Inicializando RedisAdapter...")
+                cls._instance.cache_provider = RedisAdapter()
+                logger.info("✅ RedisAdapter inicializado com sucesso!")
                 logger.info("🔄 Inicializando PortfolioDataService...")
                 cls._instance.portfolio_data_service = PortfolioDataService(
-                    cls._instance.data_repository
+                    cls._instance.data_repository, cls._instance.cache_provider
                 )
                 logger.info("✅ PortfolioDataService inicializado com sucesso!")
                 
@@ -32,6 +33,6 @@ class ApplicationDependencies:
                 
             logger.info("🎉 ApplicationDependencies inicializado com sucesso!")
         else:
-            logger.info("♻️  Reutilizando instância existente de ApplicationDependencies")
+            logger.info("♻️Reutilizando instância existente de ApplicationDependencies")
             
         return cls._instance

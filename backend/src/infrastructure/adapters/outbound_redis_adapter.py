@@ -10,16 +10,11 @@ from src.domain.dto.experience import Experience
 from src.domain.dto.formation import Formation
 from src.domain.dto.project import Project
 from src.domain.dto.social_media import SocialMedia
-from src.infrastructure.ports.repository_interface import RepositoryInterface
+from src.infrastructure.ports.cache_provider_interface import CacheProvider
 from src.infrastructure.utils.logger import logger
 
 
-class RedisAdapter(RepositoryInterface):
-    """
-    Adaptador para o Redis que implementa a interface RepositoryInterface.
-    Este adaptador fornece um cache em memória com fallback para outro repositório.
-    """
-    
+class RedisAdapter(CacheProvider):
     # Configurações padrão do Redis
     REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
     REDIS_PORT = int(os.getenv("REDIS_PORT", "6379"))
@@ -36,194 +31,117 @@ class RedisAdapter(RepositoryInterface):
     COMPANY_DURATION_KEY = "portfolio:company_duration"
     TOTAL_EXPERIENCE_KEY = "portfolio:total_experience"
 
-    def __init__(self, fallback_repository: Optional[RepositoryInterface] = None, **redis_kwargs) -> None:
-        """
-        Inicializa o adaptador do Redis.
-        
-        Args:
-            fallback_repository: Repositório de fallback opcional para buscar dados quando não estiverem em cache
-            **redis_kwargs: Argumentos adicionais para a conexão com o Redis
-        """
-        self.fallback_repository = fallback_repository
+    def __init__(self) -> None:
         self.redis = redis.Redis(
             host=self.REDIS_HOST,
             port=self.REDIS_PORT,
             password=self.REDIS_PASSWORD,
             db=self.REDIS_DB,
-            decode_responses=True,
-            **redis_kwargs
+            decode_responses=True
         )
-        
-        # Testa a conexão com o Redis
+
         try:
             self.redis.ping()
         except RedisError as e:
-            logger.error(f"Erro ao conectar ao Redis: {e}")
-            if not fallback_repository:
-                raise RuntimeError("Falha ao conectar ao Redis e nenhum repositório de fallback fornecido")
-    
+            logger.error(f"Redis Connection Error: {e}")
+            raise
+
+    def get_cache_data_by_key(self, key: str):
+        try:
+            data = self.redis.get(key)
+            if not data:
+                return []
+            return json.loads(data)
+        except RedisError as e:
+            logger.error(f"Redis GET Key Error: {e}")
+            raise
+
     def get_all_projects(self) -> List[Project]:
-        """Obtém todos os projetos do cache ou do repositório de fallback."""
-        
-        try:    
-            projects_data_from_cache = self.redis.get(self.PROJECTS_KEY)
-        except RedisError as e:
-            logger.error(f"Erro ao acessar o Redis: {e}")
-            if self.fallback_repository:
-                return self.fallback_repository.get_all_projects()
-            raise
-        
-        if projects_data_from_cache:
-            project_data = json.loads(projects_data_from_cache)
-            return [Project(**project) if isinstance(project, dict) else project 
-                    for project in (project_data or [])]
-        else:
-            project_data = self.fallback_repository.get_all_projects() if self.fallback_repository else []
-            self.redis.setex(
-                self.PROJECTS_KEY,
-                self.REDIS_TTL,
-                json.dumps(project_data, default=str)
-            )
-            return project_data
-        
+        projects_data = self.get_cache_data_by_key(self.PROJECTS_KEY)
+
+        return [Project(**project) for project in projects_data]
+
     def get_all_formations(self) -> List[Formation]:
-        """Obtém todas as formações do cache ou do repositório de fallback."""
-        try:    
-            formations_data_from_cache = self.redis.get(self.FORMATIONS_KEY)
-        except RedisError as e:
-            logger.error(f"Erro ao acessar o Redis: {e}")
-            if self.fallback_repository:
-                return self.fallback_repository.get_all_formations()
-            raise
-            
-        if formations_data_from_cache:
-            formations_data = json.loads(formations_data_from_cache)
-            return [Formation(**formation) if isinstance(formation, dict) else formation 
-                    for formation in (formations_data or [])]
-        else:
-            formations_data = self.fallback_repository.get_all_formations() if self.fallback_repository else []
-            self.redis.setex(
-                        self.FORMATIONS_KEY, 
-                        self.REDIS_TTL, 
-                        json.dumps(formations_data, default=str)
-                    )
-            return [Formation(**formation) if isinstance(formation, dict) else formation 
-                    for formation in (formations_data or [])]
-    
+        formations_data   = self.get_cache_data_by_key(self.FORMATIONS_KEY)
+
+        return [Formation(**project) for project in formations_data]
+
     def get_all_certifications(self) -> List[Certification]:
-        """Obtém todas as certificações do cache ou do repositório de fallback."""
-        try:    
-            certs_data_from_cache = self.redis.get(self.CERTIFICATIONS_KEY)
-        except RedisError as e:
-            logger.error(f"Erro ao acessar o Redis: {e}")
-            if self.fallback_repository:
-                return self.fallback_repository.get_all_certifications()
-            raise
-            
-        if certs_data_from_cache:
-            certs_data = json.loads(certs_data_from_cache)
-            return [Certification(**cert) if isinstance(cert, dict) else cert 
-                    for cert in (certs_data or [])]
-        else:
-            certs_data = self.fallback_repository.get_all_certifications() if self.fallback_repository else []
-            self.redis.setex(
-                        self.CERTIFICATIONS_KEY, 
-                        self.REDIS_TTL, 
-                        json.dumps(certs_data, default=str)
-                    )
-            return [Certification(**cert) if isinstance(cert, dict) else cert 
-                    for cert in (certs_data or [])]
+        certifications_data = self.get_cache_data_by_key(self.CERTIFICATIONS_KEY)
+
+        return [Certification(**project) for project in certifications_data]
     
     def get_all_experiences(self) -> List[Experience]:
-        """Obtém todas as experiências do cache ou do repositório de fallback."""
-        try:    
-            exp_data_from_cache = self.redis.get(self.EXPERIENCES_KEY)
-        except RedisError as e:
-            logger.error(f"Erro ao acessar o Redis: {e}")
-            if self.fallback_repository:
-                return self.fallback_repository.get_all_experiences()
-            raise
-            
-        if exp_data_from_cache:
-            exp_data = json.loads(exp_data_from_cache)
-            return [Experience(**exp) if isinstance(exp, dict) else exp 
-                    for exp in (exp_data or [])]
-        else:
-            exp_data = self.fallback_repository.get_all_experiences() if self.fallback_repository else []
-            self.redis.setex(
-                        self.EXPERIENCES_KEY, 
-                        self.REDIS_TTL, 
-                        json.dumps(exp_data, default=str)
-                    )
-            return [Experience(**exp) if isinstance(exp, dict) else exp 
-                    for exp in (exp_data or [])]
+        experiences_data = self.get_cache_data_by_key(self.EXPERIENCES_KEY)
+
+        return [Experience(**project) for project in experiences_data]
     
     def get_all_social_media(self) -> List[SocialMedia]:
-        """Obtém todas as redes sociais do cache ou do repositório de fallback."""
-        try:    
-            sm_data_from_cache = self.redis.get(self.SOCIAL_MEDIA_KEY)
-        except RedisError as e:
-            logger.error(f"Erro ao acessar o Redis: {e}")
-            if self.fallback_repository:
-                return self.fallback_repository.get_all_social_media()
-            raise
-            
-        if sm_data_from_cache:
-            sm_data = json.loads(sm_data_from_cache)
-            return [SocialMedia(**sm) if isinstance(sm, dict) else sm 
-                    for sm in (sm_data or [])]
-        else:
-            sm_data = self.fallback_repository.get_all_social_media() if self.fallback_repository else []
-            self.redis.setex(
-                        self.SOCIAL_MEDIA_KEY, 
-                        self.REDIS_TTL, 
-                        json.dumps(sm_data, default=str)
-                    )
-            return [SocialMedia(**sm) if isinstance(sm, dict) else sm 
-                    for sm in (sm_data or [])]
+        social_media_data = self.get_cache_data_by_key(self.SOCIAL_MEDIA_KEY)
+
+        return [SocialMedia(**project) for project in social_media_data]
     
     def get_company_duration(self) -> List[CompanyDuration]:
-        """Obtém a duração nas empresas do cache ou do repositório de fallback."""
-        try:    
-            cd_data_from_cache = self.redis.get(self.COMPANY_DURATION_KEY)
-        except RedisError as e:
-            logger.error(f"Erro ao acessar o Redis: {e}")
-            if self.fallback_repository:
-                return self.fallback_repository.get_company_duration()
-            raise
-            
-        if cd_data_from_cache:
-            cd_data = json.loads(cd_data_from_cache)
-            return [CompanyDuration(**cd) if isinstance(cd, dict) else cd 
-                    for cd in (cd_data or [])]
-        else:
-            cd_data = self.fallback_repository.get_company_duration() if self.fallback_repository else []
-            self.redis.setex(
-                        self.COMPANY_DURATION_KEY, 
-                        self.REDIS_TTL, 
-                        json.dumps(cd_data, default=str)
-                    )
-            return [CompanyDuration(**cd) if isinstance(cd, dict) else cd 
-                    for cd in (cd_data or [])]
+        company_duration_data = self.get_cache_data_by_key(self.COMPANY_DURATION_KEY)
+
+        return [CompanyDuration(**project) for project in company_duration_data]
     
     def get_total_experience(self) -> Dict[str, Any]:
-        """Obtém o tempo total de experiência do cache ou do repositório de fallback."""
-        try:    
-            te_data_from_cache = self.redis.get(self.TOTAL_EXPERIENCE_KEY)
+        total_experience_data = self.get_cache_data_by_key(self.TOTAL_EXPERIENCE_KEY)
+
+        return total_experience_data
+
+    def set_projects(self, list_projects: List[Project]):
+        try:
+            data = [project.to_dict() for project in list_projects]
+            self.redis.set(self.PROJECTS_KEY, json.dumps(data), ex=self.REDIS_TTL)
         except RedisError as e:
-            logger.error(f"Erro ao acessar o Redis: {e}")
-            if self.fallback_repository:
-                return self.fallback_repository.get_total_experience()
+            logger.error(f"Redis setting Key -> {self.PROJECTS_KEY} Error: {e}")
             raise
-            
-        if te_data_from_cache:
-            te_data = json.loads(te_data_from_cache)
-            return te_data or {}
-        else:
-            te_data = self.fallback_repository.get_total_experience() if self.fallback_repository else {}
-            self.redis.setex(
-                        self.TOTAL_EXPERIENCE_KEY, 
-                        self.REDIS_TTL, 
-                        json.dumps(te_data, default=str)
-                    )
-            return te_data or {}
+
+    def set_formations(self, list_formations: List[Formation]):
+        try:
+            data = [formation.to_dict() for formation in list_formations]
+            self.redis.set(self.FORMATIONS_KEY, json.dumps(data), ex=self.REDIS_TTL)
+        except RedisError as e:
+            logger.error(f"Redis setting Key -> {self.FORMATIONS_KEY} Error: {e}")
+            raise
+
+    def set_certifications(self, list_certifications: List[Certification]):
+        try:
+            data = [certification.to_dict() for certification in list_certifications]
+            self.redis.set(self.CERTIFICATIONS_KEY, json.dumps(data), ex=self.REDIS_TTL)
+        except RedisError as e:
+            logger.error(f"Redis setting Key -> {self.CERTIFICATIONS_KEY} Error: {e}")
+            raise
+
+    def set_experiences(self, list_experiences: List[Experience]):
+        try:
+            data = [experience.to_dict() for experience in list_experiences]
+            self.redis.set(self.EXPERIENCES_KEY, json.dumps(data), ex=self.REDIS_TTL)
+        except RedisError as e:
+            logger.error(f"Redis setting Key -> {self.EXPERIENCES_KEY} Error: {e}")
+            raise
+
+    def set_social_media(self, list_social_media: List[SocialMedia]):
+        try:
+            data = [social_media.to_dict() for social_media in list_social_media]
+            self.redis.set(self.SOCIAL_MEDIA_KEY, json.dumps(data), ex=self.REDIS_TTL)
+        except RedisError as e:
+            logger.error(f"Redis setting Key -> {self.SOCIAL_MEDIA_KEY} Error: {e}")
+            raise
+
+    def set_company_duration(self, list_company_duration: List[CompanyDuration]):
+        try:
+            data = [company_duration.to_dict() for company_duration in list_company_duration]
+            self.redis.set(self.COMPANY_DURATION_KEY, json.dumps(data), ex=self.REDIS_TTL)
+        except RedisError as e:
+            logger.error(f"Redis setting Key -> {self.COMPANY_DURATION_KEY} Error: {e}")
+            raise
+
+    def set_total_experience(self, total_experience: Dict[str, Any]):
+        try:
+            self.redis.set(self.TOTAL_EXPERIENCE_KEY, json.dumps(total_experience), ex=self.REDIS_TTL)
+        except RedisError as e:
+            logger.error(f"Redis setting Key -> {self.TOTAL_EXPERIENCE_KEY} Error: {e}")
+            raise
