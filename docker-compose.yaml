@@ -60,6 +60,9 @@ services:
       - POSTGRES_USER=backend
       - POSTGRES_PASSWORD=backend
       - POSTGRES_DB=portfolio
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=redis
     labels:
       com.datadoghq.ad.logs: '[{"source": "python", "service": "api.ivanildobarauna.dev"}]'
       tags.env: "local"
@@ -68,6 +71,9 @@ services:
       tags.app: "portfolio"
       tags.role: "backend"
     restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8090/api/v1/ping"]
       interval: 10s
