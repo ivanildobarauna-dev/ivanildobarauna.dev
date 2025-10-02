@@ -25,10 +25,10 @@ export function useLazyEducation(): EducationData {
     setError(null);
     
     try {
-      // Fetch formations
-      const formationsEndpoint = getBackendEndpoint('/education/formations');
-      const formationsData = await retryAsync(async () => {
-        const response = await fetch(formationsEndpoint, {
+      // Faz uma única chamada ao endpoint /education
+      const educationEndpoint = getBackendEndpoint('/education');
+      const educationData = await retryAsync(async () => {
+        const response = await fetch(educationEndpoint, {
           method: 'GET',
           headers: { Accept: 'application/json' },
           mode: 'cors',
@@ -36,31 +36,23 @@ export function useLazyEducation(): EducationData {
 
         if (!response.ok) {
           throw new Error(
-            `Failed to load formations. Status: ${response.status}`,
+            `Failed to load education data. Status: ${response.status}`,
           );
         }
         return response.json();
       });
 
-      // Fetch certifications
-      const certsEndpoint = getBackendEndpoint('/education/certifications');
-      const certsData = await retryAsync(async () => {
-        const response = await fetch(certsEndpoint, {
-          method: 'GET',
-          headers: { Accept: 'application/json' },
-          mode: 'cors',
-        });
+      // Separa os dados de formations e certifications
+      const formations = educationData?.formations || [];
+      const certifications = educationData?.certifications || [];
 
-        if (!response.ok) {
-          throw new Error(
-            `Failed to load certifications. Status: ${response.status}`,
-          );
-        }
-        return response.json();
+      console.log('📚 Dados de educação recebidos:', {
+        formations: formations.length,
+        certifications: certifications.length,
       });
 
-      setFormations(Array.isArray(formationsData) ? formationsData : []);
-      setCertifications(Array.isArray(certsData) ? certsData : []);
+      setFormations(Array.isArray(formations) ? formations : []);
+      setCertifications(Array.isArray(certifications) ? certifications : []);
       setHasFetched(true);
     } catch (err) {
       console.error('Error loading education data:', err);

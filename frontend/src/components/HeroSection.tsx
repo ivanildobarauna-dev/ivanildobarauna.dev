@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { FaEnvelope } from 'react-icons/fa';
 import CvDownloadButton from './CvDownloadButton';
@@ -30,49 +29,34 @@ export default function HeroSection({ socialMedia }: HeroSectionProps) {
           {/* Content */}
           <div className="text-center lg:text-left space-y-8 fade-in">
             <div className="space-y-4">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+              <div
                 className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-secondary text-secondary-foreground"
               >
                 Gerando impacto real na humanidade usando tecnologia
-              </motion.div>
+              </div>
               
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
+              <h1
                 className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight"
               >
                 Ivanildo
                 <span className="block text-gradient-light">Barauna</span>
-              </motion.h1>
+              </h1>
               
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+              <p
                 className="text-xl md:text-2xl text-primary-foreground/80 max-w-lg"
               >
                 Senior Data Engineer & Open Source Maintainer
-              </motion.p>
+              </p>
               
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
+              <p
                 className="text-lg text-primary-foreground/60 max-w-xl leading-relaxed"
               >
                 Especialização em Engenharia, Análise de Dados e mantenedor de bibliotecas e serviços Open Source.
-              </motion.p>
+              </p>
             </div>
 
             {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+            <div
               className="flex flex-col sm:flex-row gap-4 items-center lg:items-start"
             >
               <a
@@ -90,40 +74,32 @@ export default function HeroSection({ socialMedia }: HeroSectionProps) {
               </a>
               
               <CvDownloadButton />
-            </motion.div>
+            </div>
 
             {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
+            <div
               className="flex flex-wrap justify-center lg:justify-start gap-3 pt-4"
             >
               {sortedSocialMedia.map((link) => {
                 const Icon = socialIconMap[link.name?.toLowerCase()] || socialIconMap.default;
                 return (
-                  <motion.a
+                  <a
                     key={link.id}
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors text-primary-foreground/80 hover:text-primary-foreground"
-                    whileHover={{ y: -3, scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
                     aria-label={link.name}
                   >
                     <Icon className="w-5 h-5" />
-                  </motion.a>
+                  </a>
                 );
               })}
-            </motion.div>
+            </div>
           </div>
 
           {/* Profile Image */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+          <div
             className="relative slide-up"
           >
             <div className="relative">
@@ -140,30 +116,24 @@ export default function HeroSection({ socialMedia }: HeroSectionProps) {
             </div>
             
             {/* Floating badges */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
+            <div
               className="absolute -top-4 -right-4 animate-float"
               style={{ animationDelay: '1s' }}
             >
               <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-primary-foreground border border-white/20">
                 Python
               </div>
-            </motion.div>
+            </div>
             
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 1.0 }}
+            <div
               className="absolute -bottom-4 -left-4 animate-float"
               style={{ animationDelay: '2s' }}
             >
               <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-primary-foreground border border-white/20">
                 Airflow
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

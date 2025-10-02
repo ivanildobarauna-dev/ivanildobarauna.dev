@@ -20,6 +20,21 @@ export default function LazyEducationSection() {
   const [isInView, setIsInView] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
 
+  // Format certifications as a Record<string, Certification[]>
+  const formattedCertifications = useMemo(() => {
+    const certsByInstitution: Record<string, Certification[]> = {};
+    
+    certifications.forEach(cert => {
+      const institution = cert.institution || 'Outros';
+      if (!certsByInstitution[institution]) {
+        certsByInstitution[institution] = [];
+      }
+      certsByInstitution[institution].push(cert);
+    });
+    
+    return certsByInstitution;
+  }, [certifications]);
+
   const loadEducationData = useCallback(async () => {
     if (!loadedSections.education && !loading) {
       await fetchEducation();
@@ -67,21 +82,6 @@ export default function LazyEducationSection() {
       </section>
     );
   }
-
-  // Format certifications as a Record<string, Certification[]>
-  const formattedCertifications = useMemo(() => {
-    const certsByInstitution: Record<string, Certification[]> = {};
-    
-    certifications.forEach(cert => {
-      const institution = cert.institution || 'Outros';
-      if (!certsByInstitution[institution]) {
-        certsByInstitution[institution] = [];
-      }
-      certsByInstitution[institution].push(cert);
-    });
-    
-    return certsByInstitution;
-  }, [certifications]);
 
   // If data is loaded, show the actual education section
   if (hasLoaded || loadedSections.education) {

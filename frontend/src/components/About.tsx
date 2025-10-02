@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { FaCode, FaDatabase, FaRocket, FaCloud } from 'react-icons/fa';
 
 export default function About() {
@@ -42,7 +41,7 @@ export default function About() {
 
         {/* Estatísticas */}
         <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <motion.div
+          <div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -51,9 +50,9 @@ export default function About() {
           >
             <div className="text-3xl font-bold text-gradient">10+</div>
             <div className="text-muted-foreground">Anos de Experiência</div>
-          </motion.div>
+          </div>
           
-          <motion.div
+          <div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -62,9 +61,9 @@ export default function About() {
           >
             <div className="text-3xl font-bold text-gradient">50+</div>
             <div className="text-muted-foreground">Projetos Open Source</div>
-          </motion.div>
+          </div>
           
-          <motion.div
+          <div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -73,7 +72,7 @@ export default function About() {
           >
             <div className="text-3xl font-bold text-gradient">10+</div>
             <div className="text-muted-foreground">Formações e Certificações</div>
-          </motion.div>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
@@ -110,7 +109,7 @@ export default function About() {
         {/* Skills Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {skills.map((skill, index) => (
-            <motion.div
+            <div
               key={skill.category}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -129,7 +128,7 @@ export default function About() {
                   </span>
                 ))}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
