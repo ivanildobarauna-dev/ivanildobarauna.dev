@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Formation, Certification } from '../app/education/interfaces';
 import { FaGraduationCap, FaCertificate, FaCalendarAlt, FaMapMarkerAlt, FaExternalLinkAlt } from 'react-icons/fa';
 
@@ -33,12 +32,8 @@ export default function EducationSection({ formations, certifications }: Educati
           
           <div className="grid md:grid-cols-2 gap-8">
             {formations.map((formation, index) => (
-              <motion.div
+              <div
                 key={`${formation.institution}-${formation.course}-${index}`}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="professional-card p-6 slide-up"
               >
                 <div className="flex items-start gap-4">
@@ -76,7 +71,7 @@ export default function EducationSection({ formations, certifications }: Educati
                     )}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -89,12 +84,8 @@ export default function EducationSection({ formations, certifications }: Educati
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {certificationsArray.map((cert, index) => (
-              <motion.div
+              <div
                 key={`${cert.institution}-${cert.name}-${index}`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="professional-card p-6 text-left group slide-up"
               >
                 <div className="w-16 h-16 bg-gradient-to-r from-primary/10 to-primary/20 rounded-2xl flex items-center justify-center text-primary mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -120,7 +111,7 @@ export default function EducationSection({ formations, certifications }: Educati
                     Ver Certificado
                   </a>
                 )}
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

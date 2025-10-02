@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Experience } from '@/app/experience/interfaces';
 import { FaExternalLinkAlt, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
@@ -25,12 +24,8 @@ export default function ExperienceSection({ experiences, tempoTotalCarreira }: E
 
         <div className="space-y-8">
           {Object.entries(experiences).map(([empresa, exps], empresaIndex) => (
-            <motion.div
+            <div
               key={empresa}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: empresaIndex * 0.2 }}
               className="professional-card overflow-hidden"
             >
               {/* Header da empresa */}
@@ -74,12 +69,8 @@ export default function ExperienceSection({ experiences, tempoTotalCarreira }: E
               {/* Experiências */}
               <div className="p-6 md:p-8 space-y-6">
                 {exps.map((exp, index) => (
-                  <motion.div
+                  <div
                     key={`${exp.company}-${exp.position}-${index}`}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
                     className="border-l-4 border-primary/20 pl-6"
                   >
                     <div className="mb-4">
@@ -118,10 +109,10 @@ export default function ExperienceSection({ experiences, tempoTotalCarreira }: E
                         ))}
                       </div>
                     )}
-                  </motion.div>
+                  </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

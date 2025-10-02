@@ -1,22 +1,9 @@
+// Em desenvolvimento, usamos o caminho relativo que será redirecionado pelo proxy do Next.js
+// Em produção, usamos o mesmo caminho, assumindo que o proxy estará configurado no servidor
 export function getBackendEndpoint(endpoint: string) {
-  // Se está rodando no navegador do cliente
-  const isClient = typeof window !== 'undefined';
+  // Remove barras iniciais duplicadas
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
   
-  let baseUrl;
-  
-  if (isClient) {
-    // No cliente (browser), use a mesma origem (para proxy reverso)
-    // Isto permite que as requisições do navegador sejam encaminhadas pelo servidor Next.js
-    const hostname = window.location.hostname;
-    const protocol = window.location.protocol;
-    const port = window.location.port ? `:${window.location.port}` : '';
-    // Usa o proxy reverso configurado no next.config.js especificando a porta
-    baseUrl = `${protocol}//${hostname}${port}/api/v1`;
-  } else {
-    // No servidor (SSR), use o nome do serviço Docker
-    // Em ambiente Docker, os serviços podem se comunicar pelo nome do serviço
-    baseUrl = "http://backend:8090/api/v1";
-  }
-  
-  return baseUrl + endpoint;
+  // Sempre usa o caminho relativo que será redirecionado pelo proxy
+  return `/api/v1${cleanEndpoint}`;
 }

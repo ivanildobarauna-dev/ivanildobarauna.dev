@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { useSocialLinks } from '@/app/social-links/hooks/useSocialLinks';
 import { socialIconMap } from '@/utils/socialIconMap';
 import { FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
@@ -40,11 +39,7 @@ export default function Footer() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Contato */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+            <div
               className="space-y-6"
             >
               <h3 className="text-xl font-semibold text-white">Contato</h3>
@@ -62,14 +57,10 @@ export default function Footer() {
                   </a>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
             {/* Redes Sociais */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+            <div
               className="space-y-6"
             >
               <h3 className="text-xl font-semibold text-white">Redes Sociais</h3>
@@ -90,14 +81,10 @@ export default function Footer() {
                   );
                 })}
               </div>
-            </motion.div>
+            </div>
 
             {/* Status */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+            <div
               className="space-y-6"
             >
               <h3 className="text-xl font-semibold text-white">Status</h3>
@@ -108,16 +95,12 @@ export default function Footer() {
               <p className="text-sm text-gray-300">
                 Aceitando novos projetos e colaborações interessantes.
               </p>
-            </motion.div>
+            </div>
           </div>
         </div>
 
         {/* Footer bottom */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+        <div
           className="border-t border-gray-800 mt-16 pt-8"
         >
           <div className="flex flex-col md:flex-row justify-between items-center">
@@ -128,7 +111,7 @@ export default function Footer() {
               Desenvolvido com ❤️ usando Next.js e Tailwind CSS
             </p>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

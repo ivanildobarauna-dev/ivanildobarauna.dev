@@ -1,17 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { FaCode, FaDatabase, FaRocket, FaCloud } from 'react-icons/fa';
 
-interface AboutProps {
-  totalExperience: number;
-  totalProjects: number;
-  totalEducation: number;
-}
-
-import { formatNumber } from '@/utils/numberUtils';
-
-export default function About({ totalExperience, totalProjects, totalEducation }: AboutProps) {
+export default function About() {
   const skills = [
     {
       category: "Software Engineering",
@@ -43,45 +34,33 @@ export default function About({ totalExperience, totalProjects, totalEducation }
             Sobre <span className="text-gradient">Mim</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
-            Com mais de {formatNumber(totalExperience)} anos de experiência, desenvolvo soluções de dados que combinam 
+            Com mais de 10 anos de experiência, desenvolvo soluções de dados que combinam 
             arquitetura robusta com performance otimizada e escalabilidade.
           </p>
         </div>
 
         {/* Estatísticas */}
         <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <div
             className="text-center"
           >
-            <div className="text-4xl md:text-5xl font-bold text-primary mb-2">{formatNumber(totalExperience, true)}</div>
+            <div className="text-3xl font-bold text-gradient">10+</div>
             <div className="text-muted-foreground">Anos de Experiência</div>
-          </motion.div>
+          </div>
           
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+          <div
             className="text-center"
           >
-            <div className="text-4xl md:text-5xl font-bold text-primary mb-2">{formatNumber(totalProjects, true)}</div>
+            <div className="text-3xl font-bold text-gradient">50+</div>
             <div className="text-muted-foreground">Projetos Open Source</div>
-          </motion.div>
+          </div>
           
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+          <div
             className="text-center"
           >
-            <div className="text-4xl md:text-5xl font-bold text-primary mb-2">{formatNumber(totalEducation, true)}</div>
+            <div className="text-3xl font-bold text-gradient">10+</div>
             <div className="text-muted-foreground">Formações e Certificações</div>
-          </motion.div>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
@@ -118,12 +97,8 @@ export default function About({ totalExperience, totalProjects, totalEducation }
         {/* Skills Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {skills.map((skill, index) => (
-            <motion.div
+            <div
               key={skill.category}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
               className="professional-card p-6 text-center"
             >
               <div className="mb-4 inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg text-primary">
@@ -137,7 +112,7 @@ export default function About({ totalExperience, totalProjects, totalEducation }
                   </span>
                 ))}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
