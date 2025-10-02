@@ -100,7 +100,7 @@ export default function HeroSection({ socialMedia }: HeroSectionProps) {
               className="flex flex-wrap justify-center lg:justify-start gap-3 pt-4"
             >
               {sortedSocialMedia.map((link) => {
-                const Icon = socialIconMap[link.name.toLowerCase()] || socialIconMap.default;
+                const Icon = socialIconMap[link.name?.toLowerCase()] || socialIconMap.default;
                 return (
                   <motion.a
                     key={link.id}

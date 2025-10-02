@@ -11,6 +11,13 @@ export interface SocialMediaLink {
   order: number;
 }
 
+// Interface para os dados vindos do backend
+interface BackendSocialMedia {
+  label: string;
+  type: string;
+  url: string;
+}
+
 interface SocialMediaData {
   socialMedia: SocialMediaLink[];
   loading: boolean;
@@ -24,7 +31,7 @@ export function useSocialMedia(): SocialMediaData {
 
   const fetchSocialMedia = useCallback(async () => {
     try {
-      const endpoint = getBackendEndpoint('/social-media');
+      const endpoint = getBackendEndpoint('/social-media-links');
       const data = await retryAsync(async () => {
         const response = await fetch(endpoint, {
           method: 'GET',
@@ -42,7 +49,24 @@ export function useSocialMedia(): SocialMediaData {
         return response.json();
       });
 
-      setSocialMedia(Array.isArray(data) ? data : []);
+      console.log('📊 Dados recebidos do backend:', data);
+      
+      // Transforma os dados do backend para o formato esperado pelo frontend
+      if (Array.isArray(data)) {
+        const transformedData: SocialMediaLink[] = data.map((item: BackendSocialMedia, index: number) => ({
+          id: item.type || `social-${index}`,
+          name: item.type || '',
+          url: item.url || '',
+          icon: item.type || '',
+          displayName: item.label || '',
+          order: index,
+        }));
+        
+        console.log('✅ Dados transformados:', transformedData);
+        setSocialMedia(transformedData);
+      } else {
+        setSocialMedia([]);
+      }
     } catch (err) {
       console.error('Error loading social media links:', err);
       setError(
