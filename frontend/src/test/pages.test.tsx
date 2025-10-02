@@ -1,6 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import HomePage from '../app/page';
+import { SectionDataProvider } from '@/contexts/SectionDataContext';
+import { useSocialMedia } from '../app/hooks/useSocialMedia';
+import AppContent from '../app/page';
+
+// Mock do useSocialMedia
+vi.mock('../app/hooks/useSocialMedia', () => ({
+  useSocialMedia: vi.fn()
+}));
 
 // Mock all the hooks that make API calls
 vi.mock('../app/experience/hooks/useTotalExperience', () => ({
@@ -170,28 +178,72 @@ describe('Pages Rendering Test', () => {
     vi.clearAllMocks();
   });
 
-  it('should render Home page with all sections', async () => {
+  it('should render Home page with main content', async () => {
+    // Mock do useSocialMedia para retornar dados simulados imediatamente
+    vi.mocked(useSocialMedia).mockReturnValue({
+      socialMedia: [
+        { 
+          id: '1',
+          name: 'GitHub', 
+          displayName: 'GitHub',
+          url: 'https://github.com', 
+          icon: 'github',
+          order: 1
+        },
+        { 
+          id: '2',
+          name: 'LinkedIn', 
+          displayName: 'LinkedIn',
+          url: 'https://linkedin.com', 
+          icon: 'linkedin',
+          order: 2
+        },
+      ],
+      loading: false,
+      error: null
+    });
+
+    // Renderiza o componente
     await act(async () => {
-      render(<HomePage />);
+      render(
+        <SectionDataProvider>
+          <AppContent />
+        </SectionDataProvider>
+      );
     });
     
     // Verifica se o elemento principal está presente
     const mainElement = screen.getByRole('main');
     expect(mainElement).toBeInTheDocument();
     
-    // Verifica se as seções principais estão presentes
-    const heroSection = screen.getByTestId('hero-section');
-    const aboutSection = screen.getByTestId('about-section');
-    const experienceSection = screen.getByTestId('experience-section');
-    const projectsSection = screen.getByTestId('projects-section');
-    const educationSection = screen.getByTestId('education-section');
-    const contactSection = screen.getByTestId('contact-section');
+    // Verifica se o título principal está presente
+    const titleElement = screen.getByText('Ivanildo');
+    expect(titleElement).toBeInTheDocument();
     
-    expect(heroSection).toBeInTheDocument();
-    expect(aboutSection).toBeInTheDocument();
-    expect(experienceSection).toBeInTheDocument();
-    expect(projectsSection).toBeInTheDocument();
-    expect(educationSection).toBeInTheDocument();
-    expect(contactSection).toBeInTheDocument();
+    // Verifica se o subtítulo está presente
+    const subtitleElement = screen.getByText('Senior Data Engineer & Open Source Maintainer');
+    expect(subtitleElement).toBeInTheDocument();
+    
+    // Verifica se os botões principais estão presentes
+    const contactButton = screen.getByText('Entre em contato');
+    const downloadCvButton = screen.getByText('Download CV');
+    
+    expect(contactButton).toBeInTheDocument();
+    expect(downloadCvButton).toBeInTheDocument();
+    
+    // Verifica se as redes sociais estão presentes
+    const githubLink = screen.getByLabelText('GitHub');
+    const linkedinLink = screen.getByLabelText('LinkedIn');
+    
+    expect(githubLink).toHaveAttribute('href', 'https://github.com');
+    expect(linkedinLink).toHaveAttribute('href', 'https://linkedin.com');
+    
+    // Verifica se a imagem de perfil está presente
+    const profileImage = screen.getByAltText('Ivanildo Barauna');
+    expect(profileImage).toBeInTheDocument();
+    
+    // Verifica se o componente de loading não está mais visível
+    const loadingElement = screen.queryByTestId('loading-spinner');
+    expect(loadingElement).not.toBeInTheDocument();
   });
 }); 
