@@ -42,10 +42,6 @@ export default function About() {
         {/* Estatísticas */}
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           <div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
             className="text-center"
           >
             <div className="text-3xl font-bold text-gradient">10+</div>
@@ -53,10 +49,6 @@ export default function About() {
           </div>
           
           <div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
             className="text-center"
           >
             <div className="text-3xl font-bold text-gradient">50+</div>
@@ -64,10 +56,6 @@ export default function About() {
           </div>
           
           <div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
             className="text-center"
           >
             <div className="text-3xl font-bold text-gradient">10+</div>
@@ -111,10 +99,6 @@ export default function About() {
           {skills.map((skill, index) => (
             <div
               key={skill.category}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
               className="professional-card p-6 text-center"
             >
               <div className="mb-4 inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg text-primary">

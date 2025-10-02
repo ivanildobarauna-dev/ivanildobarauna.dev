@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Project } from '@/app/projects/interfaces';
 import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
 
@@ -28,11 +27,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
         <div className="grid gap-8">
           {/* Featured Project */}
           {featuredProject && (
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+            <div
               className="professional-card overflow-hidden slide-up"
             >
               <div className="grid lg:grid-cols-2 gap-8 p-8">
@@ -95,18 +90,14 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {/* Other Projects Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {otherProjects.map((project, index) => (
-              <motion.div
+              <div
                 key={`${project.title}-${index}`}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: (index + 1) * 0.1 }}
                 className="professional-card overflow-hidden group slide-up"
               >
                 <div className="relative">
@@ -167,17 +158,13 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                     )}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
 
         {/* Call to action */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+        <div
           className="text-center mt-12 fade-in"
         >
           <a
@@ -193,7 +180,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             Ver todos os projetos
             <FaExternalLinkAlt className="w-4 h-4 ml-2 group-hover:scale-110 transition-transform" />
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
