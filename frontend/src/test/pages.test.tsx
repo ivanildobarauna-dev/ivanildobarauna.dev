@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
-import HomePage from '../app/page';
 import { SectionDataProvider } from '@/contexts/SectionDataContext';
 import { useSocialMedia } from '../app/hooks/useSocialMedia';
 import AppContent from '../app/page';
@@ -140,6 +139,7 @@ vi.mock('framer-motion', () => ({
       return <p {...domProps}>{children}</p>;
     },
   },
+  useInView: () => false,
 }));
 
 // Mock Next.js Image component

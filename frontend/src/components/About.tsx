@@ -96,7 +96,7 @@ export default function About() {
 
         {/* Skills Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {skills.map((skill, index) => (
+          {skills.map((skill) => (
             <div
               key={skill.category}
               className="professional-card p-6 text-center"

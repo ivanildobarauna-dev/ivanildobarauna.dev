@@ -12,6 +12,9 @@ interface EducationData {
   hasFetched: boolean;
 }
 
+/**
+ * Provides a lazy-loading hook for education data, ensuring data is fetched only once per session.
+ */
 export function useLazyEducation(): EducationData {
   const [formations, setFormations] = useState<Formation[]>([]);
   const [certifications, setCertifications] = useState<Certification[]>([]);
@@ -19,6 +22,9 @@ export function useLazyEducation(): EducationData {
   const [error, setError] = useState<string | null>(null);
   const [hasFetched, setHasFetched] = useState(false);
 
+  /**
+   * Fetches education and certification data from the backend with retry support.
+   */
   const fetchEducation = useCallback(async (): Promise<boolean> => {
     if (hasFetched) return true;
 

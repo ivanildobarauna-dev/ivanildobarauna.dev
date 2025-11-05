@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useCallback, useRef } from 'react';
+import { useInView } from 'framer-motion';
 import { useSectionData } from '@/contexts/SectionDataContext';
 import { useLazyProjects } from '@/app/projects/hooks/useLazyProjects';
 import ProjectsSection from './ProjectsSection';
@@ -17,8 +17,12 @@ export default function LazyProjectsSection() {
     fetchProjects,
     hasFetched,
   } = useLazyProjects();
-  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
+  /**
+   * Attempts to load the projects data if it has not been fetched yet.
+   */
   const loadProjectsData = useCallback(async () => {
     if (loadedSections.projects || loading) {
       return;
@@ -31,12 +35,15 @@ export default function LazyProjectsSection() {
   // Load data when section comes into view if not already loaded
   useEffect(() => {
     if (isInView && !loadedSections.projects && !loading) {
-      loadProjectsData();
+      void loadProjectsData();
     }
   }, [isInView, loadedSections.projects, loading, loadProjectsData]);
 
+  /**
+   * Handles manual data loading when the user clicks the trigger button.
+   */
   const handleLoadClick = useCallback(() => {
-    loadProjectsData();
+    void loadProjectsData();
   }, [loadProjectsData]);
 
   // If data is loading
@@ -79,10 +86,10 @@ export default function LazyProjectsSection() {
 
   // Initial state - show a placeholder with a load button
   return (
-    <section 
-      id="projects" 
+    <section
+      id="projects"
+      ref={sectionRef}
       className="py-20 px-4 bg-background min-h-[300px] flex items-center justify-center border-b"
-      onMouseEnter={() => setIsInView(true)}
     >
       <div className="text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-6">

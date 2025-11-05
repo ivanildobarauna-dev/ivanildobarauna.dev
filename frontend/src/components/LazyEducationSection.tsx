@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useEffect, useCallback, useMemo, useRef } from 'react';
+import { useInView } from 'framer-motion';
 import { useSectionData } from '@/contexts/SectionDataContext';
 import { useLazyEducation } from '@/app/education/hooks/useLazyEducation';
 import type { Certification } from '@/app/education/interfaces';
@@ -18,7 +19,8 @@ export default function LazyEducationSection() {
     fetchEducation,
     hasFetched,
   } = useLazyEducation();
-  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   // Format certifications as a Record<string, Certification[]>
   const formattedCertifications = useMemo(() => {
@@ -35,6 +37,9 @@ export default function LazyEducationSection() {
     return certsByInstitution;
   }, [certifications]);
 
+  /**
+   * Attempts to fetch education data only when it has not been retrieved before.
+   */
   const loadEducationData = useCallback(async () => {
     if (loadedSections.education || loading) {
       return;
@@ -47,12 +52,15 @@ export default function LazyEducationSection() {
   // Load data when section comes into view if not already loaded
   useEffect(() => {
     if (isInView && !loadedSections.education && !loading) {
-      loadEducationData();
+      void loadEducationData();
     }
   }, [isInView, loadedSections.education, loading, loadEducationData]);
 
+  /**
+   * Handles manual loading when the user requests education information explicitly.
+   */
   const handleLoadClick = useCallback(() => {
-    loadEducationData();
+    void loadEducationData();
   }, [loadEducationData]);
 
   // If data is loading
@@ -98,10 +106,10 @@ export default function LazyEducationSection() {
 
   // Initial state - show a placeholder with a load button
   return (
-    <section 
-      id="education" 
+    <section
+      id="education"
+      ref={sectionRef}
       className="py-20 px-4 bg-background min-h-[300px] flex items-center justify-center border-b"
-      onMouseEnter={() => setIsInView(true)}
     >
       <div className="text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-6">

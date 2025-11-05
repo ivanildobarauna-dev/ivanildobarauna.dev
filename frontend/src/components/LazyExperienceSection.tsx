@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useCallback, useRef } from 'react';
+import { useInView } from 'framer-motion';
 import { useSectionData } from '@/contexts/SectionDataContext';
 import { useLazyExperience } from '@/app/experience/hooks/useLazyExperience';
 import ExperienceSection from './ExperienceSection';
@@ -18,8 +18,12 @@ export default function LazyExperienceSection() {
     fetchExperiences,
     hasFetched,
   } = useLazyExperience();
-  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
+  /**
+   * Attempts to fetch the experience data if it has not been loaded yet.
+   */
   const loadExperienceData = useCallback(async () => {
     if (loadedSections.experience || loading) {
       return;
@@ -32,12 +36,15 @@ export default function LazyExperienceSection() {
   // Load data when section comes into view if not already loaded
   useEffect(() => {
     if (isInView && !loadedSections.experience && !loading) {
-      loadExperienceData();
+      void loadExperienceData();
     }
   }, [isInView, loadedSections.experience, loading, loadExperienceData]);
 
+  /**
+   * Handles manual data loading when the user clicks the button.
+   */
   const handleLoadClick = useCallback(() => {
-    loadExperienceData();
+    void loadExperienceData();
   }, [loadExperienceData]);
 
   // If data is loading
@@ -83,10 +90,10 @@ export default function LazyExperienceSection() {
 
   // Initial state - show a placeholder with a load button
   return (
-    <section 
-      id="experience" 
+    <section
+      id="experience"
+      ref={sectionRef}
       className="py-20 px-4 bg-background min-h-[300px] flex items-center justify-center border-b"
-      onMouseEnter={() => setIsInView(true)}
     >
       <div className="text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-6">

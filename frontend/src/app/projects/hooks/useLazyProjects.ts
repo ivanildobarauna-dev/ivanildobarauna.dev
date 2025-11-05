@@ -11,12 +11,18 @@ interface ProjectsData {
   hasFetched: boolean;
 }
 
+/**
+ * Provides a lazy-loading hook that retrieves projects data on demand and caches successful requests.
+ */
 export function useLazyProjects(): ProjectsData {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasFetched, setHasFetched] = useState(false);
 
+  /**
+   * Fetches projects from the backend and returns whether the operation succeeded.
+   */
   const fetchProjects = useCallback(async (): Promise<boolean> => {
     if (hasFetched) return true;
 

@@ -23,7 +23,7 @@ export default function ExperienceSection({ experiences, tempoTotalCarreira }: E
         </div>
 
         <div className="space-y-8">
-          {Object.entries(experiences).map(([empresa, exps], empresaIndex) => (
+          {Object.entries(experiences).map(([empresa, exps]) => (
             <div
               key={empresa}
               className="professional-card overflow-hidden"

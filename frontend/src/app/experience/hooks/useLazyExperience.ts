@@ -12,6 +12,9 @@ interface ExperienceData {
   hasFetched: boolean;
 }
 
+/**
+ * Provides a lazy-loading hook that fetches experiences on demand and caches the successful result.
+ */
 export function useLazyExperience(): ExperienceData {
   const [experiences, setExperiences] = useState<Experience[]>([]);
   const [loading, setLoading] = useState(false);
@@ -19,6 +22,9 @@ export function useLazyExperience(): ExperienceData {
   const [tempoTotalCarreira, setTempoTotalCarreira] = useState<string>('');
   const [hasFetched, setHasFetched] = useState(false);
 
+  /**
+   * Fetches experience data from the backend and updates local state when successful.
+   */
   const fetchExperiences = useCallback(async (): Promise<boolean> => {
     if (hasFetched) return true;
 
@@ -95,7 +101,9 @@ export function useLazyExperience(): ExperienceData {
   };
 }
 
-// Helper function to calculate total career time
+/**
+ * Calculates the textual representation of the total career time from the provided experiences list.
+ */
 function calculateTotalCareerTime(experiences: Experience[]): string {
   if (!experiences || experiences.length === 0) return '0 anos';
   
