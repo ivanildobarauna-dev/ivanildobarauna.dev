@@ -8,7 +8,7 @@ interface EducationData {
   certifications: Certification[];
   loading: boolean;
   error: string | null;
-  fetchEducation: () => Promise<void>;
+  fetchEducation: () => Promise<boolean>;
 }
 
 export function useLazyEducation(): EducationData {
@@ -18,12 +18,12 @@ export function useLazyEducation(): EducationData {
   const [error, setError] = useState<string | null>(null);
   const [hasFetched, setHasFetched] = useState(false);
 
-  const fetchEducation = useCallback(async () => {
-    if (hasFetched) return;
-    
+  const fetchEducation = useCallback(async (): Promise<boolean> => {
+    if (hasFetched) return true;
+
     setLoading(true);
     setError(null);
-    
+
     try {
       // Faz uma única chamada ao endpoint /education
       const educationEndpoint = getBackendEndpoint('/education');
@@ -54,6 +54,7 @@ export function useLazyEducation(): EducationData {
       setFormations(Array.isArray(formations) ? formations : []);
       setCertifications(Array.isArray(certifications) ? certifications : []);
       setHasFetched(true);
+      return true;
     } catch (err) {
       console.error('Error loading education data:', err);
       setError(
@@ -61,6 +62,7 @@ export function useLazyEducation(): EducationData {
           ? err.message
           : 'Unknown error loading education data',
       );
+      return false;
     } finally {
       setLoading(false);
     }

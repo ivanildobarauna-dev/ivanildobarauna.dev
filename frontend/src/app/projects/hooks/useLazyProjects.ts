@@ -7,7 +7,7 @@ interface ProjectsData {
   projects: Project[];
   loading: boolean;
   error: string | null;
-  fetchProjects: () => Promise<void>;
+  fetchProjects: () => Promise<boolean>;
 }
 
 export function useLazyProjects(): ProjectsData {
@@ -16,12 +16,12 @@ export function useLazyProjects(): ProjectsData {
   const [error, setError] = useState<string | null>(null);
   const [hasFetched, setHasFetched] = useState(false);
 
-  const fetchProjects = useCallback(async () => {
-    if (hasFetched) return;
-    
+  const fetchProjects = useCallback(async (): Promise<boolean> => {
+    if (hasFetched) return true;
+
     setLoading(true);
     setError(null);
-    
+
     try {
       const projectsEndpoint = getBackendEndpoint('/projects');
       const projectsData = await retryAsync(async () => {
@@ -52,6 +52,7 @@ export function useLazyProjects(): ProjectsData {
 
       setProjects(projectsData);
       setHasFetched(true);
+      return true;
     } catch (err) {
       console.error('Error loading projects:', err);
       setError(
@@ -59,6 +60,7 @@ export function useLazyProjects(): ProjectsData {
           ? err.message
           : 'Unknown error loading projects',
       );
+      return false;
     } finally {
       setLoading(false);
     }

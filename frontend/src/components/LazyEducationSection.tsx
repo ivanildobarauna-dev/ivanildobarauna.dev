@@ -37,9 +37,11 @@ export default function LazyEducationSection() {
 
   const loadEducationData = useCallback(async () => {
     if (!loadedSections.education && !loading) {
-      await fetchEducation();
-      setSectionLoaded('education');
-      setHasLoaded(true);
+      const success = await fetchEducation();
+      if (success) {
+        setSectionLoaded('education');
+        setHasLoaded(true);
+      }
     }
   }, [loadedSections.education, loading, fetchEducation, setSectionLoaded]);
 
