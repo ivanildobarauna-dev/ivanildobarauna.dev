@@ -22,11 +22,19 @@ export default function LazyExperienceSection() {
 
   const loadExperienceData = useCallback(async () => {
     if (!loadedSections.experience && !loading) {
-      await fetchExperiences();
-      setSectionLoaded('experience');
-      setHasLoaded(true);
+      const wasSuccessful = await fetchExperiences();
+      if (wasSuccessful) {
+        setSectionLoaded('experience');
+        setHasLoaded(true);
+      }
     }
-  }, [loadedSections.experience, loading, fetchExperiences, setSectionLoaded]);
+  }, [
+    loadedSections.experience,
+    loading,
+    fetchExperiences,
+    setSectionLoaded,
+    setHasLoaded,
+  ]);
 
   // Load data when section comes into view if not already loaded
   useEffect(() => {

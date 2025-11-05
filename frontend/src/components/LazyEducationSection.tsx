@@ -37,11 +37,19 @@ export default function LazyEducationSection() {
 
   const loadEducationData = useCallback(async () => {
     if (!loadedSections.education && !loading) {
-      await fetchEducation();
-      setSectionLoaded('education');
-      setHasLoaded(true);
+      const wasSuccessful = await fetchEducation();
+      if (wasSuccessful) {
+        setSectionLoaded('education');
+        setHasLoaded(true);
+      }
     }
-  }, [loadedSections.education, loading, fetchEducation, setSectionLoaded]);
+  }, [
+    loadedSections.education,
+    loading,
+    fetchEducation,
+    setSectionLoaded,
+    setHasLoaded,
+  ]);
 
   // Load data when section comes into view if not already loaded
   useEffect(() => {

@@ -8,7 +8,7 @@ interface ExperienceData {
   loading: boolean;
   error: string | null;
   tempoTotalCarreira: string;
-  fetchExperiences: () => Promise<void>;
+  fetchExperiences: () => Promise<boolean>;
 }
 
 export function useLazyExperience(): ExperienceData {
@@ -19,11 +19,11 @@ export function useLazyExperience(): ExperienceData {
   const [hasFetched, setHasFetched] = useState(false);
 
   const fetchExperiences = useCallback(async () => {
-    if (hasFetched) return;
-    
+    if (hasFetched) return true;
+
     setLoading(true);
     setError(null);
-    
+
     try {
       const experiencesEndpoint = getBackendEndpoint('/experiences');
       const experiencesData = await retryAsync(async () => {
@@ -59,6 +59,7 @@ export function useLazyExperience(): ExperienceData {
       // Calculate tempoTotalCarreira here if needed
       setTempoTotalCarreira(calculateTotalCareerTime(experiencesData));
       setHasFetched(true);
+      return true;
     } catch (err) {
       console.error('Erro ao carregar experiências:', err);
       setError(
@@ -66,6 +67,7 @@ export function useLazyExperience(): ExperienceData {
           ? err.message
           : 'Erro desconhecido ao carregar experiências',
       );
+      return false;
     } finally {
       setLoading(false);
     }

@@ -21,11 +21,19 @@ export default function LazyProjectsSection() {
 
   const loadProjectsData = useCallback(async () => {
     if (!loadedSections.projects && !loading) {
-      await fetchProjects();
-      setSectionLoaded('projects');
-      setHasLoaded(true);
+      const wasSuccessful = await fetchProjects();
+      if (wasSuccessful) {
+        setSectionLoaded('projects');
+        setHasLoaded(true);
+      }
     }
-  }, [loadedSections.projects, loading, fetchProjects, setSectionLoaded]);
+  }, [
+    loadedSections.projects,
+    loading,
+    fetchProjects,
+    setSectionLoaded,
+    setHasLoaded,
+  ]);
 
   // Load data when section comes into view if not already loaded
   useEffect(() => {
