@@ -20,13 +20,17 @@ export default function LazyProjectsSection() {
   const [hasLoaded, setHasLoaded] = useState(false);
 
   const loadProjectsData = useCallback(async () => {
-    if (!loadedSections.projects && !loading) {
-      const wasSuccessful = await fetchProjects();
-      if (wasSuccessful) {
-        setSectionLoaded('projects');
-        setHasLoaded(true);
-      }
+    if (loadedSections.projects || loading) {
+      return loadedSections.projects;
     }
+
+    const wasSuccessful = await fetchProjects();
+    if (wasSuccessful) {
+      setSectionLoaded('projects');
+      setHasLoaded(true);
+    }
+
+    return wasSuccessful;
   }, [
     loadedSections.projects,
     loading,
