@@ -21,13 +21,17 @@ export default function LazyExperienceSection() {
   const [hasLoaded, setHasLoaded] = useState(false);
 
   const loadExperienceData = useCallback(async () => {
-    if (!loadedSections.experience && !loading) {
-      const wasSuccessful = await fetchExperiences();
-      if (wasSuccessful) {
-        setSectionLoaded('experience');
-        setHasLoaded(true);
-      }
+    if (loadedSections.experience || loading) {
+      return loadedSections.experience;
     }
+
+    const wasSuccessful = await fetchExperiences();
+    if (wasSuccessful) {
+      setSectionLoaded('experience');
+      setHasLoaded(true);
+    }
+
+    return wasSuccessful;
   }, [
     loadedSections.experience,
     loading,

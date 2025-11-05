@@ -36,13 +36,17 @@ export default function LazyEducationSection() {
   }, [certifications]);
 
   const loadEducationData = useCallback(async () => {
-    if (!loadedSections.education && !loading) {
-      const wasSuccessful = await fetchEducation();
-      if (wasSuccessful) {
-        setSectionLoaded('education');
-        setHasLoaded(true);
-      }
+    if (loadedSections.education || loading) {
+      return loadedSections.education;
     }
+
+    const wasSuccessful = await fetchEducation();
+    if (wasSuccessful) {
+      setSectionLoaded('education');
+      setHasLoaded(true);
+    }
+
+    return wasSuccessful;
   }, [
     loadedSections.education,
     loading,
