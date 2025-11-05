@@ -28,7 +28,13 @@ export default function LazyExperienceSection() {
         setHasLoaded(true);
       }
     }
-  }, [loadedSections.experience, loading, fetchExperiences, setSectionLoaded]);
+  }, [
+    loadedSections.experience,
+    loading,
+    fetchExperiences,
+    setSectionLoaded,
+    setHasLoaded,
+  ]);
 
   // Load data when section comes into view if not already loaded
   useEffect(() => {

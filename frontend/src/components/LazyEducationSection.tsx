@@ -43,7 +43,13 @@ export default function LazyEducationSection() {
         setHasLoaded(true);
       }
     }
-  }, [loadedSections.education, loading, fetchEducation, setSectionLoaded]);
+  }, [
+    loadedSections.education,
+    loading,
+    fetchEducation,
+    setSectionLoaded,
+    setHasLoaded,
+  ]);
 
   // Load data when section comes into view if not already loaded
   useEffect(() => {

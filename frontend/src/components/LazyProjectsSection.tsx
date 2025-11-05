@@ -27,7 +27,13 @@ export default function LazyProjectsSection() {
         setHasLoaded(true);
       }
     }
-  }, [loadedSections.projects, loading, fetchProjects, setSectionLoaded]);
+  }, [
+    loadedSections.projects,
+    loading,
+    fetchProjects,
+    setSectionLoaded,
+    setHasLoaded,
+  ]);
 
   // Load data when section comes into view if not already loaded
   useEffect(() => {
