@@ -6,7 +6,7 @@ export type SectionType = 'experience' | 'projects' | 'education';
 
 interface SectionDataContextType {
   loadedSections: Record<SectionType, boolean>;
-  setSectionLoaded: (section: SectionType) => void;
+  setSectionLoaded: (section: SectionType, loaded?: boolean) => void;
 }
 
 const SectionDataContext = createContext<SectionDataContextType | undefined>(undefined);
@@ -18,12 +18,21 @@ export function SectionDataProvider({ children }: { children: ReactNode }) {
     education: false,
   });
 
-  const setSectionLoaded = useCallback((section: SectionType) => {
-    setLoadedSections((prev) => ({
-      ...prev,
-      [section]: true,
-    }));
-  }, []);
+  const setSectionLoaded = useCallback(
+    (section: SectionType, loaded = true) => {
+      setLoadedSections((prev) => {
+        if (prev[section] === loaded) {
+          return prev;
+        }
+
+        return {
+          ...prev,
+          [section]: loaded,
+        };
+      });
+    },
+    [],
+  );
 
   return (
     <SectionDataContext.Provider value={{ loadedSections, setSectionLoaded }}>

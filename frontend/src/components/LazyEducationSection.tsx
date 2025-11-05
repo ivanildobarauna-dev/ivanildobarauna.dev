@@ -15,10 +15,10 @@ export default function LazyEducationSection() {
     certifications,
     loading,
     error,
-    fetchEducation
+    fetchEducation,
+    hasFetched,
   } = useLazyEducation();
   const [isInView, setIsInView] = useState(false);
-  const [hasLoaded, setHasLoaded] = useState(false);
 
   // Format certifications as a Record<string, Certification[]>
   const formattedCertifications = useMemo(() => {
@@ -36,21 +36,20 @@ export default function LazyEducationSection() {
   }, [certifications]);
 
   const loadEducationData = useCallback(async () => {
-    if (!loadedSections.education && !loading) {
-      const success = await fetchEducation();
-      if (success) {
-        setSectionLoaded('education');
-        setHasLoaded(true);
-      }
+    if (loadedSections.education || loading) {
+      return;
     }
+
+    const success = await fetchEducation();
+    setSectionLoaded('education', success);
   }, [loadedSections.education, loading, fetchEducation, setSectionLoaded]);
 
   // Load data when section comes into view if not already loaded
   useEffect(() => {
-    if (isInView && !loadedSections.education && !hasLoaded) {
+    if (isInView && !loadedSections.education && !loading) {
       loadEducationData();
     }
-  }, [isInView, loadedSections.education, hasLoaded, loadEducationData]);
+  }, [isInView, loadedSections.education, loading, loadEducationData]);
 
   const handleLoadClick = useCallback(() => {
     loadEducationData();
@@ -86,10 +85,10 @@ export default function LazyEducationSection() {
   }
 
   // If data is loaded, show the actual education section
-  if (hasLoaded || loadedSections.education) {
+  if (hasFetched || loadedSections.education) {
     return (
       <section id="education" className="scroll-mt-20">
-        <EducationSection 
+        <EducationSection
           formations={formations} 
           certifications={formattedCertifications} 
         />

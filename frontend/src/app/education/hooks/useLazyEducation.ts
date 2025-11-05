@@ -9,6 +9,7 @@ interface EducationData {
   loading: boolean;
   error: string | null;
   fetchEducation: () => Promise<boolean>;
+  hasFetched: boolean;
 }
 
 export function useLazyEducation(): EducationData {
@@ -74,5 +75,6 @@ export function useLazyEducation(): EducationData {
     loading,
     error,
     fetchEducation,
+    hasFetched,
   };
 }

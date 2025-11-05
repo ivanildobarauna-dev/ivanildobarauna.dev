@@ -14,27 +14,26 @@ export default function LazyProjectsSection() {
     projects,
     loading,
     error,
-    fetchProjects
+    fetchProjects,
+    hasFetched,
   } = useLazyProjects();
   const [isInView, setIsInView] = useState(false);
-  const [hasLoaded, setHasLoaded] = useState(false);
 
   const loadProjectsData = useCallback(async () => {
-    if (!loadedSections.projects && !loading) {
-      const success = await fetchProjects();
-      if (success) {
-        setSectionLoaded('projects');
-        setHasLoaded(true);
-      }
+    if (loadedSections.projects || loading) {
+      return;
     }
+
+    const success = await fetchProjects();
+    setSectionLoaded('projects', success);
   }, [loadedSections.projects, loading, fetchProjects, setSectionLoaded]);
 
   // Load data when section comes into view if not already loaded
   useEffect(() => {
-    if (isInView && !loadedSections.projects && !hasLoaded) {
+    if (isInView && !loadedSections.projects && !loading) {
       loadProjectsData();
     }
-  }, [isInView, loadedSections.projects, hasLoaded, loadProjectsData]);
+  }, [isInView, loadedSections.projects, loading, loadProjectsData]);
 
   const handleLoadClick = useCallback(() => {
     loadProjectsData();
@@ -70,7 +69,7 @@ export default function LazyProjectsSection() {
   }
 
   // If data is loaded, show the actual projects section
-  if (hasLoaded || loadedSections.projects) {
+  if (hasFetched || loadedSections.projects) {
     return (
       <section id="projects" className="scroll-mt-20">
         <ProjectsSection projects={projects} />

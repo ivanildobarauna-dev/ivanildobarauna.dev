@@ -15,27 +15,26 @@ export default function LazyExperienceSection() {
     loading,
     error,
     tempoTotalCarreira,
-    fetchExperiences
+    fetchExperiences,
+    hasFetched,
   } = useLazyExperience();
   const [isInView, setIsInView] = useState(false);
-  const [hasLoaded, setHasLoaded] = useState(false);
 
   const loadExperienceData = useCallback(async () => {
-    if (!loadedSections.experience && !loading) {
-      const success = await fetchExperiences();
-      if (success) {
-        setSectionLoaded('experience');
-        setHasLoaded(true);
-      }
+    if (loadedSections.experience || loading) {
+      return;
     }
+
+    const success = await fetchExperiences();
+    setSectionLoaded('experience', success);
   }, [loadedSections.experience, loading, fetchExperiences, setSectionLoaded]);
 
   // Load data when section comes into view if not already loaded
   useEffect(() => {
-    if (isInView && !loadedSections.experience && !hasLoaded) {
+    if (isInView && !loadedSections.experience && !loading) {
       loadExperienceData();
     }
-  }, [isInView, loadedSections.experience, hasLoaded, loadExperienceData]);
+  }, [isInView, loadedSections.experience, loading, loadExperienceData]);
 
   const handleLoadClick = useCallback(() => {
     loadExperienceData();
@@ -71,10 +70,10 @@ export default function LazyExperienceSection() {
   }
 
   // If data is loaded, show the actual experience section
-  if (hasLoaded || loadedSections.experience) {
+  if (hasFetched || loadedSections.experience) {
     return (
       <section id="experience" className="scroll-mt-20">
-        <ExperienceSection 
+        <ExperienceSection
           experiences={experiences} 
           tempoTotalCarreira={tempoTotalCarreira} 
         />

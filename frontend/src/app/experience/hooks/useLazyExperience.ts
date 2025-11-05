@@ -9,6 +9,7 @@ interface ExperienceData {
   error: string | null;
   tempoTotalCarreira: string;
   fetchExperiences: () => Promise<boolean>;
+  hasFetched: boolean;
 }
 
 export function useLazyExperience(): ExperienceData {
@@ -36,7 +37,7 @@ export function useLazyExperience(): ExperienceData {
         });
 
         if (!experiencesResponse.ok) {
-              const responseText = await experiencesResponse.text();
+          const responseText = await experiencesResponse.text();
           console.error(
             `Erro na requisição de experiências: Status ${experiencesResponse.status}`,
             'Resposta do servidor:',
@@ -90,6 +91,7 @@ export function useLazyExperience(): ExperienceData {
     error,
     tempoTotalCarreira,
     fetchExperiences,
+    hasFetched,
   };
 }
 

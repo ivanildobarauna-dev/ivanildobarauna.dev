@@ -8,6 +8,7 @@ interface ProjectsData {
   loading: boolean;
   error: string | null;
   fetchProjects: () => Promise<boolean>;
+  hasFetched: boolean;
 }
 
 export function useLazyProjects(): ProjectsData {
@@ -71,5 +72,6 @@ export function useLazyProjects(): ProjectsData {
     loading,
     error,
     fetchProjects,
+    hasFetched,
   };
 }
