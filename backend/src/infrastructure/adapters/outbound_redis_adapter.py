@@ -1,3 +1,5 @@
+"""Redis Adapter for caching portfolio data."""
+
 import json
 import os
 from typing import Optional, List, Dict, Any
@@ -11,7 +13,9 @@ from src.domain.dto.formation import Formation
 from src.domain.dto.project import Project
 from src.domain.dto.social_media import SocialMedia
 from src.infrastructure.ports.cache_provider_interface import CacheProvider
-from src.infrastructure.utils.logger import logger
+from src.infrastructure.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 class RedisAdapter(CacheProvider):
@@ -42,7 +46,7 @@ class RedisAdapter(CacheProvider):
         try:
             self.redis.ping()
         except RedisError as e:
-            logger.error(f"Redis Connection Error: {e}")
+            logger.error(f"Erro de conexão com o Redis: {str(e)}", exc_info=True)
             raise
 
     def get_cache_data_by_key(self, key: str):
@@ -52,7 +56,7 @@ class RedisAdapter(CacheProvider):
                 return None
             return json.loads(data)
         except RedisError as e:
-            logger.error(f"Redis GET Key Error: {e}")
+            logger.error(f"Erro ao obter chave do Redis: {str(e)}", exc_info=True)
             raise
 
     def get_all_projects(self) -> [] or List[Project]:

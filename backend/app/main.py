@@ -1,13 +1,8 @@
 import subprocess
 
-import logging
 from flask import Flask
 from flask_cors import CORS
 from flask_restx import Api
-
-# Configuração básica de logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
 
 from src.infrastructure.routes.education.view import education_ns
 from src.infrastructure.routes.experiences.view import experiences_ns
@@ -17,6 +12,9 @@ from src.infrastructure.routes.health_check.view import health_check_ns
 from src.infrastructure.routes.projects.view import projects_ns
 from src.infrastructure.routes.social_media.view import social_media_ns
 from src.infrastructure.dependencie_injection import ApplicationDependencies
+from src.infrastructure.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 class ApplicationSetup:
     def __init__(self):
