@@ -9,7 +9,6 @@ class ApplicationDependencies:
     _instance = None
 
     def __new__(cls):
-        logger.info("🔧 Iniciando inicialização do ApplicationDependencies...")
         if cls._instance is None:
             logger.info("🚀 Criando nova instância de ApplicationDependencies")
             cls._instance = super().__new__(cls)
