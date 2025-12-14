@@ -33,7 +33,5 @@ class ApplicationDependencies:
                 raise
                 
             logger.info("ApplicationDependencies inicializado com sucesso")
-        else:
-            logger.info("Reutilizando instância existente de ApplicationDependencies")
             
         return cls._instance
