@@ -7,36 +7,24 @@ from logging.handlers import RotatingFileHandler
 from typing import Optional
 
 
-class Logger:
-    """Logger class for the application."""
+def _configure_handler(handler: logging.Handler) -> None:
+    """Configure a handler with the custom formatter."""
+    formatter = logging.Formatter(
+        '%(levelname)s - %(name)s - %(message)s'
+    )
+    handler.setFormatter(formatter)
 
-    _instance: Optional["Logger"] = None
-    _logger: Optional[logging.Logger] = None
 
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(Logger, cls).__new__(cls)
-            cls._logger = cls._configure_logger()
-        return cls._instance
-
-    @staticmethod
-    def _configure_logger() -> logging.Logger:
-        """Configure the logger."""
-        log_format = "%(name)s - %(levelname)s - %(message)s"
-        log_level = os.environ.get("LOG_LEVEL", "INFO")
-        
-        # Create logger
-        logger = logging.getLogger("portfolio_api")
-        logger.setLevel(getattr(logging, log_level))
-        logger.propagate = False
-        
-        # Clear existing handlers
-        if logger.handlers:
-            logger.handlers.clear()
-        
+def _setup_logger(name: str) -> logging.Logger:
+    """Create and configure a logger with the given name."""
+    logger = logging.getLogger(name)
+    logger.setLevel(os.environ.get("LOG_LEVEL", "INFO"))
+    
+    # Avoid adding handlers multiple times in case of module reload
+    if not logger.handlers:
         # Console handler
         console_handler = logging.StreamHandler(sys.stdout)
-        console_handler.setFormatter(logging.Formatter(log_format))
+        _configure_handler(console_handler)
         logger.addHandler(console_handler)
         
         # File handler with rotation
@@ -44,49 +32,23 @@ class Logger:
         os.makedirs(log_dir, exist_ok=True)
         file_handler = RotatingFileHandler(
             os.path.join(log_dir, "portfolio_api.log"),
-            maxBytes=10485760,  # 10MB
+            maxBytes=10 * 1024 * 1024,  # 10MB
             backupCount=5,
+            encoding='utf-8'
         )
-        file_handler.setFormatter(logging.Formatter(log_format))
+        _configure_handler(file_handler)
         logger.addHandler(file_handler)
+    
+    return logger
+
+
+def get_logger(name: str) -> logging.Logger:
+    """Get a logger instance with the given name.
+    
+    Args:
+        name: The name of the logger, typically __name__
         
-        return logger
-
-    @classmethod
-    def debug(cls, message: str) -> None:
-        """Log debug message."""
-        if cls._logger is None:
-            cls._logger = cls._configure_logger()
-        cls._logger.debug(message)
-
-    @classmethod
-    def info(cls, message: str) -> None:
-        """Log info message."""
-        if cls._logger is None:
-            cls._logger = cls._configure_logger()
-        cls._logger.info(message)
-
-    @classmethod
-    def warning(cls, message: str) -> None:
-        """Log warning message."""
-        if cls._logger is None:
-            cls._logger = cls._configure_logger()
-        cls._logger.warning(message)
-
-    @classmethod
-    def error(cls, message: str) -> None:
-        """Log error message."""
-        if cls._logger is None:
-            cls._logger = cls._configure_logger()
-        cls._logger.error(message)
-
-    @classmethod
-    def critical(cls, message: str) -> None:
-        """Log critical message."""
-        if cls._logger is None:
-            cls._logger = cls._configure_logger()
-        cls._logger.critical(message)
-
-
-# Create logger instance
-logger = Logger()
+    Returns:
+        A configured logger instance
+    """
+    return _setup_logger(name)

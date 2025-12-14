@@ -15,7 +15,9 @@ from src.domain.dto.formation import Formation
 from src.domain.dto.project import Project
 from src.domain.dto.social_media import SocialMedia
 from src.infrastructure.ports.repository_interface import RepositoryInterface
-from src.infrastructure.utils.logger import logger
+from src.infrastructure.utils.logger import get_logger 
+
+logger = get_logger(__name__)
 
 
 class PostgresAdapter(RepositoryInterface):

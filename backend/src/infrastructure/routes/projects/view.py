@@ -8,7 +8,9 @@ from src.infrastructure.dependencie_injection import ApplicationDependencies
 def get_portfolio_data_service():
     return ApplicationDependencies().portfolio_data_service
 from src.infrastructure.utils.constants import HTTP_INTERNAL_SERVER_ERROR
-from src.infrastructure.utils.logger import logger
+from src.infrastructure.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 projects_blueprint = Blueprint("projects_bp", __name__)
 projects_ns = Namespace(
