@@ -22,7 +22,7 @@ class Logger:
     @staticmethod
     def _configure_logger() -> logging.Logger:
         """Configure the logger."""
-        log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        log_format = "%(name)s - %(levelname)s - %(message)s"
         log_level = os.environ.get("LOG_LEVEL", "INFO")
         
         # Create logger
