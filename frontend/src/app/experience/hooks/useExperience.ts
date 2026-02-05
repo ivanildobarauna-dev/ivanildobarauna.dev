@@ -40,7 +40,6 @@ export function useExperience(): ExperienceData {
 
         if (cachedExperiences && cachedDurations && cachedTotal) {
           // All data available in cache - use it!
-          console.log('✓ Loading experience data from cache');
           setFromCache(true);
 
           setExperiences(cachedExperiences);
@@ -57,7 +56,6 @@ export function useExperience(): ExperienceData {
         }
 
         // Cache miss - fetch from API
-        console.log('✗ Cache miss - fetching experience data from API');
         setFromCache(false);
 
         // Buscar experiências
@@ -72,9 +70,6 @@ export function useExperience(): ExperienceData {
           });
 
           if (!experiencesResponse.ok) {
-            console.error(`Erro na requisição de experiências: Status ${experiencesResponse.status}`);
-            const responseText = await experiencesResponse.text();
-            console.error('Resposta do servidor:', responseText);
             throw new Error(`Falha ao carregar as experiências. Status: ${experiencesResponse.status}`);
           }
 
@@ -108,9 +103,6 @@ export function useExperience(): ExperienceData {
           });
 
           if (!companyDurationsResponse.ok) {
-            console.error(`Erro na requisição de durações por empresa: Status ${companyDurationsResponse.status}`);
-            const responseText = await companyDurationsResponse.text();
-            console.error('Resposta do servidor:', responseText);
             throw new Error(`Falha ao carregar as durações por empresa. Status: ${companyDurationsResponse.status}`);
           }
 
@@ -144,9 +136,6 @@ export function useExperience(): ExperienceData {
           });
 
           if (!totalDurationResponse.ok) {
-            console.error(`Erro na requisição de tempo total: Status ${totalDurationResponse.status}`);
-            const responseText = await totalDurationResponse.text();
-            console.error('Resposta do servidor:', responseText);
             throw new Error(`Falha ao carregar o tempo total. Status: ${totalDurationResponse.status}`);
           }
 

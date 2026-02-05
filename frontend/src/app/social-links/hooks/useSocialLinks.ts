@@ -26,8 +26,6 @@ export function useSocialLinks(): SocialLinksData {
         const cachedSocialLinks = BrowserCache.get<SocialLink[]>(SOCIAL_LINKS_CACHE_KEY);
 
         if (cachedSocialLinks) {
-          // Cache hit - use cached data
-          console.log('✓ Loading social links data from cache');
           setFromCache(true);
           setSocialLinks(cachedSocialLinks);
           setLoading(false);
@@ -35,7 +33,6 @@ export function useSocialLinks(): SocialLinksData {
         }
 
         // Cache miss - fetch from API
-        console.log('✗ Cache miss - fetching social links data from API');
         setFromCache(false);
 
         const socialLinksEndpoint = getBackendEndpoint('/social-media-links');
@@ -50,9 +47,6 @@ export function useSocialLinks(): SocialLinksData {
           });
 
           if (!response.ok) {
-            console.error(`Erro na requisição: Status ${response.status}`);
-            const responseText = await response.text();
-            console.error('Resposta do servidor:', responseText);
             throw new Error(`Falha ao carregar os links sociais. Status: ${response.status}`);
           }
 

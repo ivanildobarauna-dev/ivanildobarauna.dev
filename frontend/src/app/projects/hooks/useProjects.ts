@@ -27,7 +27,6 @@ export function useProjects(): ProjectsData {
 
         if (cachedProjects) {
           // Cache hit - use cached data
-          console.log('✓ Loading projects data from cache');
           setFromCache(true);
           setProjects(cachedProjects);
           setLoading(false);
@@ -35,7 +34,6 @@ export function useProjects(): ProjectsData {
         }
 
         // Cache miss - fetch from API
-        console.log('✗ Cache miss - fetching projects data from API');
         setFromCache(false);
 
         const projectsEndpoint = getBackendEndpoint('/projects');
@@ -50,9 +48,6 @@ export function useProjects(): ProjectsData {
           });
 
           if (!response.ok) {
-            console.error(`Erro na requisição: Status ${response.status}`);
-            const responseText = await response.text();
-            console.error('Resposta do servidor:', responseText);
             throw new Error(`Falha ao carregar os projetos. Status: ${response.status}`);
           }
 

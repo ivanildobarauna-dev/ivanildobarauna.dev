@@ -29,7 +29,6 @@ export function useEducation(): EducationData {
 
         if (cachedEducation) {
           // Cache hit - use cached data
-          console.log('✓ Loading education data from cache');
           setFromCache(true);
           setFormations(cachedEducation.formations);
           setCertifications(cachedEducation.certifications);
@@ -38,7 +37,6 @@ export function useEducation(): EducationData {
         }
 
         // Cache miss - fetch from API
-        console.log('✗ Cache miss - fetching education data from API');
         setFromCache(false);
 
         const educationEndpoint = getBackendEndpoint('/education');
@@ -53,9 +51,6 @@ export function useEducation(): EducationData {
           });
 
           if (!response.ok) {
-            console.error(`Erro na requisição: Status ${response.status}`);
-            const responseText = await response.text();
-            console.error('Resposta do servidor:', responseText);
             throw new Error(`Falha ao carregar os dados de educação. Status: ${response.status}`);
           }
 
