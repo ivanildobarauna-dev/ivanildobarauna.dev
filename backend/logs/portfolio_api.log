@@ -324,3 +324,11 @@ WARNING - src.infrastructure.services.portfolio_data_service - [CACHE MISS] Dado
 INFO - src.infrastructure.services.portfolio_data_service - Salvando 4 redes sociais no cache...
 INFO - src.infrastructure.services.portfolio_data_service - [CACHE HIT] 4 projetos recuperados do cache
 INFO - src.infrastructure.services.portfolio_data_service - [CACHE HIT] 4 experiências recuperadas do cache
+ERROR - src.infrastructure.routes.education.view - Error getting education: Test error
+ERROR - src.infrastructure.routes.experiences.view - Error getting experiences: Test error
+ERROR - src.infrastructure.routes.projects.view - Error getting projects: Test error
+ERROR - src.infrastructure.routes.social_media.view - Error getting social media: Test error
+ERROR - src.infrastructure.routes.education.view - Error getting education: Test error
+ERROR - src.infrastructure.routes.experiences.view - Error getting experiences: Test error
+ERROR - src.infrastructure.routes.projects.view - Error getting projects: Test error
+ERROR - src.infrastructure.routes.social_media.view - Error getting social media: Test error

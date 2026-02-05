@@ -46,7 +46,8 @@ if (typeof window !== 'undefined') {
   interface WindowWithCache extends Window {
     clearPortfolioCache: typeof clearPortfolioCache;
   }
-  (window as WindowWithCache).clearPortfolioCache = clearPortfolioCache;
+  (window as unknown as WindowWithCache).clearPortfolioCache =
+    clearPortfolioCache;
 }
 
 export class BrowserCache {
