@@ -33,8 +33,6 @@ services:
     depends_on:
       backend:
         condition: service_healthy
-      redis:
-        condition: service_healthy
     restart: unless-stopped
     networks:
       - portfolio-network
@@ -55,7 +53,7 @@ services:
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:python,role:backend,env:local"
       - DD_RUNTIME_METRICS_ENABLED=true
-      - POSTGRES_HOST=192.168.15.51
+      - POSTGRES_HOST=192.168.15.8
       - POSTGRES_PORT=5432
       - POSTGRES_USER=backend
       - POSTGRES_PASSWORD=backend
@@ -74,22 +72,6 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
-    networks:
-      - portfolio-network
-
-  redis:
-    image: redis:7
-    container_name: portfolio-redis
-    command: redis-server --requirepass redis
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: ["CMD", "redis-cli", "-a", "redis", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 5s
-    restart: unless-stopped
     networks:
       - portfolio-network
 
