@@ -21,7 +21,7 @@ logger = get_logger(__name__)
 class RedisAdapter(CacheProvider):
     REDIS_HOST = os.getenv("REDIS_HOST", "localhost") 
     REDIS_PORT = int(os.getenv("REDIS_PORT", "6379"))
-    REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", "redis") ## password redis only local
+    REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
     REDIS_DB = int(os.getenv("REDIS_DB", "0"))
     REDIS_TTL = int(os.getenv("REDIS_TTL", "2592000"))  ## 30 days
     
@@ -35,13 +35,16 @@ class RedisAdapter(CacheProvider):
     TOTAL_EXPERIENCE_KEY = "portfolio:total_experience"
 
     def __init__(self) -> None:
-        self.redis = redis.Redis(
-            host=self.REDIS_HOST,
-            port=self.REDIS_PORT,
-            password=self.REDIS_PASSWORD,
-            db=self.REDIS_DB,
-            decode_responses=True
-        )
+        redis_kwargs = {
+            "host": self.REDIS_HOST,
+            "port": self.REDIS_PORT,
+            "db": self.REDIS_DB,
+            "decode_responses": True,
+        }
+        if self.REDIS_PASSWORD:
+            redis_kwargs["password"] = self.REDIS_PASSWORD
+
+        self.redis = redis.Redis(**redis_kwargs)
 
         try:
             self.redis.ping()
