@@ -2,21 +2,42 @@ import { useState, useEffect } from 'react';
 import { SocialLink } from '../interfaces';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
 import { retryAsync } from '@/utils/retryAsync';
+import { BrowserCache } from '@/utils/cacheService';
 
 interface SocialLinksData {
   socialLinks: SocialLink[];
   loading: boolean;
   error: string | null;
+  fromCache: boolean;
 }
 
 export function useSocialLinks(): SocialLinksData {
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [fromCache, setFromCache] = useState(false);
 
   useEffect(() => {
     const fetchSocialLinks = async () => {
+      const SOCIAL_LINKS_CACHE_KEY = 'social_links';
+
       try {
+        // Try to get from cache first
+        const cachedSocialLinks = BrowserCache.get<SocialLink[]>(SOCIAL_LINKS_CACHE_KEY);
+
+        if (cachedSocialLinks) {
+          // Cache hit - use cached data
+          console.log('✓ Loading social links data from cache');
+          setFromCache(true);
+          setSocialLinks(cachedSocialLinks);
+          setLoading(false);
+          return; // Exit early with cached data
+        }
+
+        // Cache miss - fetch from API
+        console.log('✗ Cache miss - fetching social links data from API');
+        setFromCache(false);
+
         const socialLinksEndpoint = getBackendEndpoint('/social-media-links');
 
         const data = await retryAsync(async () => {
@@ -45,6 +66,7 @@ export function useSocialLinks(): SocialLinksData {
         });
 
         setSocialLinks(data);
+        BrowserCache.set(SOCIAL_LINKS_CACHE_KEY, data); // Cache it
       } catch (error: unknown) {
         if (error instanceof Error) {
           setError(error.message);
@@ -62,6 +84,7 @@ export function useSocialLinks(): SocialLinksData {
   return {
     socialLinks,
     loading,
-    error
+    error,
+    fromCache
   };
 }

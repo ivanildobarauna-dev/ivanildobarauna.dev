@@ -190,3 +190,9 @@ The backend follows hexagonal architecture principles with clear separation betw
 3. **Code quality**: Run formatters/linters before committing
 4. **Test locally**: Use Docker Compose to test full integration
 5. **Documentation**: Update Swagger docs for new API endpoints
+
+## Active Technologies
+- TypeScript 5.8.3, Next.js 16.1.6, React 19.2.1 + Next.js App Router, React hooks, Vitest for testing, Tailwind CSS (001-frontend-cache)
+
+## Recent Changes
+- 001-frontend-cache: Added TypeScript 5.8.3, Next.js 16.1.6, React 19.2.1 + Next.js App Router, React hooks, Vitest for testing, Tailwind CSS

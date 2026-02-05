@@ -2,21 +2,42 @@ import { useState, useEffect } from 'react';
 import { Project } from '../interfaces';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
 import { retryAsync } from '@/utils/retryAsync';
+import { BrowserCache } from '@/utils/cacheService';
 
 interface ProjectsData {
   projects: Project[];
   loading: boolean;
   error: string | null;
+  fromCache: boolean;
 }
 
 export function useProjects(): ProjectsData {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [fromCache, setFromCache] = useState(false);
 
   useEffect(() => {
     const fetchProjects = async () => {
+      const PROJECTS_CACHE_KEY = 'projects';
+
       try {
+        // Try to get from cache first
+        const cachedProjects = BrowserCache.get<Project[]>(PROJECTS_CACHE_KEY);
+
+        if (cachedProjects) {
+          // Cache hit - use cached data
+          console.log('✓ Loading projects data from cache');
+          setFromCache(true);
+          setProjects(cachedProjects);
+          setLoading(false);
+          return; // Exit early with cached data
+        }
+
+        // Cache miss - fetch from API
+        console.log('✗ Cache miss - fetching projects data from API');
+        setFromCache(false);
+
         const projectsEndpoint = getBackendEndpoint('/projects');
 
         const data = await retryAsync(async () => {
@@ -50,6 +71,7 @@ export function useProjects(): ProjectsData {
         });
 
         setProjects(data);
+        BrowserCache.set(PROJECTS_CACHE_KEY, data); // Cache it
       } catch (error: unknown) {
         if (error instanceof Error) {
           setError(error.message);
@@ -67,6 +89,7 @@ export function useProjects(): ProjectsData {
   return {
     projects,
     loading,
-    error
+    error,
+    fromCache
   };
 } 
