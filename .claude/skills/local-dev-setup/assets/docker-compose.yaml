@@ -3,7 +3,7 @@ version: '3.8'
 services:
   frontend:
     build:
-      context: ./frontend
+      context: ${PROJECT_ROOT:-.}/frontend
       dockerfile: Dockerfile.local
     container_name: portfolio-frontend
     ports:
@@ -39,7 +39,7 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: ${PROJECT_ROOT:-.}/backend
       dockerfile: Dockerfile
     container_name: portfolio-backend
     ports:

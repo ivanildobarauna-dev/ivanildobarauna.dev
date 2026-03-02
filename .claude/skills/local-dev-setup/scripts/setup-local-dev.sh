@@ -168,8 +168,12 @@ open_ssh_tunnel() {
 start_docker_compose() {
     log_info "Starting Docker Compose services..."
 
+    # Get the project root directory (where .env is located)
+    export PROJECT_ROOT="$(pwd)"
+
     # Start services in detached mode using the skill's docker-compose file
-    docker-compose -f "$SKILL_COMPOSE_FILE" up -d
+    # PROJECT_ROOT is passed to docker-compose for resolving build contexts
+    docker-compose -f "$SKILL_COMPOSE_FILE" -p portfolio up -d
 
     log_success "Docker Compose services started"
 }
