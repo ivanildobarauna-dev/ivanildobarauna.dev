@@ -27,6 +27,10 @@ FRONTEND_HEALTH_URL="http://localhost:3000"
 MAX_HEALTH_CHECK_ATTEMPTS=60
 HEALTH_CHECK_INTERVAL=2
 
+# Determine skill asset location
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SKILL_COMPOSE_FILE="$SCRIPT_DIR/../assets/docker-compose.yaml"
+
 ##############################################################################
 # Helper Functions
 ##############################################################################
@@ -89,12 +93,12 @@ validate_prerequisites() {
     fi
     log_success "SSH is available"
 
-    # Check if docker-compose.yml exists
-    if [ ! -f "docker-compose.yml" ] && [ ! -f "docker-compose.yaml" ]; then
-        log_error "docker-compose.yml or docker-compose.yaml not found"
+    # Check if docker-compose.yml exists in skill assets
+    if [ ! -f "$SKILL_COMPOSE_FILE" ]; then
+        log_error "docker-compose.yaml not found in skill assets ($SKILL_COMPOSE_FILE)"
         exit 1
     fi
-    log_success "docker-compose file found"
+    log_success "docker-compose file found in skill assets"
 }
 
 ##############################################################################
@@ -164,8 +168,8 @@ open_ssh_tunnel() {
 start_docker_compose() {
     log_info "Starting Docker Compose services..."
 
-    # Start services in detached mode
-    docker-compose up -d
+    # Start services in detached mode using the skill's docker-compose file
+    docker-compose -f "$SKILL_COMPOSE_FILE" up -d
 
     log_success "Docker Compose services started"
 }
