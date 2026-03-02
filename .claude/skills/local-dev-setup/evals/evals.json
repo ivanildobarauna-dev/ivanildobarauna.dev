@@ -1,0 +1,23 @@
+{
+  "skill_name": "local-dev-setup",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I need to start developing locally. Set up my entire development environment with the SSH tunnel to the remote database and start all the Docker services so I can begin working.",
+      "expected_output": "The skill should validate prerequisites, read POSTGRES_HOST from .env, open an SSH tunnel in background to 0.0.0.0:5432, start docker-compose services, and display a summary with all service URLs and status.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "My local development environment isn't set up yet. I want to initialize everything - the SSH tunnel for database access, backend, frontend, and all other services. Please set it up for me.",
+      "expected_output": "Same as eval 1 - complete environment setup with SSH tunnel, docker-compose, health checks, and status display.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Can you get my dev stack running? I need the SSH tunnel to the database open and all containers started so I can test the application locally.",
+      "expected_output": "Same setup workflow: validate, extract POSTGRES_HOST from .env, tunnel, docker-compose, health checks, and final status.",
+      "files": []
+    }
+  ]
+}
