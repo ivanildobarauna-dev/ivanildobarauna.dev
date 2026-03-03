@@ -17,21 +17,24 @@ export default function EducationSection({ formations, certifications }: Educati
     <section className="py-20 px-4 bg-background" data-testid="education-section">
       <div className="container max-w-6xl mx-auto">
         <div className="text-left mb-16 fade-in">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Formação e <span className="text-gradient">Certificações</span>
+          <h2 className="text-4xl md:text-5xl font-black mb-4">
+            <span className="text-slate-400">/</span> Formação & Certificações
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl">
-            Educação formal e certificações que colaboram na minha expertise técnica e conhecimento especializado
+          <p className="text-lg text-gray-300 max-w-3xl font-mono text-sm">
+            // Educação formal e credenciais técnicas
           </p>
         </div>
 
         {/* Formações */}
         <div className="mb-16">
-          <h3 className="text-2xl md:text-3xl font-bold mb-8 text-left">
-            Formação Acadêmica
+          <h3 className="text-2xl md:text-3xl font-black mb-8 text-left text-white">
+            $ Formação Acadêmica
           </h3>
-          
-          <div className="grid md:grid-cols-2 gap-8">
+
+          <div className="grid md:grid-cols-2 gap-8 relative">
+            {/* Vertical line connector */}
+            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500/50 to-slate-500/50"></div>
+
             {formations.map((formation, index) => (
               <motion.div
                 key={`${formation.institution}-${formation.course}-${index}`}
@@ -39,38 +42,41 @@ export default function EducationSection({ formations, certifications }: Educati
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="professional-card p-6 slide-up"
+                className="professional-card p-6 slide-up relative border-l-4 border-blue-500/50"
               >
+                {/* Timeline dot */}
+                <div className="absolute -left-3.5 top-6 w-4 h-4 bg-blue-500 border-2 border-gray-900 rounded-full"></div>
+
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+                  <div className="w-12 h-12 bg-blue-500/20 border border-blue-500/30 rounded-none flex items-center justify-center text-blue-300">
                     <FaGraduationCap className="w-6 h-6" />
                   </div>
-                  
+
                   <div className="flex-1">
-                    <h4 className="text-xl font-bold mb-2 underline-effect">
-                      {formation.course}
+                    <h4 className="text-xl font-black mb-2 text-white font-mono">
+                      &gt; {formation.course}
                     </h4>
-                    
-                    <p className="text-lg font-semibold text-primary mb-2">
+
+                    <p className="text-lg font-bold text-blue-300 mb-2">
                       {formation.institution}
                     </p>
-                    
-                    <div className="flex flex-wrap gap-4 text-muted-foreground text-sm mb-3">
+
+                    <div className="flex flex-wrap gap-4 text-gray-400 text-xs mb-3 font-mono">
                       {formation.period && (
-                        <span className="flex items-center gap-2">
+                        <span className="flex items-center gap-2 text-blue-300">
                           <FaCalendarAlt className="w-4 h-4" />
                           {formation.period}
                         </span>
                       )}
-                      
-                      <span className="flex items-center gap-2">
+
+                      <span className="flex items-center gap-2 text-slate-300">
                         <FaMapMarkerAlt className="w-4 h-4" />
                         {formation.type}
                       </span>
                     </div>
-                    
+
                     {formation.description && (
-                      <p className="text-foreground leading-relaxed">
+                      <p className="text-gray-300 leading-relaxed text-sm">
                         {formation.description}
                       </p>
                     )}
@@ -83,10 +89,10 @@ export default function EducationSection({ formations, certifications }: Educati
 
         {/* Certificações */}
         <div>
-          <h3 className="text-2xl md:text-3xl font-bold mb-8 text-left">
-            Certificações Profissionais
+          <h3 className="text-2xl md:text-3xl font-black mb-8 text-left text-white">
+            $ Certificações Profissionais
           </h3>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {certificationsArray.map((cert, index) => (
               <motion.div
@@ -95,29 +101,29 @@ export default function EducationSection({ formations, certifications }: Educati
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="professional-card p-6 text-left group slide-up"
+                className="professional-card p-6 text-left group slide-up border-t-2 border-slate-500"
               >
-                <div className="w-16 h-16 bg-gradient-to-r from-primary/10 to-primary/20 rounded-2xl flex items-center justify-center text-primary mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 bg-slate-500/20 border border-slate-500/30 rounded-none flex items-center justify-center text-slate-400 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   <FaCertificate className="w-8 h-8" />
                 </div>
-                
-                <h4 className="text-lg font-bold mb-2 underline-effect">
-                  {cert.name}
+
+                <h4 className="text-lg font-black mb-2 text-white font-mono">
+                  &gt; {cert.name}
                 </h4>
-                
-                <p className="text-primary font-medium mb-3">
+
+                <p className="text-slate-300 font-bold mb-3 text-sm">
                   {cert.institution}
                 </p>
-                
+
                 {cert.credential_url && (
                   <a
                     href={cert.credential_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-lg text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors group"
+                    className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-none text-xs font-mono font-bold bg-slate-500/30 text-slate-300 border border-slate-500 hover:bg-slate-500/50 transition-all"
                   >
-                    <FaExternalLinkAlt className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                    Ver Certificado
+                    <FaExternalLinkAlt className="w-3 h-3" />
+                    VERIFY
                   </a>
                 )}
               </motion.div>

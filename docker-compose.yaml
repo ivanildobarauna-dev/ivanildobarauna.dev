@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ${PROJECT_ROOT:-.}/frontend
+      dockerfile: Dockerfile.local
+    container_name: portfolio-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+      - DD_SERVICE=ivanildobarauna.local
+      - DD_ENV=local
+      - DD_VERSION=local
+      - DD_TRACE_SAMPLE_RATE=1.0
+      - DD_AGENT_HOST=host.docker.internal
+      - DD_PROCESS_AGENT_ENABLED=true
+      - DD_TAGS="app:portfolio,tech:nextjs,role:frontend,env:local"
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=redis
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "nodejs", "service": "ivanildobarauna.local"}]'
+      tags.env: "local"
+      tags.service: "ivanildobarauna.local"
+      tags.tech: "nextjs"
+      tags.app: "portfolio"
+      tags.role: "frontend"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - portfolio-network
+
+  backend:
+    build:
+      context: ${PROJECT_ROOT:-.}/backend
+      dockerfile: Dockerfile
+    container_name: portfolio-backend
+    ports:
+      - "8090:8090"
+    environment:
+      - DD_SERVICE=api.ivanildobarauna.dev
+      - DD_ENV=local
+      - DD_VERSION=local
+      - DD_TRACE_SAMPLE_RATE=1.0
+      - DD_AGENT_HOST=host.docker.internal
+      - DD_PROCESS_AGENT_ENABLED=true
+      - DD_TAGS="app:portfolio,tech:python,role:backend,env:local"
+      - DD_RUNTIME_METRICS_ENABLED=true
+      - POSTGRES_HOST=host.docker.internal
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=backend
+      - POSTGRES_PASSWORD=backend
+      - POSTGRES_DB=portfolio
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "python", "service": "api.ivanildobarauna.dev"}]'
+      tags.env: "local"
+      tags.service: "api.ivanildobarauna.dev"
+      tags.tech: "python"
+      tags.app: "portfolio"
+      tags.role: "backend"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/api/v1/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - portfolio-network
+
+networks:
+  portfolio-network:
+    driver: bridge
