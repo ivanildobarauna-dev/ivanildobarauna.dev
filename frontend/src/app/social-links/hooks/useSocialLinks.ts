@@ -23,7 +23,7 @@ export function useSocialLinks(): SocialLinksData {
 
       try {
         // Try to get from cache first
-        const cachedSocialLinks = BrowserCache.get<SocialLink[]>(SOCIAL_LINKS_CACHE_KEY);
+        const cachedSocialLinks = await BrowserCache.get<SocialLink[]>(SOCIAL_LINKS_CACHE_KEY);
 
         if (cachedSocialLinks) {
           setFromCache(true);
@@ -60,7 +60,7 @@ export function useSocialLinks(): SocialLinksData {
         });
 
         setSocialLinks(data);
-        BrowserCache.set(SOCIAL_LINKS_CACHE_KEY, data); // Cache it
+        await BrowserCache.set(SOCIAL_LINKS_CACHE_KEY, data); // Cache it
       } catch (error: unknown) {
         if (error instanceof Error) {
           setError(error.message);

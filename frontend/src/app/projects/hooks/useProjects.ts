@@ -23,7 +23,7 @@ export function useProjects(): ProjectsData {
 
       try {
         // Try to get from cache first
-        const cachedProjects = BrowserCache.get<Project[]>(PROJECTS_CACHE_KEY);
+        const cachedProjects = await BrowserCache.get<Project[]>(PROJECTS_CACHE_KEY);
 
         if (cachedProjects) {
           // Cache hit - use cached data
@@ -66,7 +66,7 @@ export function useProjects(): ProjectsData {
         });
 
         setProjects(data);
-        BrowserCache.set(PROJECTS_CACHE_KEY, data); // Cache it
+        await BrowserCache.set(PROJECTS_CACHE_KEY, data); // Cache it
       } catch (error: unknown) {
         if (error instanceof Error) {
           setError(error.message);
