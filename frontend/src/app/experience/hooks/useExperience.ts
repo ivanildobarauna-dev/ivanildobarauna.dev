@@ -34,9 +34,9 @@ export function useExperience(): ExperienceData {
 
       try {
         // Try to get from cache first
-        const cachedExperiences = BrowserCache.get<Experience[]>(EXPERIENCES_CACHE_KEY);
-        const cachedDurations = BrowserCache.get<CompanyDuration[]>(COMPANY_DURATIONS_CACHE_KEY);
-        const cachedTotal = BrowserCache.get<{ total_duration: string }>(TOTAL_DURATION_CACHE_KEY);
+        const cachedExperiences = await BrowserCache.get<Experience[]>(EXPERIENCES_CACHE_KEY);
+        const cachedDurations = await BrowserCache.get<CompanyDuration[]>(COMPANY_DURATIONS_CACHE_KEY);
+        const cachedTotal = await BrowserCache.get<{ total_duration: string }>(TOTAL_DURATION_CACHE_KEY);
 
         if (cachedExperiences && cachedDurations && cachedTotal) {
           // All data available in cache - use it!
@@ -89,7 +89,7 @@ export function useExperience(): ExperienceData {
         });
 
         setExperiences(experiencesData);
-        BrowserCache.set(EXPERIENCES_CACHE_KEY, experiencesData); // Cache it
+        await BrowserCache.set(EXPERIENCES_CACHE_KEY, experiencesData); // Cache it
 
         // Buscar duração por empresa
         const companyDurationsEndpoint = getBackendEndpoint('/experiences?company_duration=true');
@@ -122,7 +122,7 @@ export function useExperience(): ExperienceData {
         });
 
         setCompanyDurations(durationsMap);
-        BrowserCache.set(COMPANY_DURATIONS_CACHE_KEY, durationsData); // Cache it
+        await BrowserCache.set(COMPANY_DURATIONS_CACHE_KEY, durationsData); // Cache it
 
         // Buscar tempo total de carreira
         const totalDurationEndpoint = getBackendEndpoint('/experiences?total_duration=true');
@@ -144,7 +144,7 @@ export function useExperience(): ExperienceData {
 
         if (typeof totalData.total_duration === 'string') {
           setTempoTotalCarreira(totalData.total_duration);
-          BrowserCache.set(TOTAL_DURATION_CACHE_KEY, totalData); // Cache it
+          await BrowserCache.set(TOTAL_DURATION_CACHE_KEY, totalData); // Cache it
         } else {
           throw new Error('Formato inválido para total_duration');
         }

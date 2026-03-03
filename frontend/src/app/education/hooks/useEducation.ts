@@ -25,7 +25,7 @@ export function useEducation(): EducationData {
 
       try {
         // Try to get from cache first
-        const cachedEducation = BrowserCache.get<{ formations: Formation[]; certifications: Certification[] }>(EDUCATION_CACHE_KEY);
+        const cachedEducation = await BrowserCache.get<{ formations: Formation[]; certifications: Certification[] }>(EDUCATION_CACHE_KEY);
 
         if (cachedEducation) {
           // Cache hit - use cached data
@@ -66,7 +66,7 @@ export function useEducation(): EducationData {
         // No need to map formations as the format is already compatible
         setFormations(data.formations);
         setCertifications(data.certifications);
-        BrowserCache.set(EDUCATION_CACHE_KEY, data); // Cache it
+        await BrowserCache.set(EDUCATION_CACHE_KEY, data); // Cache it
       } catch (error: unknown) {
         if (error instanceof Error) {
           setError('Failed to fetch education data from backend, see logs for more details: ' + error.message);

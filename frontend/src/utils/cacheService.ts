@@ -1,7 +1,7 @@
 /**
- * BrowserCache Service
+ * IndexedDB Cache Service
  *
- * Provides a type-safe abstraction layer for browser localStorage-based caching
+ * Provides a type-safe abstraction layer for browser IndexedDB-based caching
  * implementing the cache-aside pattern with automatic TTL expiration.
  *
  * Key Features:
@@ -9,10 +9,30 @@
  * - Automatic 30-day TTL with expiration checking
  * - Graceful degradation (never throws, always fallback)
  * - SSR-compatible (checks browser environment)
- * - Quota-aware (handles storage limits with cleanup)
+ * - Larger storage quota than localStorage (GB vs ~5MB)
  */
 
 import type { CachedData, CacheStats } from './cacheTypes';
+
+const DB_NAME = 'portfolio_cache';
+const DB_VERSION = 1;
+const STORE_NAME = 'cache';
+
+function openDB(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+    request.onupgradeneeded = (event) => {
+      const db = (event.target as IDBOpenDBRequest).result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME, { keyPath: 'key' });
+      }
+    };
+
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
 
 /**
  * Global cache invalidation function for manual cache clearing
@@ -31,12 +51,12 @@ import type { CachedData, CacheStats } from './cacheTypes';
  * // Clear only projects cache
  * clearPortfolioCache('projects');
  */
-export function clearPortfolioCache(resourceType?: string): void {
+export async function clearPortfolioCache(resourceType?: string): Promise<void> {
   if (resourceType) {
-    BrowserCache.remove(resourceType);
+    await BrowserCache.remove(resourceType);
     console.log(`✓ Cache cleared for resource: ${resourceType}`);
   } else {
-    BrowserCache.clearAll();
+    await BrowserCache.clearAll();
     console.log('✓ All portfolio cache cleared');
   }
 }
@@ -58,12 +78,12 @@ export class BrowserCache {
   private static readonly TTL_MS = BrowserCache.TTL_DAYS * 24 * 60 * 60 * 1000;
 
   /**
-   * Check if code is running in a browser environment
+   * Check if code is running in a browser environment with IndexedDB support
    *
-   * @returns true if window and localStorage are available, false during SSR
+   * @returns true if window and indexedDB are available, false during SSR
    */
   private static isBrowser(): boolean {
-    return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
+    return typeof window !== 'undefined' && typeof indexedDB !== 'undefined';
   }
 
   /**
@@ -82,25 +102,42 @@ export class BrowserCache {
    * @param key - Resource identifier (automatically prefixed with portfolio_cache_)
    * @returns Cached data if valid, null if cache miss/expired/error
    */
-  static get<T>(key: string): T | null {
+  static async get<T>(key: string): Promise<T | null> {
     if (!this.isBrowser()) return null;
 
     try {
+      const db = await openDB();
       const cacheKey = this.getCacheKey(key);
-      const cached = localStorage.getItem(cacheKey);
 
-      if (!cached) return null;
+      return new Promise((resolve) => {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.get(cacheKey);
 
-      const parsed: CachedData<T> = JSON.parse(cached);
-      const now = Date.now();
+        request.onsuccess = () => {
+          db.close();
+          const result = request.result as ({ key: string } & CachedData<T>) | undefined;
 
-      // Check if cache has expired
-      if (now > parsed.expiresAt) {
-        this.remove(key); // Clean up expired cache
-        return null;
-      }
+          if (!result) {
+            resolve(null);
+            return;
+          }
 
-      return parsed.data;
+          const now = Date.now();
+          if (now > result.expiresAt) {
+            this.remove(key); // Async cleanup, fire-and-forget
+            resolve(null);
+            return;
+          }
+
+          resolve(result.data);
+        };
+
+        request.onerror = () => {
+          db.close();
+          resolve(null);
+        };
+      });
     } catch (error) {
       console.error(`Cache read error for key "${key}":`, error);
       return null;
@@ -111,47 +148,43 @@ export class BrowserCache {
    * Store data in cache with TTL expiration
    *
    * @param key - Resource identifier (automatically prefixed with portfolio_cache_)
-   * @param data - Data to cache (must be JSON-serializable)
+   * @param data - Data to cache (must be structured-cloneable)
    * @param ttlMs - Optional time-to-live in milliseconds (defaults to 30 days)
    */
-  static set<T>(key: string, data: T, ttlMs?: number): void {
+  static async set<T>(key: string, data: T, ttlMs?: number): Promise<void> {
     if (!this.isBrowser()) return;
 
     try {
+      const db = await openDB();
       const cacheKey = this.getCacheKey(key);
       const now = Date.now();
       const expiresAt = now + (ttlMs || this.TTL_MS);
 
-      const cacheData: CachedData<T> = {
+      const entry = {
+        key: cacheKey,
         data,
         timestamp: now,
         expiresAt,
       };
 
-      localStorage.setItem(cacheKey, JSON.stringify(cacheData));
+      return new Promise((resolve) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        store.put(entry);
+
+        tx.oncomplete = () => {
+          db.close();
+          resolve();
+        };
+
+        tx.onerror = () => {
+          db.close();
+          console.error(`Cache write error for key "${key}"`);
+          resolve();
+        };
+      });
     } catch (error) {
       console.error(`Cache write error for key "${key}":`, error);
-
-      // If quota exceeded, try to clear old caches
-      if (error instanceof DOMException && error.name === 'QuotaExceededError') {
-        this.clearExpired();
-        // Retry once
-        try {
-          const cacheKey = this.getCacheKey(key);
-          const now = Date.now();
-          const expiresAt = now + (ttlMs || this.TTL_MS);
-
-          const cacheData: CachedData<T> = {
-            data,
-            timestamp: now,
-            expiresAt,
-          };
-
-          localStorage.setItem(cacheKey, JSON.stringify(cacheData));
-        } catch {
-          console.error('Cache write failed even after cleanup');
-        }
-      }
     }
   }
 
@@ -160,29 +193,68 @@ export class BrowserCache {
    *
    * @param key - Resource identifier (automatically prefixed with portfolio_cache_)
    */
-  static remove(key: string): void {
+  static async remove(key: string): Promise<void> {
     if (!this.isBrowser()) return;
 
     try {
+      const db = await openDB();
       const cacheKey = this.getCacheKey(key);
-      localStorage.removeItem(cacheKey);
+
+      return new Promise((resolve) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        store.delete(cacheKey);
+
+        tx.oncomplete = () => {
+          db.close();
+          resolve();
+        };
+
+        tx.onerror = () => {
+          db.close();
+          console.error(`Cache remove error for key "${key}"`);
+          resolve();
+        };
+      });
     } catch (error) {
       console.error(`Cache remove error for key "${key}":`, error);
     }
   }
 
   /**
-   * Remove all portfolio cache entries from localStorage
+   * Remove all portfolio cache entries from IndexedDB
    */
-  static clearAll(): void {
+  static async clearAll(): Promise<void> {
     if (!this.isBrowser()) return;
 
     try {
-      const keys = Object.keys(localStorage);
-      keys.forEach((key) => {
-        if (key.startsWith('portfolio_cache_')) {
-          localStorage.removeItem(key);
-        }
+      const db = await openDB();
+
+      return new Promise((resolve) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.openCursor();
+
+        request.onsuccess = (event) => {
+          const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
+          if (cursor) {
+            const entry = cursor.value as { key: string };
+            if (entry.key?.startsWith('portfolio_cache_')) {
+              cursor.delete();
+            }
+            cursor.continue();
+          }
+        };
+
+        tx.oncomplete = () => {
+          db.close();
+          resolve();
+        };
+
+        tx.onerror = () => {
+          db.close();
+          resolve();
+        };
       });
     } catch (error) {
       console.error('Error clearing all cache:', error);
@@ -192,28 +264,40 @@ export class BrowserCache {
   /**
    * Remove all expired cache entries (cleanup operation)
    */
-  static clearExpired(): void {
+  static async clearExpired(): Promise<void> {
     if (!this.isBrowser()) return;
 
     try {
+      const db = await openDB();
       const now = Date.now();
-      const keys = Object.keys(localStorage);
 
-      keys.forEach((key) => {
-        if (key.startsWith('portfolio_cache_')) {
-          try {
-            const cached = localStorage.getItem(key);
-            if (cached) {
-              const parsed: CachedData<unknown> = JSON.parse(cached);
-              if (now > parsed.expiresAt) {
-                localStorage.removeItem(key); // Remove expired entry
+      return new Promise((resolve) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.openCursor();
+
+        request.onsuccess = (event) => {
+          const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
+          if (cursor) {
+            const entry = cursor.value as { key: string; expiresAt?: number };
+            if (entry.key?.startsWith('portfolio_cache_')) {
+              if (!entry.expiresAt || now > entry.expiresAt) {
+                cursor.delete();
               }
             }
-          } catch {
-            // If parsing fails, remove the corrupted entry
-            localStorage.removeItem(key);
+            cursor.continue();
           }
-        }
+        };
+
+        tx.oncomplete = () => {
+          db.close();
+          resolve();
+        };
+
+        tx.onerror = () => {
+          db.close();
+          resolve();
+        };
       });
     } catch (error) {
       console.error('Error clearing expired cache:', error);
@@ -225,43 +309,51 @@ export class BrowserCache {
    *
    * @returns Cache statistics object
    */
-  static getStats(): CacheStats {
-    if (!this.isBrowser())
-      return {
-        totalKeys: 0,
-        totalSize: 0,
-        oldestEntry: null,
-      };
-
-    let totalKeys = 0;
-    let totalSize = 0;
-    let oldestEntry: number | null = null;
+  static async getStats(): Promise<CacheStats> {
+    if (!this.isBrowser()) {
+      return { totalKeys: 0, totalSize: 0, oldestEntry: null };
+    }
 
     try {
-      const keys = Object.keys(localStorage);
+      const db = await openDB();
 
-      keys.forEach((key) => {
-        if (key.startsWith('portfolio_cache_')) {
-          totalKeys++;
-          const value = localStorage.getItem(key);
-          if (value) {
-            totalSize += value.length; // String byte size
+      return new Promise((resolve) => {
+        let totalKeys = 0;
+        let totalSize = 0;
+        let oldestEntry: number | null = null;
 
-            try {
-              const parsed: CachedData<unknown> = JSON.parse(value);
-              if (!oldestEntry || parsed.timestamp < oldestEntry) {
-                oldestEntry = parsed.timestamp;
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.openCursor();
+
+        request.onsuccess = (event) => {
+          const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
+          if (cursor) {
+            const entry = cursor.value as { key: string; timestamp: number };
+            if (entry.key?.startsWith('portfolio_cache_')) {
+              totalKeys++;
+              totalSize += JSON.stringify(cursor.value).length;
+              if (!oldestEntry || entry.timestamp < oldestEntry) {
+                oldestEntry = entry.timestamp;
               }
-            } catch {
-              // Ignore parse errors
             }
+            cursor.continue();
           }
-        }
+        };
+
+        tx.oncomplete = () => {
+          db.close();
+          resolve({ totalKeys, totalSize, oldestEntry });
+        };
+
+        tx.onerror = () => {
+          db.close();
+          resolve({ totalKeys: 0, totalSize: 0, oldestEntry: null });
+        };
       });
     } catch (error) {
       console.error('Error getting cache stats:', error);
+      return { totalKeys: 0, totalSize: 0, oldestEntry: null };
     }
-
-    return { totalKeys, totalSize, oldestEntry };
   }
 }
