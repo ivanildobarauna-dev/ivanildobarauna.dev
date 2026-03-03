@@ -3,7 +3,7 @@ version: '3.8'
 services:
   frontend:
     build:
-      context: ./frontend
+      context: ${PROJECT_ROOT:-.}/frontend
       dockerfile: Dockerfile.local
     container_name: portfolio-frontend
     ports:
@@ -39,7 +39,7 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: ${PROJECT_ROOT:-.}/backend
       dockerfile: Dockerfile
     container_name: portfolio-backend
     ports:
@@ -53,7 +53,7 @@ services:
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_TAGS="app:portfolio,tech:python,role:backend,env:local"
       - DD_RUNTIME_METRICS_ENABLED=true
-      - POSTGRES_HOST=192.168.15.8
+      - POSTGRES_HOST=host.docker.internal
       - POSTGRES_PORT=5432
       - POSTGRES_USER=backend
       - POSTGRES_PASSWORD=backend
