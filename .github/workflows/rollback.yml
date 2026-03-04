@@ -184,17 +184,13 @@ jobs:
 
           if [ -z "$EXISTING_PR" ]; then
             # Create new PR
-            gh pr create \
-              --base main \
-              --head ${PR_BRANCH} \
-              --title "Rollback: Revert to v${ROLLBACK_VERSION}" \
-              --body "$(cat <<'PRBODY'
+            PR_BODY=$(cat <<'PRBODY'
 🚨 **Automatic Rollback PR**
 
-This PR reverts the codebase to version \`v${ROLLBACK_VERSION}\` to match the environment rollback.
+This PR reverts the codebase to version to match the environment rollback.
 
 **What changed:**
-- Environment was rolled back to version \`v${ROLLBACK_VERSION}\`
+- Environment was rolled back to the previous stable version
 - This PR synchronizes the source code to match
 
 **Instructions:**
@@ -204,7 +200,12 @@ This PR reverts the codebase to version \`v${ROLLBACK_VERSION}\` to match the en
 ---
 *This PR was automatically created by the Rollback workflow*
 PRBODY
-)"
+)
+            gh pr create \
+              --base main \
+              --head ${PR_BRANCH} \
+              --title "Rollback: Revert to v${ROLLBACK_VERSION}" \
+              --body "$PR_BODY"
           else
             echo "PR #${EXISTING_PR} already exists for this rollback"
           fi
