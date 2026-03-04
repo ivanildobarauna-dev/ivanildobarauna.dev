@@ -20,7 +20,6 @@ jobs:
       packages: read
       pull-requests: write
       id-token: write
-      workflows: write
 
     steps:
       - name: Checkout repository
@@ -166,6 +165,9 @@ jobs:
         run: |
           ROLLBACK_TAG="v${ROLLBACK_VERSION}"
           PR_BRANCH="rollback/${ROLLBACK_VERSION}"
+
+          # Use PAT to allow pushing branches that contain workflow files
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}
 
           # Check if branch already exists
           if git rev-parse --verify origin/${PR_BRANCH} >/dev/null 2>&1; then
