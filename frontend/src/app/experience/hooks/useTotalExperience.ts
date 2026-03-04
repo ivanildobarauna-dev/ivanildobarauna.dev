@@ -30,7 +30,7 @@ export function useTotalExperience(): TotalExperienceData {
       const TOTAL_DURATION_CACHE_KEY = 'total_duration';
 
       try {
-        const cached = BrowserCache.get<{ total_duration: string }>(TOTAL_DURATION_CACHE_KEY);
+        const cached = await BrowserCache.get<{ total_duration: string }>(TOTAL_DURATION_CACHE_KEY);
         if (cached) {
           setTotalExperience(parseTotalDuration(cached.total_duration));
           setLoading(false);

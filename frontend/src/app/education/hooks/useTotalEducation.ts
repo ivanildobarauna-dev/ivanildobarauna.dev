@@ -19,7 +19,7 @@ export function useTotalEducation(): TotalEducationData {
       const TOTAL_EDUCATION_CACHE_KEY = 'total_education';
 
       try {
-        const cached = BrowserCache.get<string>(TOTAL_EDUCATION_CACHE_KEY);
+        const cached = await BrowserCache.get<string>(TOTAL_EDUCATION_CACHE_KEY);
         if (cached) {
           setTotalEducation(cached);
           setLoading(false);
