@@ -194,7 +194,7 @@ jobs:
             echo "PR #${EXISTING_PR} already exists for this rollback"
           fi
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
 
     environment:
       name: Production
