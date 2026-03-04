@@ -19,7 +19,7 @@ export function useTotalProjects(): TotalProjectsData {
       const TOTAL_PROJECTS_CACHE_KEY = 'total_projects';
 
       try {
-        const cached = BrowserCache.get<string>(TOTAL_PROJECTS_CACHE_KEY);
+        const cached = await BrowserCache.get<string>(TOTAL_PROJECTS_CACHE_KEY);
         if (cached) {
           setTotalProjects(cached);
           setLoading(false);
