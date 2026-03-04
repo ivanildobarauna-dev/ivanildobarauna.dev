@@ -23,7 +23,7 @@ jobs:
   build-push-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
       attestations: write
       id-token: write
@@ -31,6 +31,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Compute next release version
+        id: version
+        run: |
+          LATEST=$(gh release list --limit 1 --json tagName --jq '.[0].tagName // "v0.9.9"')
+          LATEST=${LATEST#v}
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$LATEST"
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
+          echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
+          echo "Computed version: ${NEW_VERSION}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Log in to the Container registry
         uses: docker/login-action@v2
@@ -44,6 +57,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend
+          tags: |
+            type=raw,value=${{ env.NEW_VERSION }}
+            type=raw,value=latest
 
       - name: Build and push Frontend image
         id: push-frontend
@@ -59,6 +75,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend
+          tags: |
+            type=raw,value=${{ env.NEW_VERSION }}
+            type=raw,value=latest
 
       - name: Build and push Backend image
         id: push-backend
@@ -82,6 +101,15 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend
           subject-digest: ${{ steps.push-backend.outputs.digest }}
           push-to-registry: true
+
+      - name: Create GitHub Release
+        run: |
+          gh release create "v${{ env.NEW_VERSION }}" \
+            --title "Release v${{ env.NEW_VERSION }}" \
+            --generate-notes \
+            --target main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # --- VPS DEPLOY ---
       - name: Setup SSH key
@@ -107,7 +135,7 @@ jobs:
           cat > docker-compose.prod.yaml << 'EOF'
           services:
             frontend:
-              image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:main
+              image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:${{ env.NEW_VERSION }}
               container_name: portfolio-frontend
               # ports:
               #   - "8080:8080"
@@ -139,7 +167,7 @@ jobs:
 
 
             backend:
-              image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:main
+              image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:${{ env.NEW_VERSION }}
               container_name: portfolio-backend
               # ports:
               #   - "8090:8090"
