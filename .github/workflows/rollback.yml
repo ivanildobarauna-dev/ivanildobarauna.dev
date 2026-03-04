@@ -1,0 +1,138 @@
+name: Rollback Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to rollback to (e.g., 1.0.3). Leave empty to auto-detect previous release.'
+        required: false
+        type: string
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Determine rollback version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            ROLLBACK_VERSION="${{ github.event.inputs.version }}"
+          else
+            # Releases are ordered newest-first; .[1] is the one before the current
+            ROLLBACK_VERSION=$(gh release list --limit 2 --json tagName --jq '.[1].tagName')
+            ROLLBACK_VERSION=${ROLLBACK_VERSION#v}
+          fi
+          if [ -z "$ROLLBACK_VERSION" ]; then
+            echo "ERROR: Could not determine rollback version. No previous release found."
+            exit 1
+          fi
+          echo "ROLLBACK_VERSION=${ROLLBACK_VERSION}" >> $GITHUB_ENV
+          echo "Rolling back to version: ${ROLLBACK_VERSION}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+
+      - name: Add host to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.VPS_SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Create rollback docker-compose
+        run: |
+          cat > docker-compose.rollback.yaml << 'EOF'
+          services:
+            frontend:
+              image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:${{ env.ROLLBACK_VERSION }}
+              container_name: portfolio-frontend
+              environment:
+                - DD_SERVICE=ivanildobarauna.dev
+                - DD_ENV=production
+                - DD_VERSION=${{ env.ROLLBACK_VERSION }}
+                - DD_TRACE_SAMPLE_RATE=1.0
+                - DD_AGENT_HOST=localhost
+                - DD_PROCESS_AGENT_ENABLED=true
+                - DD_TAGS="app:portfolio,tech:nextjs,role:frontend"
+              labels:
+                com.datadoghq.ad.logs: '[{"source": "nodejs", "service": "ivanildobarauna.dev"}]'
+                tags.env: "production"
+                tags.service: "ivanildobarauna.dev"
+                tags.tech: "nextjs"
+                tags.app: "portfolio"
+                tags.role: "frontend"
+              depends_on:
+                - backend
+              restart: unless-stopped
+              network_mode: host
+              healthcheck:
+                test: ["CMD", "node", "-e", "require('http').get('http://localhost:8080', res => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
+                interval: 30s
+                timeout: 10s
+                retries: 3
+                start_period: 60s
+
+            backend:
+              image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:${{ env.ROLLBACK_VERSION }}
+              container_name: portfolio-backend
+              environment:
+                - POSTGRES_HOST=localhost
+                - DD_SERVICE=api.ivanildobarauna.dev
+                - DD_ENV=production
+                - DD_VERSION=${{ env.ROLLBACK_VERSION }}
+                - DD_TRACE_SAMPLE_RATE=1.0
+                - DD_AGENT_HOST=localhost
+                - DD_PROCESS_AGENT_ENABLED=true
+                - DD_TAGS="app:portfolio,tech:python,role:backend"
+                - DD_RUNTIME_METRICS_ENABLED=true
+              labels:
+                com.datadoghq.ad.logs: '[{"source": "python", "service": "api.ivanildobarauna.dev"}]'
+                tags.env: "production"
+                tags.service: "api.ivanildobarauna.dev"
+                tags.tech: "python"
+                tags.app: "portfolio"
+                tags.role: "backend"
+              restart: unless-stopped
+              network_mode: host
+              healthcheck:
+                test: ["CMD", "curl", "-f", "http://localhost:8090/api/v1/ping"]
+                interval: 30s
+                timeout: 10s
+                retries: 3
+                start_period: 60s
+          EOF
+
+      - name: Sync rollback compose to VPS
+        run: |
+          rsync -avz \
+            docker-compose.rollback.yaml \
+            ${{ secrets.VPS_SSH_USER }}@${{ secrets.VPS_SSH_HOST }}:/home/ubuntu/app/site/
+
+      - name: Deploy rollback version on VPS
+        run: |
+          ssh ${{ secrets.VPS_SSH_USER }}@${{ secrets.VPS_SSH_HOST }} << 'EOF'
+            cd /home/ubuntu/app/site
+            docker compose -f docker-compose.rollback.yaml pull
+            docker compose -f docker-compose.rollback.yaml up -d --remove-orphans
+            docker system prune -f
+          EOF
+
+    environment:
+      name: Production
+      url: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
