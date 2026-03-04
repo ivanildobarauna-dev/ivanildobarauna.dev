@@ -19,8 +19,14 @@ jobs:
       contents: write
       packages: read
       pull-requests: write
+      id-token: write
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Determine rollback version
         run: |
           if [ -n "${{ github.event.inputs.version }}" ]; then
@@ -119,16 +125,22 @@ jobs:
                 start_period: 60s
           EOF
 
-      - name: Sync rollback compose to VPS
+      - name: Create temporary .env file
         run: |
-          rsync -avz \
-            docker-compose.rollback.yaml \
+          echo "DD_API_KEY=${{ secrets.DATADOG_API_KEY }}" > .env
+
+      - name: Sync rollback compose and env to VPS
+        run: |
+          rsync -avz --delete \
+            docker-compose.rollback.yaml .env \
             ${{ secrets.VPS_SSH_USER }}@${{ secrets.VPS_SSH_HOST }}:/home/ubuntu/app/site/
 
       - name: Deploy rollback version on VPS
         run: |
           ssh ${{ secrets.VPS_SSH_USER }}@${{ secrets.VPS_SSH_HOST }} << 'EOF'
             cd /home/ubuntu/app/site
+            rm -f .env
+            echo "DD_API_KEY=${{ secrets.DATADOG_API_KEY }}" >> .env
             docker compose -f docker-compose.rollback.yaml pull
             docker compose -f docker-compose.rollback.yaml up -d --remove-orphans
             docker system prune -f
@@ -148,11 +160,6 @@ jobs:
           echo "Release ${ROLLBACK_TAG} marked as latest"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Create rollback PR
         run: |
@@ -181,20 +188,7 @@ jobs:
               --base main \
               --head ${PR_BRANCH} \
               --title "Rollback: Revert to v${ROLLBACK_VERSION}" \
-              --body "🚨 **Automatic Rollback PR**
-
-This PR reverts the codebase to version \`v${ROLLBACK_VERSION}\` to match the environment rollback.
-
-**What changed:**
-- Environment was rolled back to version \`v${ROLLBACK_VERSION}\`
-- This PR synchronizes the source code to match
-
-**Instructions:**
-1. Review the changes carefully
-2. Merge this PR to update main with the previous stable version
-
----
-*This PR was automatically created by the Rollback workflow*"
+              --body "Automatic Rollback PR - This PR reverts the codebase to v${ROLLBACK_VERSION} to match the environment rollback. Review the changes carefully and merge to update main with the previous stable version. This PR was automatically created by the Rollback workflow."
           else
             echo "PR #${EXISTING_PR} already exists for this rollback"
           fi
