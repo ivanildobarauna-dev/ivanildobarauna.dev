@@ -1,11 +1,23 @@
 import { useState, useEffect } from 'react';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
 import { retryAsync } from '@/utils/retryAsync';
+import { BrowserCache } from '@/utils/cacheService';
 
 interface TotalExperienceData {
   totalExperience: string;
   loading: boolean;
   error: string | null;
+}
+
+function parseTotalDuration(total_duration: string | number): string {
+  if (typeof total_duration === 'string') {
+    const anosMatch = total_duration.match(/(\d+)\s+ano/);
+    if (anosMatch && anosMatch[1]) {
+      return `${parseInt(anosMatch[1], 10)}+`;
+    }
+    return total_duration;
+  }
+  return `${Math.floor(total_duration)}+`;
 }
 
 export function useTotalExperience(): TotalExperienceData {
@@ -15,7 +27,16 @@ export function useTotalExperience(): TotalExperienceData {
 
   useEffect(() => {
     const fetchTotalExperience = async () => {
+      const TOTAL_DURATION_CACHE_KEY = 'total_duration';
+
       try {
+        const cached = BrowserCache.get<{ total_duration: string }>(TOTAL_DURATION_CACHE_KEY);
+        if (cached) {
+          setTotalExperience(parseTotalDuration(cached.total_duration));
+          setLoading(false);
+          return;
+        }
+
         const experiencesEndpoint = getBackendEndpoint('/experiences?total_duration=true');
 
         const data = await retryAsync(async () => {
@@ -36,20 +57,10 @@ export function useTotalExperience(): TotalExperienceData {
 
           return response.json();
         });
-        
-        if (typeof data.total_duration === 'string') {
-          // Extrair apenas o número de anos da string (ex: "13 anos e 4 meses" -> "13")
-          const anosMatch = data.total_duration.match(/(\d+)\s+ano/);
-          if (anosMatch && anosMatch[1]) {
-            const anos = parseInt(anosMatch[1], 10);
-            setTotalExperience(`${anos}+`);
-          } else {
-            // Caso não encontre o padrão de anos, usar a string completa
-            setTotalExperience(data.total_duration);
-          }
-        } else if (typeof data.total_duration === 'number') {
-          // Se for número, usá-lo diretamente
-          setTotalExperience(`${Math.floor(data.total_duration)}+`);
+
+        if (typeof data.total_duration === 'string' || typeof data.total_duration === 'number') {
+          BrowserCache.set(TOTAL_DURATION_CACHE_KEY, data);
+          setTotalExperience(parseTotalDuration(data.total_duration));
         } else {
           throw new Error('Formato inválido para total_duration');
         }
