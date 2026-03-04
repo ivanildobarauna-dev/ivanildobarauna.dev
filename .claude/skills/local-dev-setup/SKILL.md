@@ -1,6 +1,6 @@
 ---
 name: local-dev-setup
-description: Set up the entire local development environment with SSH tunnel to remote PostgreSQL and Docker Compose stack. Use this skill when the user wants to start developing locally, run the full application stack, connect to a remote database via SSH tunnel, or initialize the development environment. Automatically handles opening the SSH tunnel in the background, starting all Docker services (backend, frontend, database), and verifying health checks.
+description: Set up the entire local development environment with SSH tunnel to remote PostgreSQL and Docker Compose stack. Use this skill when the user wants to start developing locally, run the full application stack, connect to a remote database via SSH tunnel, or initialize the development environment. Automatically handles opening the SSH tunnel in the background, starting all Docker services (backend, frontend, database), and verifying health checks. Also use this skill when the user wants to tear down, stop, or shut down the local environment — phrases like "derrubar a aplicação", "parar o ambiente local", "desligar os containers", "encerrar o stack" should trigger the Teardown flow described in this skill.
 compatibility: bash, docker, ssh, .env file
 ---
 
@@ -21,6 +21,41 @@ Before using this skill, ensure you have:
 - SSH keys properly configured (the skill will use your system's SSH configuration)
 
 ## Execution Steps
+
+### Step 0: Teardown de ambiente existente
+
+Antes de qualquer coisa, verifique se há containers ou SSH tunnels em execução e encerre tudo para garantir um rebuild limpo do zero. O objetivo é sempre subir uma stack fresca — nunca reaproveitar containers ou tunnels anteriores.
+
+**0a. Verificar porta 5432**
+
+Execute `lsof -i :5432` para checar se há algum processo usando a porta.
+
+- Se houver **apenas o SSH tunnel do próprio projeto** (`ssh -g -L 0.0.0.0:5432`): encerre-o automaticamente com `pkill -f "ssh -g -L 0.0.0.0:5432"`.
+- Se houver **qualquer outro processo** (ex: PostgreSQL local, outro tunnel, outro serviço): **pergunte ao usuário** antes de agir:
+
+  > "Há um processo de terceiros usando a porta 5432 (PID: X, comando: Y). Deseja que eu encerre esse processo automaticamente para prosseguir, ou prefere resolver manualmente e me avisar quando estiver pronto?"
+
+  Aguarde a resposta antes de continuar. Se o usuário optar por resolver manualmente, pause e retome a partir do Step 1 quando ele confirmar que a porta está livre.
+
+**0b. Teardown dos containers do projeto**
+
+Pare e remova apenas os containers deste projeto — outros containers no sistema não são afetados:
+
+```bash
+# Encerrar SSH tunnel do projeto (se ainda estiver rodando)
+pkill -f "ssh -g -L 0.0.0.0:5432" 2>/dev/null
+sleep 1
+
+# Parar e remover apenas os containers deste projeto
+docker stop portfolio-backend portfolio-frontend 2>/dev/null
+docker rm portfolio-backend portfolio-frontend 2>/dev/null
+```
+
+Confirme que após esse passo:
+- `lsof -i :5432` retorna vazio
+- `docker ps -a --filter name=portfolio` retorna vazio
+
+Só avance para o Step 1 após essa confirmação.
 
 ### Step 1: Validate Environment
 
@@ -57,14 +92,23 @@ After starting services, the skill waits for:
 When you ask Claude Code to "Set up the local development environment" or "Start the application locally with the SSH tunnel", this skill:
 
 ```bash
+# 0a. Verificar porta 5432 — se for processo de terceiros, perguntar ao usuário antes de encerrar
+lsof -i :5432
+
+# 0b. Teardown: encerrar SSH tunnel e containers do projeto
+pkill -f "ssh -g -L 0.0.0.0:5432" 2>/dev/null
+sleep 1
+docker stop portfolio-backend portfolio-frontend 2>/dev/null
+docker rm portfolio-backend portfolio-frontend 2>/dev/null
+
 # 1. Extracts POSTGRES_HOST from .env
 POSTGRES_HOST=$(grep POSTGRES_HOST .env | cut -d'=' -f2)
 
 # 2. Opens SSH tunnel in background
 ssh -g -L 0.0.0.0:5432:localhost:5432 root@$POSTGRES_HOST -N &
 
-# 3. Starts Docker Compose
-docker-compose up -d
+# 3. Starts Docker Compose (always with --build for a clean rebuild)
+PROJECT_ROOT=$(pwd) docker compose -f .claude/skills/local-dev-setup/assets/docker-compose.yaml up --build -d
 
 # 4. Waits for services to be healthy
 # Monitors logs and health checks until everything is ready
@@ -104,16 +148,24 @@ The skill will display:
 - Kill existing containers: `docker-compose down`
 - Check port usage: `lsof -i :5432`, `lsof -i :3000`
 
-## Clean Up
+## Teardown (derrubar o ambiente local)
 
-When done developing, to stop everything:
+Quando o usuário disser que quer derrubar, parar ou encerrar a aplicação local — frases como "derrubar a aplicação", "parar o ambiente", "desligar os containers", "encerrar o stack" — execute o teardown completo abaixo, sem necessidade de passar pelo fluxo de setup:
+
 ```bash
-# Stop Docker Compose
-docker-compose down
+# 1. Parar e remover apenas os containers deste projeto
+docker stop portfolio-backend portfolio-frontend 2>/dev/null
+docker rm portfolio-backend portfolio-frontend 2>/dev/null
 
-# Kill SSH tunnel
-pkill -f "ssh -g -L 0.0.0.0:5432"
+# 2. Encerrar o SSH tunnel do projeto
+pkill -f "ssh -g -L 0.0.0.0:5432" 2>/dev/null
 ```
+
+Confirme ao usuário o resultado:
+- `docker ps --filter name=portfolio` → deve retornar vazio
+- `lsof -i :5432` → deve retornar vazio (ou mostrar apenas processos de terceiros, caso existam)
+
+Informe ao usuário que o ambiente foi encerrado e que as portas 3000, 8090 e 5432 foram liberadas.
 
 ## Notes
 
