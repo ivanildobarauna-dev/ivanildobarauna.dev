@@ -16,8 +16,9 @@ jobs:
   rollback:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: read
+      pull-requests: write
 
     steps:
       - name: Determine rollback version
@@ -132,6 +133,73 @@ jobs:
             docker compose -f docker-compose.rollback.yaml up -d --remove-orphans
             docker system prune -f
           EOF
+
+      - name: Mark rollback release as latest
+        run: |
+          CURRENT_LATEST=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
+          ROLLBACK_TAG="v${ROLLBACK_VERSION}"
+
+          # Remove 'latest' from current release
+          gh release edit ${CURRENT_LATEST} --draft=false
+
+          # Mark rollback version as latest
+          gh release edit ${ROLLBACK_TAG} --latest
+
+          echo "Release ${ROLLBACK_TAG} marked as latest"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create rollback PR
+        run: |
+          ROLLBACK_TAG="v${ROLLBACK_VERSION}"
+          PR_BRANCH="rollback/${ROLLBACK_VERSION}"
+
+          # Check if branch already exists
+          if git rev-parse --verify origin/${PR_BRANCH} >/dev/null 2>&1; then
+            echo "Branch ${PR_BRANCH} already exists, updating it"
+            git fetch origin ${PR_BRANCH}:${PR_BRANCH}
+            git checkout ${PR_BRANCH}
+            git reset --hard ${ROLLBACK_TAG}
+            git push origin ${PR_BRANCH} --force
+          else
+            # Create new branch from rollback tag
+            git checkout -b ${PR_BRANCH} ${ROLLBACK_TAG}
+            git push -u origin ${PR_BRANCH}
+          fi
+
+          # Check if PR already exists
+          EXISTING_PR=$(gh pr list --head ${PR_BRANCH} --base main --json number --jq '.[0].number')
+
+          if [ -z "$EXISTING_PR" ]; then
+            # Create new PR
+            gh pr create \
+              --base main \
+              --head ${PR_BRANCH} \
+              --title "Rollback: Revert to v${ROLLBACK_VERSION}" \
+              --body "🚨 **Automatic Rollback PR**
+
+This PR reverts the codebase to version \`v${ROLLBACK_VERSION}\` to match the environment rollback.
+
+**What changed:**
+- Environment was rolled back to version \`v${ROLLBACK_VERSION}\`
+- This PR synchronizes the source code to match
+
+**Instructions:**
+1. Review the changes carefully
+2. Merge this PR to update main with the previous stable version
+
+---
+*This PR was automatically created by the Rollback workflow*"
+          else
+            echo "PR #${EXISTING_PR} already exists for this rollback"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     environment:
       name: Production
