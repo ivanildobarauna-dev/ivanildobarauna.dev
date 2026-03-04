@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
 import { retryAsync } from '@/utils/retryAsync';
+import { BrowserCache } from '@/utils/cacheService';
 
 interface TotalProjectsData {
   totalProjects: string;
@@ -15,7 +16,16 @@ export function useTotalProjects(): TotalProjectsData {
 
   useEffect(() => {
     const fetchTotalProjects = async () => {
+      const TOTAL_PROJECTS_CACHE_KEY = 'total_projects';
+
       try {
+        const cached = BrowserCache.get<string>(TOTAL_PROJECTS_CACHE_KEY);
+        if (cached) {
+          setTotalProjects(cached);
+          setLoading(false);
+          return;
+        }
+
         const projectsEndpoint = getBackendEndpoint('/projects');
 
         const data = await retryAsync(async () => {
@@ -43,7 +53,9 @@ export function useTotalProjects(): TotalProjectsData {
           return jsonData as unknown[];
         });
 
-        setTotalProjects(`${data.length}+`);
+        const total = `${data.length}+`;
+        BrowserCache.set(TOTAL_PROJECTS_CACHE_KEY, total);
+        setTotalProjects(total);
       } catch (error: unknown) {
         if (error instanceof Error) {
           setError(error.message);

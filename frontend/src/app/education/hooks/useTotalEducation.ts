@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getBackendEndpoint } from '@/utils/backend_endpoint';
 import { retryAsync } from '@/utils/retryAsync';
+import { BrowserCache } from '@/utils/cacheService';
 
 interface TotalEducationData {
   totalEducation: string;
@@ -15,7 +16,16 @@ export function useTotalEducation(): TotalEducationData {
 
   useEffect(() => {
     const fetchTotalEducation = async () => {
+      const TOTAL_EDUCATION_CACHE_KEY = 'total_education';
+
       try {
+        const cached = BrowserCache.get<string>(TOTAL_EDUCATION_CACHE_KEY);
+        if (cached) {
+          setTotalEducation(cached);
+          setLoading(false);
+          return;
+        }
+
         const educationEndpoint = getBackendEndpoint('/education');
 
         const data = await retryAsync(async () => {
@@ -43,8 +53,9 @@ export function useTotalEducation(): TotalEducationData {
           return jsonData as { formations: unknown[]; certifications: unknown[] };
         });
 
-        const total = data.formations.length + data.certifications.length;
-        setTotalEducation(`${total}+`);
+        const total = `${data.formations.length + data.certifications.length}+`;
+        BrowserCache.set(TOTAL_EDUCATION_CACHE_KEY, total);
+        setTotalEducation(total);
       } catch (error: unknown) {
         if (error instanceof Error) {
           setError(error.message);
