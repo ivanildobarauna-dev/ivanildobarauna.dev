@@ -142,7 +142,7 @@ jobs:
               environment:
                 - DD_SERVICE=ivanildobarauna.dev
                 - DD_ENV=production
-                - DD_VERSION=${{ env.NEW_VERSION }}
+                - DD_VERSION=1.0.0
                 - DD_TRACE_SAMPLE_RATE=1.0
                 - DD_AGENT_HOST=localhost
                 - DD_PROCESS_AGENT_ENABLED=true
@@ -175,7 +175,7 @@ jobs:
                 - POSTGRES_HOST=localhost
                 - DD_SERVICE=api.ivanildobarauna.dev
                 - DD_ENV=production
-                - DD_VERSION=${{ env.NEW_VERSION }}
+                - DD_VERSION=1.0.0
                 - DD_TRACE_SAMPLE_RATE=1.0
                 - DD_AGENT_HOST=localhost
                 - DD_PROCESS_AGENT_ENABLED=true
