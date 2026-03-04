@@ -38,11 +38,12 @@ class PostgresAdapter(RepositoryInterface):
     
     def build_engine(self, retry_interval: int = 5):
         attempt = 0
-        
+        logger.info(f"Conectando ao banco de dados: {self._obfuscated_connection_string()}")
+
         while True:
             attempt += 1
             try:
-                engine = create_engine(self.connection_string, 
+                engine = create_engine(self.connection_string,
                                     echo=False,
                                     pool_size=5,          
                                     max_overflow=10,      
