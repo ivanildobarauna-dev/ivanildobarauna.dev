@@ -171,8 +171,12 @@ jobs:
           # Start from main HEAD (not from the tag)
           git checkout -b ${PR_BRANCH} main
 
-          # Replace all tracked files with the content from the rollback tag
+          # Replace application files with the content from the rollback tag,
+          # excluding infrastructure/docs paths (aligned with deploy paths-ignore)
           git checkout ${ROLLBACK_TAG} -- .
+
+          # Restore paths that should NOT be rolled back (same as deploy paths-ignore)
+          git checkout main -- .github/ docs/ tests/ README.md CHANGELOG.md LICENSE docker-compose.local.yaml '*.md' 2>/dev/null || true
 
           # Check if there are actual differences
           if git diff --cached --quiet && git diff --quiet; then
