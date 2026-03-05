@@ -33,45 +33,45 @@ export default function ExperienceSection({ experiences, tempoTotalCarreira }: E
               transition={{ duration: 0.8, delay: empresaIndex * 0.2 }}
               className="professional-card overflow-hidden"
             >
-              {/* Header da empresa */}
-              <div className="bg-gradient-hero p-6 md:p-8 text-primary-foreground">
+              {/* Header da empresa - Data block style */}
+              <div className="bg-gradient-to-r from-blue-500/10 to-blue-500/5 p-6 md:p-8 border-b-2 border-blue-500/30">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                   <div className="flex items-center gap-4">
                     {exps[0].companyLogo && (
-                      <div className="w-16 h-16 bg-white/10 rounded-xl p-2 flex items-center justify-center backdrop-blur-sm">
+                      <div className="w-16 h-16 bg-blue-500/10 border border-blue-500/30 p-2 flex items-center justify-center backdrop-blur-sm">
                         <Image
                           src={exps[0].companyLogo}
                           alt={`Logo ${empresa}`}
                           width={48}
                           height={48}
-                          className="object-contain"
+                          className="object-contain filter brightness-150"
                         />
                       </div>
                     )}
                     <div>
-                      <h3 className="text-2xl md:text-3xl font-bold break-words">{empresa}</h3>
-                      <p className="text-primary-foreground/80 text-lg">
-                        Tempo total: {exps[0].duration}
-                        {exps[0].current && ' (Emprego Atual)'}
+                      <h3 className="text-2xl md:text-3xl font-black text-white break-words">$ {empresa}</h3>
+                      <p className="text-blue-300 text-sm font-mono">
+                        &gt; {exps[0].duration}
+                        {exps[0].current && ' [CURRENT]'}
                       </p>
                     </div>
                   </div>
-                  
+
                   {exps[0].website && (
                     <a
                       href={exps[0].website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-primary-foreground px-4 py-2 rounded-lg transition-colors duration-300"
+                      className="inline-flex items-center gap-2 bg-blue-500/20 border border-blue-500/50 hover:bg-blue-500/30 text-blue-300 px-4 py-2 transition-all duration-300 font-mono text-sm"
                     >
                       <FaExternalLinkAlt className="w-4 h-4" />
-                      Website
+                      OPEN
                     </a>
                   )}
                 </div>
               </div>
               
-              {/* Experiências */}
+              {/* Experiências - Data blocks */}
               <div className="p-6 md:p-8 space-y-6">
                 {exps.map((exp, index) => (
                   <motion.div
@@ -80,40 +80,43 @@ export default function ExperienceSection({ experiences, tempoTotalCarreira }: E
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
-                    className="border-l-4 border-primary/20 pl-6"
+                    className="border-l-4 border-blue-500/60 pl-6 pb-6 relative"
                   >
+                    {/* Data point connector */}
+                    <div className="absolute -left-3.5 top-0 w-3 h-3 bg-blue-500 rounded-full border-2 border-gray-900"></div>
+
                     <div className="mb-4">
-                      <h4 className="text-xl md:text-2xl font-bold text-primary mb-2 underline-effect">
-                        {exp.position}
+                      <h4 className="text-xl md:text-2xl font-black text-blue-300 mb-2 font-mono">
+                        &gt; {exp.position}
                       </h4>
-                      
-                      <div className="flex flex-wrap gap-4 text-muted-foreground text-sm mb-3">
+
+                      <div className="flex flex-wrap gap-4 text-gray-400 text-xs mb-3 font-mono">
                         {exp.period && (
-                          <span className="flex items-center gap-2">
-                            <FaCalendarAlt className="w-4 h-4" />
+                          <span className="flex items-center gap-2 text-blue-300">
+                            <FaCalendarAlt className="w-3 h-3" />
                             {exp.period}
                           </span>
                         )}
-                        <span className="flex items-center gap-2">
-                          <FaMapMarkerAlt className="w-4 h-4" />
+                        <span className="flex items-center gap-2 text-slate-300">
+                          <FaMapMarkerAlt className="w-3 h-3" />
                           {exp.location}
                         </span>
                       </div>
-                      
-                      <p className="text-foreground leading-relaxed">
+
+                      <p className="text-gray-300 leading-relaxed text-sm">
                         {exp.description}
                       </p>
                     </div>
 
-                    {/* Skills */}
+                    {/* Skills - Tech tags */}
                     {exp.skills && (
                       <div className="flex flex-wrap gap-2 pt-3">
                         {exp.skills.split(';').filter(Boolean).map((skill: string, idx: number) => (
                           <span
                             key={idx}
-                            className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium whitespace-nowrap"
+                            className="px-2.5 py-1 bg-blue-500/15 text-blue-300 border border-blue-500/30 text-xs font-mono font-medium whitespace-nowrap hover:bg-blue-500/25 transition-colors"
                           >
-                            {skill.trim()}
+                            #{skill.trim()}
                           </span>
                         ))}
                       </div>

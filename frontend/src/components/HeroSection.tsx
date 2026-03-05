@@ -11,47 +11,73 @@ export default function HeroSection() {
   const { socialLinks, loading, error } = useSocialLinks();
 
   return (
-    <section className="hero-section min-h-screen flex items-center justify-center px-4 py-20" data-testid="hero-section">
-      <div className="container max-w-6xl mx-auto">
+    <section className="hero-section min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden" data-testid="hero-section">
+      {/* Animated data particles background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(5)].map((_, i) => (
+          <motion.div
+            key={`particle-${i}`}
+            className="absolute w-2 h-2 bg-blue-400 rounded-full"
+            initial={{ opacity: 0, x: Math.random() * 100 - 50, y: Math.random() * 100 - 50 }}
+            animate={{
+              opacity: [0, 0.6, 0],
+              x: Math.random() * 400 - 200,
+              y: Math.random() * 400 - 200,
+            }}
+            transition={{
+              duration: 4 + Math.random() * 2,
+              repeat: Infinity,
+              delay: i * 0.4,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="container max-w-6xl mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
           <div className="text-center lg:text-left space-y-8 fade-in">
-            <div className="space-y-4">
+            <div className="space-y-6">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-secondary text-secondary-foreground"
+                className="inline-flex items-center px-4 py-2 rounded-sm text-sm font-bold bg-blue-500/10 text-blue-300 border border-blue-500/30"
               >
-                Gerando impacto real na humanidade usando tecnologia
+                &gt; Gerando impacto com tecnologia
               </motion.div>
-              
-              <motion.h1
+
+              {/* Glowing name with monospace aesthetic */}
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight"
+                className="space-y-2"
               >
-                Ivanildo
-                <span className="block text-gradient-light">Barauna</span>
-              </motion.h1>
-              
+                <div className="font-mono text-lg font-bold text-blue-400">/ dev ivanildo.dev</div>
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight tracking-tighter">
+                  <span className="text-gradient-light">Ivanildo</span>
+                  <br />
+                  <span className="text-gray-100">Barauna</span>
+                </h1>
+              </motion.div>
+
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-xl md:text-2xl text-primary-foreground/80 max-w-lg"
+                className="text-xl md:text-2xl font-semibold text-blue-300"
               >
                 Senior Data Engineer & Open Source Maintainer
               </motion.p>
-              
+
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-lg text-primary-foreground/60 max-w-xl leading-relaxed"
+                className="text-lg text-gray-400 max-w-xl leading-relaxed font-mono text-sm"
               >
-                Especialização em Engenharia, Análise de Dados e mantenedor de bibliotecas e serviços Open Source.
+                // Especialização em Data Pipelines, Analytics e Engenharia de Software
               </motion.p>
             </div>
 
@@ -60,11 +86,11 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 items-center lg:items-start"
+              className="flex flex-col sm:flex-row gap-4 items-start"
             >
               <a
                 href="#contact"
-                className="btn-hero group inline-flex items-center px-6 py-3 rounded-lg font-semibold"
+                className="btn-hero group inline-flex items-center px-6 py-3 font-bold uppercase text-sm tracking-wider"
                 onClick={() => {
                   const element = document.querySelector('#contact');
                   if (element) {
@@ -72,80 +98,93 @@ export default function HeroSection() {
                   }
                 }}
               >
-                <FaEnvelope className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                Entre em contato
+                <FaEnvelope className="w-4 h-4 mr-2 group-hover:scale-125 transition-transform" />
+                Contato
               </a>
-              
+
               <CvDownloadButton />
             </motion.div>
 
-            {/* Social Links */}
+            {/* Social Links - Terminal style */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex gap-4 justify-center lg:justify-start"
+              className="flex gap-3 justify-start"
             >
-              {!loading && !error && socialLinks.map((link) => {
+              {!loading && !error && socialLinks.map((link, idx) => {
                 const Icon = socialIconMap[link.type];
                 return (
-                  <a
+                  <motion.a
                     key={link.label}
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-primary-foreground/60 hover:text-primary-foreground hover:bg-white/10 transition-colors"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.6 + idx * 0.1 }}
+                    className="inline-flex items-center justify-center w-12 h-12 border-2 border-blue-500/50 text-blue-300 hover:text-blue-200 hover:border-blue-400 hover:bg-blue-500/10 transition-all"
                   >
                     {Icon && <Icon className="w-5 h-5" />}
-                  </a>
+                  </motion.a>
                 );
               })}
             </motion.div>
           </div>
 
-          {/* Profile Image */}
+          {/* Profile Image with Tech Frame */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="relative slide-up"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative"
           >
             <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-r from-white/10 to-white/5 rounded-3xl blur-2xl"></div>
-              <div className="relative bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
-                <Image
-                  src="/images/profile/profile.png"
-                  alt="Ivanildo Barauna"
-                  width={400}
-                  height={400}
-                  className="w-full max-w-md mx-auto rounded-2xl shadow-hero animate-float"
-                />
+              {/* Glow effect */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-slate-500 opacity-15 blur-3xl"></div>
+
+              {/* Terminal frame */}
+              <div className="relative bg-slate-900/80 backdrop-blur-sm rounded-none p-2 border-2 border-blue-500/50">
+                {/* Terminal header */}
+                <div className="bg-slate-800 px-4 py-2 mb-2 border-b border-blue-500/30 flex items-center gap-2">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                  </div>
+                  <span className="text-xs text-blue-400 ml-2 font-mono">profile.tsx</span>
+                </div>
+
+                {/* Image */}
+                <div className="relative overflow-hidden bg-gradient-to-b from-blue-500/5 to-transparent">
+                  <Image
+                    src="/images/profile/profile.png"
+                    alt="Ivanildo Barauna"
+                    width={400}
+                    height={400}
+                    className="w-full max-w-sm mx-auto filter grayscale hover:grayscale-0 transition-all duration-300"
+                  />
+                </div>
               </div>
             </div>
-            
-            {/* Floating badges */}
+
+            {/* Data block badges - Terminal style */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className="absolute -top-4 -right-4 animate-float"
-              style={{ animationDelay: '1s' }}
+              className="absolute -top-2 -right-2 text-xs font-mono text-blue-300 border border-blue-500/50 bg-slate-900/90 px-3 py-2 rounded-none"
             >
-              <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-primary-foreground border border-white/20">
-                Python
-              </div>
+              &gt; python
             </motion.div>
-            
+
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 1.0 }}
-              className="absolute -bottom-4 -left-4 animate-float"
-              style={{ animationDelay: '2s' }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 1 }}
+              className="absolute -bottom-2 -left-2 text-xs font-mono text-slate-300 border border-slate-500/50 bg-slate-900/90 px-3 py-2 rounded-none"
             >
-              <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-primary-foreground border border-white/20">
-                Airflow
-              </div>
+              &gt; data_engineer
             </motion.div>
           </motion.div>
         </div>
