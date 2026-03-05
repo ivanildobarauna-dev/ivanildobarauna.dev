@@ -26,6 +26,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          fetch-tags: true
           token: ${{ secrets.GH_PAT }}
 
       - name: Determine rollback version
@@ -149,13 +150,9 @@ jobs:
 
       - name: Mark rollback release as latest
         run: |
-          CURRENT_LATEST=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
           ROLLBACK_TAG="v${ROLLBACK_VERSION}"
 
-          # Remove 'latest' from current release
-          gh release edit ${CURRENT_LATEST} --draft=false
-
-          # Mark rollback version as latest
+          # Mark rollback version as latest (GitHub auto-removes latest from the previous one)
           gh release edit ${ROLLBACK_TAG} --latest
 
           echo "Release ${ROLLBACK_TAG} marked as latest"
@@ -167,18 +164,31 @@ jobs:
           ROLLBACK_TAG="v${ROLLBACK_VERSION}"
           PR_BRANCH="rollback/${ROLLBACK_VERSION}"
 
-          # Check if branch already exists
-          if git rev-parse --verify origin/${PR_BRANCH} >/dev/null 2>&1; then
-            echo "Branch ${PR_BRANCH} already exists, updating it"
-            git fetch origin ${PR_BRANCH}:${PR_BRANCH}
-            git checkout ${PR_BRANCH}
-            git reset --hard ${ROLLBACK_TAG}
-            git push origin ${PR_BRANCH} --force
-          else
-            # Create new branch from rollback tag
-            git checkout -b ${PR_BRANCH} ${ROLLBACK_TAG}
-            git push -u origin ${PR_BRANCH}
+          # Configure git identity for the revert commit
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Start from main HEAD (not from the tag)
+          git checkout -b ${PR_BRANCH} main
+
+          # Replace all tracked files with the content from the rollback tag
+          git checkout ${ROLLBACK_TAG} -- .
+
+          # Check if there are actual differences
+          if git diff --cached --quiet && git diff --quiet; then
+            echo "WARNING: No differences between main and ${ROLLBACK_TAG}. Nothing to rollback."
+            exit 0
           fi
+
+          # Commit the revert
+          git add -A
+          git commit -m "rollback: revert codebase to v${ROLLBACK_VERSION}
+
+          This reverts the codebase to the state at tag ${ROLLBACK_TAG}.
+          The VPS has already been rolled back to this version."
+
+          # Force push (in case branch already exists from a previous attempt)
+          git push origin ${PR_BRANCH} --force
 
           # Check if PR already exists
           EXISTING_PR=$(gh pr list --head ${PR_BRANCH} --base main --json number --jq '.[0].number')
