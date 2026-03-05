@@ -1,0 +1,58 @@
+services:
+  frontend:
+    image: ghcr.io/ivanildobarauna-dev/ivanildobarauna.dev/frontend:1.0.6
+    container_name: portfolio-frontend
+    environment:
+      - DD_SERVICE=ivanildobarauna.dev
+      - DD_ENV=production
+      - DD_VERSION=1.0.6
+      - DD_TRACE_SAMPLE_RATE=1.0
+      - DD_AGENT_HOST=localhost
+      - DD_PROCESS_AGENT_ENABLED=true
+      - DD_TAGS="app:portfolio,tech:nextjs,role:frontend"
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "nodejs", "service": "ivanildobarauna.dev"}]'
+      tags.env: "production"
+      tags.service: "ivanildobarauna.dev"
+      tags.tech: "nextjs"
+      tags.app: "portfolio"
+      tags.role: "frontend"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    network_mode: host
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:8080', res => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  backend:
+    image: ghcr.io/ivanildobarauna-dev/ivanildobarauna.dev/backend:1.0.6
+    container_name: portfolio-backend
+    environment:
+      - POSTGRES_HOST=localhost
+      - DD_SERVICE=api.ivanildobarauna.dev
+      - DD_ENV=production
+      - DD_VERSION=1.0.6
+      - DD_TRACE_SAMPLE_RATE=1.0
+      - DD_AGENT_HOST=localhost
+      - DD_PROCESS_AGENT_ENABLED=true
+      - DD_TAGS="app:portfolio,tech:python,role:backend"
+      - DD_RUNTIME_METRICS_ENABLED=true
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "python", "service": "api.ivanildobarauna.dev"}]'
+      tags.env: "production"
+      tags.service: "api.ivanildobarauna.dev"
+      tags.tech: "python"
+      tags.app: "portfolio"
+      tags.role: "backend"
+    restart: unless-stopped
+    network_mode: host
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/api/v1/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
