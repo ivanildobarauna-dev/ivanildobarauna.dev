@@ -152,7 +152,6 @@ jobs:
         with:
           fetch-depth: 0
           fetch-tags: true
-          token: ${{ secrets.GH_PAT }}
 
       - name: Mark rollback release as latest
         run: |
@@ -209,4 +208,4 @@ jobs:
             echo "PR #${EXISTING_PR} already exists for this rollback"
           fi
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
