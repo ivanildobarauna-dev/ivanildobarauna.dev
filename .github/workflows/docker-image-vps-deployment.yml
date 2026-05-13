@@ -20,14 +20,16 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-push-and-deploy:
+  build-and-package:
+    name: Build images and prepare deploy bundle
     runs-on: ubuntu-latest
     permissions:
       contents: write
       packages: write
       attestations: write
       id-token: write
-
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -40,7 +42,8 @@ jobs:
           IFS='.' read -r MAJOR MINOR PATCH <<< "$LATEST"
           PATCH=$((PATCH + 1))
           NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
-          echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
+          echo "version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "NEW_VERSION=${NEW_VERSION}" >> "$GITHUB_ENV"
           echo "Computed version: ${NEW_VERSION}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -104,41 +107,22 @@ jobs:
 
       - name: Create GitHub Release
         run: |
-          gh release create "v${{ env.NEW_VERSION }}" \
-            --title "Release v${{ env.NEW_VERSION }}" \
+          gh release create "v${NEW_VERSION}" \
+            --title "Release v${NEW_VERSION}" \
             --generate-notes \
             --target main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # --- VPS DEPLOY ---
-      - name: Setup SSH key
-        uses: webfactory/ssh-agent@v0.9.1
-        with:
-          ssh-private-key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
-
-      - name: Add host to known hosts
+      - name: Prepare deploy bundle
         run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.VPS_SSH_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Create app directory on VPS
-        run: |
-          ssh ${{ secrets.VPS_SSH_USER }}@${{ secrets.VPS_SSH_HOST }} "mkdir -p /home/ubuntu/app/site"
-
-      - name: Create temporary .env file
-        run: |
-          echo "DD_API_KEY=${{ secrets.DATADOG_API_KEY }}" > .env
-
-      - name: Create production docker-compose
-        run: |
-          cat > docker-compose.prod.yaml << 'EOF'
+          mkdir -p deploy
+          echo "DD_API_KEY=${{ secrets.DATADOG_API_KEY }}" > deploy/.env
+          cat > deploy/docker-compose.prod.yaml << 'EOF'
           services:
             frontend:
               image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:${{ env.NEW_VERSION }}
               container_name: portfolio-frontend
-              # ports:
-              #   - "8080:8080"
               environment:
                 - DD_SERVICE=ivanildobarauna.dev
                 - DD_ENV=production
@@ -169,8 +153,6 @@ jobs:
             backend:
               image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:${{ env.NEW_VERSION }}
               container_name: portfolio-backend
-              # ports:
-              #   - "8090:8090"
               environment:
                 - POSTGRES_HOST=localhost
                 - DD_SERVICE=api.ivanildobarauna.dev
@@ -196,26 +178,24 @@ jobs:
                 timeout: 10s
                 retries: 3
                 start_period: 60s
-                        
           EOF
 
-      - name: Sync docker-compose and env to VPS
-        run: |
-          rsync -avz --delete \
-            docker-compose.prod.yaml .env \
-            ${{ secrets.VPS_SSH_USER }}@${{ secrets.VPS_SSH_HOST }}:/home/ubuntu/app/site/
+      - name: Upload deploy bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-deploy-bundle
+          path: deploy/
+          retention-days: 1
 
-      - name: Deploy on VPS
-        run: |
-          ssh ${{ secrets.VPS_SSH_USER }}@${{ secrets.VPS_SSH_HOST }} << 'EOF'
-            cd /home/ubuntu/app/site
-            rm -f .env
-            echo "DD_API_KEY=${{ secrets.DATADOG_API_KEY }}" >> .env
-            docker compose -f docker-compose.prod.yaml pull
-            docker compose -f docker-compose.prod.yaml up -d --remove-orphans
-            docker system prune -f
-          EOF
-
-    environment:
-      name: Production
-      url: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+  deploy:
+    needs: build-and-package
+    uses: ivanildobarauna/github-workflows/.github/workflows/deploy-compose-ssh.yml@v1
+    with:
+      artifact-name: site-deploy-bundle
+      compose-file: docker-compose.prod.yaml
+      remote-path: /home/ubuntu/app/site
+      environment: Production
+    secrets:
+      VPS_SSH_HOST: ${{ secrets.VPS_SSH_HOST }}
+      VPS_SSH_USER: ${{ secrets.VPS_SSH_USER }}
+      VPS_SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
