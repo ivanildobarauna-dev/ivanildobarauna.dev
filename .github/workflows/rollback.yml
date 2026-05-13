@@ -139,6 +139,7 @@ jobs:
     name: Mark release as latest and open revert PR
     needs: [prepare-rollback, deploy]
     runs-on: ubuntu-latest
+    environment: Production
     permissions:
       contents: write
       pull-requests: write
