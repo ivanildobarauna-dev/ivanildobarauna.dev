@@ -67,7 +67,7 @@ class ApplicationSetup:
         self.setup_cors()
         logger.info("✅ CORS configurado")
         
-        logger.info("🔄 Inicializando ApplicationDependencies...")
+        logger.info("🔄 Inicializando Application Dependencies...")
         self.app.dps = ApplicationDependencies()
         logger.info("✅ ApplicationDependencies inicializado")
         
