@@ -16,11 +16,7 @@ async function serveProfileImage(request: Request, env: Env): Promise<Response> 
     await env.IMAGES.input(source.body)
       .transform({ width: getProfileWidth(request), fit: "scale-down" })
       .output({ format: "image/webp", quality: 82 })
-  ).response({
-    headers: {
-      "Cache-Control": "public, max-age=86400, stale-while-revalidate=604800",
-    },
-  });
+  ).response();
 
   if (request.method === "HEAD") {
     return new Response(null, { status: optimized.status, headers: optimized.headers });
@@ -29,10 +25,6 @@ async function serveProfileImage(request: Request, env: Env): Promise<Response> 
   return optimized;
 }
 
-/**
- * Handles public content that benefits from an explicit cache policy.
- * Other files continue to be delivered directly by Workers Static Assets.
- */
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const pathname = new URL(request.url).pathname;
@@ -41,27 +33,6 @@ export default {
       return serveProfileImage(request, env);
     }
 
-    const response = await env.ASSETS.fetch(request);
-
-    if (!response.ok) {
-      return response;
-    }
-
-    const headers = new Headers(response.headers);
-
-    if (pathname.startsWith("/assets/")) {
-      // CV files can be replaced without leaving visitors with a stale download.
-      headers.set("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
-    } else if (pathname.startsWith("/images/")) {
-      headers.set("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
-    } else if (pathname.startsWith("/data/")) {
-      headers.set("Cache-Control", "no-cache");
-    }
-
-    return new Response(response.body, {
-      status: response.status,
-      statusText: response.statusText,
-      headers,
-    });
+    return env.ASSETS.fetch(request);
   },
 } satisfies ExportedHandler<Env>;
