@@ -7,6 +7,12 @@
     "not_found_handling": "404-page",
     "html_handling": "drop-trailing-slash"
   },
+  "routes": [
+    {
+      "pattern": "ivanildobarauna.dev",
+      "custom_domain": true
+    }
+  ],
   "observability": {
     "logs": {
       "enabled": true,
@@ -18,6 +24,17 @@
       "enabled": false,
       "head_sampling_rate": 1,
       "persist": true
+    }
+  },
+  "env": {
+    "test": {
+      "name": "ivanildobarauna-test",
+      "routes": [
+        {
+          "pattern": "test.ivanildobarauna.dev",
+          "custom_domain": true
+        }
+      ]
     }
   }
 }
