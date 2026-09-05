@@ -1,6 +1,6 @@
 # Frontend
 
-Portfólio estático em Next.js. A aplicação lê os dados públicos de `public/data/portfolio.json` e pode ser publicada diretamente no Cloudflare Pages.
+Portfólio estático em Next.js. A aplicação lê os dados públicos de `public/data/portfolio.json` e é publicada como Cloudflare Workers Static Assets.
 
 ## Desenvolvimento
 
@@ -18,13 +18,13 @@ npm test -- --run
 npm run build
 ```
 
-O build gera `out/`. No Cloudflare Pages, configure:
+O build gera `out/`, configurado em `wrangler.jsonc`. No Workers Builds, configure:
 
 | Campo | Valor |
 | --- | --- |
 | Diretório raiz | `frontend` |
 | Comando de build | `npm run build` |
-| Diretório de saída | `out` |
+| Comando de deploy | `npx wrangler deploy` |
 | Branch de produção | `main` |
 
 Pushes para `main` fazem o deploy de produção; pull requests recebem previews.

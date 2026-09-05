@@ -1,6 +1,6 @@
 # ivanildobarauna.dev
 
-Este repositório contém um portfólio estático em Next.js, publicado no Cloudflare Pages. Os dados públicos ficam em `frontend/public/data/portfolio.json`; não há backend, banco de dados, Docker ou variáveis de ambiente necessários para executar o site.
+Este repositório contém um portfólio estático em Next.js, publicado com Cloudflare Workers Static Assets. Os dados públicos ficam em `frontend/public/data/portfolio.json`; não há backend, banco de dados, Docker ou variáveis de ambiente necessários para executar o site.
 
 ## Comandos
 
@@ -12,7 +12,7 @@ npm test -- --run
 npm run build
 ```
 
-O build gera o diretório `frontend/out`, que é a saída configurada para o Cloudflare Pages.
+O build gera `frontend/out`, publicado pelo Wrangler conforme `frontend/wrangler.jsonc`.
 
 ## Convenções
 

@@ -6,7 +6,7 @@ Código-fonte do site [ivanildobarauna.dev](https://ivanildobarauna.dev).
 
 ## Publicação
 
-O projeto é um site estático Next.js preparado para Cloudflare Pages. Todo o conteúdo público do portfólio é versionado em `frontend/public/data/portfolio.json`; não há backend, banco de dados, Docker ou variáveis de ambiente em produção.
+O projeto é um site estático Next.js preparado para Cloudflare Workers Static Assets. Todo o conteúdo público do portfólio é versionado em `frontend/public/data/portfolio.json`; não há backend, banco de dados, Docker ou variáveis de ambiente em produção.
 
 Para atualizar informações do portfólio, edite o JSON e versione a alteração.
 
@@ -22,19 +22,18 @@ npm run build
 
 O build gera `frontend/out`.
 
-## Cloudflare Pages
+## Cloudflare Workers
 
-Conecte este repositório ao Cloudflare Pages com estas configurações:
+Conecte este repositório ao Workers Builds com estas configurações:
 
 | Campo | Valor |
 | --- | --- |
-| Framework preset | Next.js (Static HTML Export) |
 | Root directory | `frontend` |
 | Build command | `npm run build` |
-| Build output directory | `out` |
+| Deploy command | `npx wrangler deploy` |
 | Production branch | `main` |
 
-Cada push para `main` publica a produção e pull requests recebem uma URL de preview. Após o primeiro deploy, associe `ivanildobarauna.dev` e `www.ivanildobarauna.dev` ao projeto Pages, preservando os registros de e-mail no DNS.
+O `wrangler.jsonc` aponta os assets para `out/`. Cada push para `main` publica a produção e pull requests recebem uma URL de preview. Após o primeiro deploy, associe `ivanildobarauna.dev` e `www.ivanildobarauna.dev` ao Worker, preservando os registros de e-mail no DNS.
 
 ## Estrutura
 
