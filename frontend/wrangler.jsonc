@@ -25,16 +25,5 @@
       "head_sampling_rate": 1,
       "persist": true
     }
-  },
-  "env": {
-    "test": {
-      "name": "ivanildobarauna-test",
-      "routes": [
-        {
-          "pattern": "test.ivanildobarauna.dev",
-          "custom_domain": true
-        }
-      ]
-    }
   }
 }
