@@ -7,19 +7,12 @@
   "images": {
     "binding": "IMAGES"
   },
-  "cache": {
-    "enabled": true
-  },
   "assets": {
     "directory": "./out",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
     "html_handling": "drop-trailing-slash",
-    "run_worker_first": [
-      "/assets/*",
-      "/images/*",
-      "/data/*"
-    ]
+    "run_worker_first": ["/images/profile/profile.png"]
   },
   "routes": [
     {
