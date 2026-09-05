@@ -119,6 +119,7 @@ export default function HeroSection() {
                   alt="Ivanildo Barauna"
                   width={400}
                   height={400}
+                  loading="eager"
                   className="w-full max-w-md mx-auto rounded-[1.35rem] shadow-hero animate-float"
                 />
               </div>
