@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Formation, Certification } from '../interfaces';
-import { getBackendEndpoint } from '@/utils/backend_endpoint';
-import { retryAsync } from '@/utils/retryAsync';
-import { BrowserCache } from '@/utils/cacheService';
+import { useEffect, useState } from 'react';
+import { Certification, Formation } from '../interfaces';
+import { getPortfolioSnapshot } from '@/utils/portfolioData';
 
 interface EducationData {
   formations: Formation[];
@@ -17,84 +15,24 @@ export function useEducation(): EducationData {
   const [certifications, setCertifications] = useState<Certification[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [fromCache, setFromCache] = useState(false);
 
   useEffect(() => {
-    const fetchEducation = async () => {
-      const EDUCATION_CACHE_KEY = 'education';
-
-      try {
-        // Try to get from cache first
-        const cachedEducation = await BrowserCache.get<{ formations: Formation[]; certifications: Certification[] }>(EDUCATION_CACHE_KEY);
-
-        if (cachedEducation) {
-          // Cache hit - use cached data
-          setFromCache(true);
-          setFormations(cachedEducation.formations);
-          setCertifications(cachedEducation.certifications);
-          setLoading(false);
-          return; // Exit early with cached data
+    getPortfolioSnapshot()
+      .then(({ education }) => {
+        if (!Array.isArray(education.formations) || !Array.isArray(education.certifications)) {
+          throw new Error('Snapshot de educação inválido');
         }
-
-        // Cache miss - fetch from API
-        setFromCache(false);
-
-        const educationEndpoint = getBackendEndpoint('/education');
-
-        const data = await retryAsync(async () => {
-          const response = await fetch(`${educationEndpoint}`, {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-            },
-            mode: 'cors',
-          });
-
-          if (!response.ok) {
-            throw new Error(`Falha ao carregar os dados de educação. Status: ${response.status}`);
-          }
-
-          const jsonData = await response.json();
-
-          if (!jsonData.formations || !jsonData.certifications || !Array.isArray(jsonData.formations) || !Array.isArray(jsonData.certifications)) {
-            throw new Error('Resposta inválida: os dados não estão no formato esperado');
-          }
-
-          return jsonData as { formations: Formation[]; certifications: Certification[] };
-        });
-
-        // No need to map formations as the format is already compatible
-        setFormations(data.formations);
-        setCertifications(data.certifications);
-        await BrowserCache.set(EDUCATION_CACHE_KEY, data); // Cache it
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          setError('Failed to fetch education data from backend, see logs for more details: ' + error.message);
-        } else {
-          setError('Unknown error occurred while fetching education data');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEducation();
+        setFormations(education.formations as Formation[]);
+        setCertifications(education.certifications as Certification[]);
+      })
+      .catch((reason: unknown) => setError(reason instanceof Error ? reason.message : 'Erro ao carregar a educação'))
+      .finally(() => setLoading(false));
   }, []);
 
-  // Agrupar certificações por instituição
-  const certificationsByInstitution = certifications.reduce((acc, cert) => {
-    if (!acc[cert.institution]) {
-      acc[cert.institution] = [];
-    }
-    acc[cert.institution].push(cert);
+  const certificationsByInstitution = certifications.reduce((acc, certification) => {
+    (acc[certification.institution] ??= []).push(certification);
     return acc;
   }, {} as Record<string, Certification[]>);
 
-  return {
-    formations,
-    certifications: certificationsByInstitution,
-    loading,
-    error,
-    fromCache
-  };
-} 
+  return { formations, certifications: certificationsByInstitution, loading, error, fromCache: false };
+}

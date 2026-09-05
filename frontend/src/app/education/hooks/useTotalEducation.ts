@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react';
-import { getBackendEndpoint } from '@/utils/backend_endpoint';
-import { retryAsync } from '@/utils/retryAsync';
-import { BrowserCache } from '@/utils/cacheService';
+import { useEffect, useState } from 'react';
+import { getPortfolioSnapshot } from '@/utils/portfolioData';
 
 interface TotalEducationData {
   totalEducation: string;
@@ -10,69 +8,16 @@ interface TotalEducationData {
 }
 
 export function useTotalEducation(): TotalEducationData {
-  const [totalEducation, setTotalEducation] = useState<string>('');
+  const [totalEducation, setTotalEducation] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchTotalEducation = async () => {
-      const TOTAL_EDUCATION_CACHE_KEY = 'total_education';
-
-      try {
-        const cached = await BrowserCache.get<string>(TOTAL_EDUCATION_CACHE_KEY);
-        if (cached) {
-          setTotalEducation(cached);
-          setLoading(false);
-          return;
-        }
-
-        const educationEndpoint = getBackendEndpoint('/education');
-
-        const data = await retryAsync(async () => {
-          const response = await fetch(educationEndpoint, {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-            },
-            mode: 'cors',
-          });
-
-          if (!response.ok) {
-            console.error(`Erro na requisição: Status ${response.status}`);
-            const responseText = await response.text();
-            console.error('Resposta do servidor:', responseText);
-            throw new Error(`Falha ao carregar os dados de educação. Status: ${response.status}`);
-          }
-
-          const jsonData = await response.json();
-
-          if (!jsonData.formations || !jsonData.certifications || !Array.isArray(jsonData.formations) || !Array.isArray(jsonData.certifications)) {
-            throw new Error('Resposta inválida: os dados não estão no formato esperado');
-          }
-
-          return jsonData as { formations: unknown[]; certifications: unknown[] };
-        });
-
-        const total = `${data.formations.length + data.certifications.length}+`;
-        BrowserCache.set(TOTAL_EDUCATION_CACHE_KEY, total);
-        setTotalEducation(total);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError('Erro desconhecido ao carregar os dados de educação');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTotalEducation();
+    getPortfolioSnapshot()
+      .then(({ education }) => setTotalEducation(`${education.formations.length + education.certifications.length}+`))
+      .catch((reason: unknown) => setError(reason instanceof Error ? reason.message : 'Erro ao carregar a educação'))
+      .finally(() => setLoading(false));
   }, []);
 
-  return {
-    totalEducation,
-    loading,
-    error
-  };
-} 
+  return { totalEducation, loading, error };
+}

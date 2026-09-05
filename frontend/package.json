@@ -5,10 +5,9 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build --debug",
-    "start": "next start -p 3000",
+    "start": "serve out",
     "lint": "next lint",
     "test": "vitest",
-    "test:health": "vitest run src/test/healthcheck.test.ts",
     "postbuild": "next-sitemap"
   },
   "dependencies": {
@@ -40,7 +39,9 @@
     "eslint-config-next": "^15.3.8",
     "fake-indexeddb": "^6.2.5",
     "jsdom": "^26.1.0",
+    "serve": "^14.2.4",
     "typescript": "5.8.3",
-    "vitest": "^3.1.2"
+    "vitest": "^3.1.2",
+    "wrangler": "^4.129.0"
   }
 }

@@ -1,0 +1,664 @@
+{
+  "projects": [
+    {
+      "id": 3,
+      "title": "ivanildobarauna-dev/data-pipeline-async-ingest",
+      "description": "Pipeline for processing and consuming streaming data from Pub/Sub, integrating with Dataflow for real-time data processing",
+      "url": "https://github.com/ivanildobarauna-dev/data-pipeline-async-ingest",
+      "tags": [
+        "apache-beam",
+        "data-pipeline",
+        "dataflow",
+        "portfolio-display",
+        "python"
+      ],
+      "active": true,
+      "created_at": "2025-05-30 21:13:58.346535",
+      "updated_at": "2026-04-27 20:15:16.697454"
+    },
+    {
+      "id": 4,
+      "title": "ivanildobarauna-dev/api-to-dataframe",
+      "description": "Lightweight Python library that transforms REST API responses into well-structured Pandas DataFrames — with built-in retry logic, schema validation, and intelligent type inference.",
+      "url": "https://github.com/ivanildobarauna-dev/api-to-dataframe",
+      "tags": [
+        "api-client",
+        "data-analysis",
+        "data-engineering",
+        "dataframe",
+        "pandas",
+        "portfolio-display",
+        "pypi-packages",
+        "python3",
+        "retry-logic"
+      ],
+      "active": true,
+      "created_at": "2025-05-30 21:13:58.346535",
+      "updated_at": "2026-04-27 20:15:16.697454"
+    },
+    {
+      "id": 5,
+      "title": "ivanildobarauna-dev/currency-quote",
+      "description": "Complete solution for extracting currency pair quotes data with comprehensive testing, parameter validation, flexible configuration management, Hexagonal Architecture, CI/CD pipelines, code quality tools, and detailed documentation.",
+      "url": "https://github.com/ivanildobarauna-dev/currency-quote",
+      "tags": [
+        "data-analysis",
+        "data-analytics",
+        "data-engineering",
+        "library",
+        "portfolio-display",
+        "pypi-packages",
+        "python"
+      ],
+      "active": true,
+      "created_at": "2025-05-30 21:13:58.346535",
+      "updated_at": "2026-04-27 20:15:16.697454"
+    }
+  ],
+  "education": {
+    "formations": [
+      {
+        "id": 1,
+        "institution": "Universidade Anhembi Morumbi",
+        "type": "Graduação",
+        "course": "BIG DATA & Inteligência Analítica",
+        "period": "2019 - 2021",
+        "description": "Análise de dados através de BIG Data, entendimento de IOT e como administrar grandes volumes de dados pertinentes pela total integração entre dispositivos. Computação em Nuvem e de que forma podemos extrair a melhor utilização de dados em nuvem para grande capacidade de escalonamento. Linguagens de Programação para Data Science como Python e R.",
+        "logo": "/images/instituicoes/uam.png",
+        "active": true
+      }
+    ],
+    "certifications": [
+      {
+        "id": 1,
+        "name": "Programa de cursos integrados: Data Engineer, Big Data and ML on Google Cloud em Português",
+        "institution": "Google Cloud Training Online",
+        "credential_url": "https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636",
+        "logo": "/images/certificacoes/google-cloud-training.png",
+        "active": true,
+        "created_at": "2025-05-30 21:12:46.479164",
+        "updated_at": null
+      },
+      {
+        "id": 2,
+        "name": "Smart Analytics, Machine Learning, and AI on GCP",
+        "institution": "Google Cloud Training Online",
+        "credential_url": "https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636",
+        "logo": "/images/certificacoes/google-cloud-training.png",
+        "active": true,
+        "created_at": "2025-05-30 21:12:46.479164",
+        "updated_at": null
+      },
+      {
+        "id": 4,
+        "name": "Building Resilient Streaming Systems on GCP",
+        "institution": "Google Cloud Training Online",
+        "credential_url": "https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636",
+        "logo": "/images/certificacoes/google-cloud-training.png",
+        "active": true,
+        "created_at": "2025-05-30 21:12:46.479164",
+        "updated_at": null
+      },
+      {
+        "id": 10,
+        "name": "Amazon AWS - EC2/S3",
+        "institution": "Udemy",
+        "credential_url": "https://www.udemy.com/certificate/UC-85c95c88-83d3-420b-a66e-c820a4ca6b6f/",
+        "logo": "/images/certificacoes/udemy.png",
+        "active": true,
+        "created_at": "2025-05-30 21:12:46.479164",
+        "updated_at": null
+      }
+    ]
+  },
+  "socialMedia": [
+    {
+      "id": 1,
+      "label": "GitHub",
+      "url": "https://github.com/IvanildoBarauna",
+      "type": "github",
+      "active": true,
+      "created_at": "2025-05-30 21:14:16.830042",
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "label": "LinkedIn",
+      "url": "https://linkedin.com/in/ivanildobarauna",
+      "type": "linkedin",
+      "active": true,
+      "created_at": "2025-05-30 21:14:16.830042",
+      "updated_at": null
+    },
+    {
+      "id": 3,
+      "label": "Stack Overflow",
+      "url": "https://stackoverflow.com/users/24289987/ivanildo-barauna",
+      "type": "stackoverflow",
+      "active": true,
+      "created_at": "2025-05-30 21:14:16.830042",
+      "updated_at": null
+    },
+    {
+      "id": 4,
+      "label": "Coursera",
+      "url": "https://www.coursera.org/learner/ivanildobarauna",
+      "type": "coursera",
+      "active": true,
+      "created_at": "2025-05-30 21:14:16.830042",
+      "updated_at": null
+    },
+    {
+      "id": 5,
+      "label": "Gravatar",
+      "url": "https://gravatar.com/ivanildobarauna",
+      "type": "gravatar",
+      "active": true,
+      "created_at": "2025-05-30 21:14:16.830042",
+      "updated_at": null
+    }
+  ],
+  "experiences": [
+    {
+      "position": "Engenheiro de Dados Senior",
+      "company": "Mercado Livre",
+      "location": "São Paulo, Brasil",
+      "website": "https://www.mercadolivre.com.br",
+      "logo": "/images/empresas/mercadolivre.png",
+      "description": "Desenvolvimento de soluções de observabilidade de negócio entre microsserviços. Trabalho com tecnologias como Apache Beam, Google Cloud Platform, e Python",
+      "skills": "BigQuery;Python;Flask;Docker;Microservices;Observability",
+      "duration": "2 anos e 11 meses",
+      "startDate": "2023-10-01",
+      "id": 1,
+      "period": "outubro de 2023 - atual",
+      "endDate": null,
+      "companyId": 1,
+      "actualJob": true,
+      "active": true,
+      "createdAt": null,
+      "updatedAt": null,
+      "companyActive": true,
+      "companyCreatedAt": "2025-05-30 21:12:57.849595",
+      "companyUpdatedAt": null
+    },
+    {
+      "position": "Senior Data Analyst",
+      "company": "C6 Bank",
+      "location": "São Paulo, Brasil",
+      "website": "https://www.c6bank.com.br",
+      "logo": "/images/empresas/c6bank.png",
+      "description": "Responsável por garantir a execução de pipelines e fornecimento de dados para Investimentos, Core Banking e outros assuntos de Corporate Banking. Desenvolvimento de processos de Data Quality. Suporte no desenvolvimento da plataforma de dados do banco",
+      "skills": "SQL;BigQuery;Python;Airflow;DataFlow;Looker Studio",
+      "duration": "3 meses",
+      "startDate": "2023-09-01",
+      "id": 2,
+      "period": "setembro de 2023 - dezembro de 2023",
+      "endDate": "2023-12-01",
+      "companyId": 2,
+      "actualJob": false,
+      "active": true,
+      "createdAt": null,
+      "updatedAt": null,
+      "companyActive": true,
+      "companyCreatedAt": "2025-05-30 21:12:57.849595",
+      "companyUpdatedAt": null
+    },
+    {
+      "position": "Data Analyst",
+      "company": "C6 Bank",
+      "location": "São Paulo, Brasil",
+      "website": "https://www.c6bank.com.br",
+      "logo": "/images/empresas/c6bank.png",
+      "description": "Mapeamento, definição e planejamento de entrada/manutenção de pipelines de Dados no Data Lake. Estruturação e disponibilização de Data Marts e/ou Data Warehouses para as demais áreas do banco. Foco em otimização de custo e performance dos pipelines produtivos",
+      "skills": "SQL;BigQuery;Python;Airflow;DataFlow;Looker Studio",
+      "duration": "8 meses",
+      "startDate": "2023-01-01",
+      "id": 3,
+      "period": "janeiro de 2023 - setembro de 2023",
+      "endDate": "2023-09-01",
+      "companyId": 2,
+      "actualJob": false,
+      "active": true,
+      "createdAt": null,
+      "updatedAt": null,
+      "companyActive": true,
+      "companyCreatedAt": "2025-05-30 21:12:57.849595",
+      "companyUpdatedAt": null
+    },
+    {
+      "position": "Business Intelligence Analyst",
+      "company": "C6 Bank",
+      "location": "São Paulo, Brasil",
+      "website": "https://www.c6bank.com.br",
+      "logo": "/images/empresas/c6bank.png",
+      "description": "Desenvolvimento de solução de ETL auto orquestrada para análise de grandes volumes de dados. Foco em redução de custo e criação de Data Mart para área de negócio. Implementação de processos automatizados de transformação de dados",
+      "skills": "SQL;BigQuery;Power BI;Looker Studio",
+      "duration": "10 meses",
+      "startDate": "2022-02-01",
+      "id": 4,
+      "period": "fevereiro de 2022 - dezembro de 2022",
+      "endDate": "2022-12-01",
+      "companyId": 2,
+      "actualJob": false,
+      "active": true,
+      "createdAt": null,
+      "updatedAt": null,
+      "companyActive": true,
+      "companyCreatedAt": "2025-05-30 21:12:57.849595",
+      "companyUpdatedAt": null
+    },
+    {
+      "position": "Analista de Business Intelligence",
+      "company": "Embracon Administradora de Consórcio Ltda",
+      "location": "Santana de Parnaíba, São Paulo, Brasil",
+      "website": "https://www.embracon.com.br",
+      "logo": "/images/empresas/embracon.png",
+      "description": "Criação de indicadores de performance de negócio para suporte à tomada de decisão. Desenvolvimento de dashboards e relatórios para acompanhamento de resultados. Automatização de processos de ETL para carga de dados",
+      "skills": "SQL;Power BI;PL/SQL;MSSQL;SSIS;SSRS;Pentaho Data Integration",
+      "duration": "1 anos e 5 meses",
+      "startDate": "2020-09-01",
+      "id": 5,
+      "period": "setembro de 2020 - fevereiro de 2022",
+      "endDate": "2022-02-01",
+      "companyId": 3,
+      "actualJob": false,
+      "active": true,
+      "createdAt": null,
+      "updatedAt": null,
+      "companyActive": true,
+      "companyCreatedAt": "2025-05-30 21:12:57.849595",
+      "companyUpdatedAt": null
+    },
+    {
+      "position": "Analista de Aplicações Digitais PL",
+      "company": "Embracon Administradora de Consórcio Ltda",
+      "location": "Santana de Parnaíba, São Paulo, Brasil",
+      "website": "https://www.embracon.com.br",
+      "logo": "/images/empresas/embracon.png",
+      "description": "Construção de Indicadores para tomada de decisão estratégica. Desenvolvimento de análises descritivas e preditivas. Suporte à decisão através de análise de dados",
+      "skills": "SQL;MSSQL",
+      "duration": "9 meses",
+      "startDate": "2019-12-01",
+      "id": 6,
+      "period": "dezembro de 2019 - setembro de 2020",
+      "endDate": "2020-09-01",
+      "companyId": 3,
+      "actualJob": false,
+      "active": true,
+      "createdAt": null,
+      "updatedAt": null,
+      "companyActive": true,
+      "companyCreatedAt": "2025-05-30 21:12:57.849595",
+      "companyUpdatedAt": null
+    },
+    {
+      "position": "Analista de Aplicações Digitais Jr",
+      "company": "Embracon Administradora de Consórcio Ltda",
+      "location": "Santana de Parnaíba, São Paulo, Brasil",
+      "website": "https://www.embracon.com.br",
+      "logo": "/images/empresas/embracon.png",
+      "description": "Construção de Indicadores para tomada de decisão estratégica. Foco em análise de dados para área comercial. Desenvolvimento de relatórios e dashboards",
+      "skills": "Excel;Power BI;VBA;DAX;M Language",
+      "duration": "9 meses",
+      "startDate": "2019-03-01",
+      "id": 7,
+      "period": "março de 2019 - dezembro de 2019",
+      "endDate": "2019-12-01",
+      "companyId": 3,
+      "actualJob": false,
+      "active": true,
+      "createdAt": null,
+      "updatedAt": null,
+      "companyActive": true,
+      "companyCreatedAt": "2025-05-30 21:12:57.849595",
+      "companyUpdatedAt": null
+    },
+    {
+      "position": "Analista Administrativo",
+      "company": "Embracon Administradora de Consórcio Ltda",
+      "location": "Santana de Parnaíba, São Paulo, Brasil",
+      "website": "https://www.embracon.com.br",
+      "logo": "/images/empresas/embracon.png",
+      "description": "Desenvolvimento de relatórios no Excel usando ferramentas de SSBI (Power Query, Power Pivot e Power View). Automatização de tarefas manuais usando programação VBA",
+      "skills": "Excel;Power BI;VBA;SQL;Power Query;Power Pivot;Power View",
+      "duration": "3 meses",
+      "startDate": "2018-12-01",
+      "id": 13,
+      "period": "dezembro de 2018 - março de 2019",
+      "endDate": "2019-03-01",
+      "companyId": 3,
+      "actualJob": false,
+      "active": true,
+      "createdAt": null,
+      "updatedAt": null,
+      "companyActive": true,
+      "companyCreatedAt": "2025-05-30 21:12:57.849595",
+      "companyUpdatedAt": null
+    }
+  ],
+  "companyDurations": [
+    {
+      "name": "C6 Bank",
+      "duration": "1 anos e 10 meses"
+    },
+    {
+      "name": "Embracon Administradora de Consórcio Ltda",
+      "duration": "3 anos e 2 meses"
+    },
+    {
+      "name": "Mercado Livre",
+      "duration": "2 anos e 11 meses"
+    }
+  ],
+  "totalExperience": {
+    "total_duration": "14 anos e 7 meses",
+    "asOf": "2026-09-05"
+  },
+  "database": {
+    "tables": {
+      "certifications": [
+        {
+          "id": 1,
+          "name": "Programa de cursos integrados: Data Engineer, Big Data and ML on Google Cloud em Português",
+          "institution": "Google Cloud Training Online",
+          "credential_url": "https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636",
+          "logo": "/images/certificacoes/google-cloud-training.png",
+          "active": true,
+          "created_at": "2025-05-30 21:12:46.479164",
+          "updated_at": null
+        },
+        {
+          "id": 2,
+          "name": "Smart Analytics, Machine Learning, and AI on GCP",
+          "institution": "Google Cloud Training Online",
+          "credential_url": "https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636",
+          "logo": "/images/certificacoes/google-cloud-training.png",
+          "active": true,
+          "created_at": "2025-05-30 21:12:46.479164",
+          "updated_at": null
+        },
+        {
+          "id": 4,
+          "name": "Building Resilient Streaming Systems on GCP",
+          "institution": "Google Cloud Training Online",
+          "credential_url": "https://www.cloudskillsboost.google/public_profiles/107aa737-d207-4a7e-a36d-5c4b7571f26b/badges/2516636",
+          "logo": "/images/certificacoes/google-cloud-training.png",
+          "active": true,
+          "created_at": "2025-05-30 21:12:46.479164",
+          "updated_at": null
+        },
+        {
+          "id": 10,
+          "name": "Amazon AWS - EC2/S3",
+          "institution": "Udemy",
+          "credential_url": "https://www.udemy.com/certificate/UC-85c95c88-83d3-420b-a66e-c820a4ca6b6f/",
+          "logo": "/images/certificacoes/udemy.png",
+          "active": true,
+          "created_at": "2025-05-30 21:12:46.479164",
+          "updated_at": null
+        }
+      ],
+      "companies": [
+        {
+          "id": 1,
+          "name": "Mercado Livre",
+          "location": "São Paulo, Brasil",
+          "website": "https://www.mercadolivre.com.br",
+          "logo": "/images/empresas/mercadolivre.png",
+          "active": true,
+          "created_at": "2025-05-30 21:12:57.849595",
+          "updated_at": null
+        },
+        {
+          "id": 2,
+          "name": "C6 Bank",
+          "location": "São Paulo, Brasil",
+          "website": "https://www.c6bank.com.br",
+          "logo": "/images/empresas/c6bank.png",
+          "active": true,
+          "created_at": "2025-05-30 21:12:57.849595",
+          "updated_at": null
+        },
+        {
+          "id": 3,
+          "name": "Embracon Administradora de Consórcio Ltda",
+          "location": "Santana de Parnaíba, São Paulo, Brasil",
+          "website": "https://www.embracon.com.br",
+          "logo": "/images/empresas/embracon.png",
+          "active": true,
+          "created_at": "2025-05-30 21:12:57.849595",
+          "updated_at": null
+        }
+      ],
+      "experiences": [
+        {
+          "id": 1,
+          "position": "Engenheiro de Dados Senior",
+          "period": "outubro de 2023 - atual",
+          "start_date": "2023-10-01",
+          "end_date": null,
+          "company_id": 1,
+          "actual_job": true,
+          "description": "Desenvolvimento de soluções de observabilidade de negócio entre microsserviços. Trabalho com tecnologias como Apache Beam, Google Cloud Platform, e Python",
+          "skills": "BigQuery;Python;Flask;Docker;Microservices;Observability",
+          "active": true,
+          "created_at": null,
+          "updated_at": null
+        },
+        {
+          "id": 2,
+          "position": "Senior Data Analyst",
+          "period": "setembro de 2023 - dezembro de 2023",
+          "start_date": "2023-09-01",
+          "end_date": "2023-12-01",
+          "company_id": 2,
+          "actual_job": false,
+          "description": "Responsável por garantir a execução de pipelines e fornecimento de dados para Investimentos, Core Banking e outros assuntos de Corporate Banking. Desenvolvimento de processos de Data Quality. Suporte no desenvolvimento da plataforma de dados do banco",
+          "skills": "SQL;BigQuery;Python;Airflow;DataFlow;Looker Studio",
+          "active": true,
+          "created_at": null,
+          "updated_at": null
+        },
+        {
+          "id": 3,
+          "position": "Data Analyst",
+          "period": "janeiro de 2023 - setembro de 2023",
+          "start_date": "2023-01-01",
+          "end_date": "2023-09-01",
+          "company_id": 2,
+          "actual_job": false,
+          "description": "Mapeamento, definição e planejamento de entrada/manutenção de pipelines de Dados no Data Lake. Estruturação e disponibilização de Data Marts e/ou Data Warehouses para as demais áreas do banco. Foco em otimização de custo e performance dos pipelines produtivos",
+          "skills": "SQL;BigQuery;Python;Airflow;DataFlow;Looker Studio",
+          "active": true,
+          "created_at": null,
+          "updated_at": null
+        },
+        {
+          "id": 4,
+          "position": "Business Intelligence Analyst",
+          "period": "fevereiro de 2022 - dezembro de 2022",
+          "start_date": "2022-02-01",
+          "end_date": "2022-12-01",
+          "company_id": 2,
+          "actual_job": false,
+          "description": "Desenvolvimento de solução de ETL auto orquestrada para análise de grandes volumes de dados. Foco em redução de custo e criação de Data Mart para área de negócio. Implementação de processos automatizados de transformação de dados",
+          "skills": "SQL;BigQuery;Power BI;Looker Studio",
+          "active": true,
+          "created_at": null,
+          "updated_at": null
+        },
+        {
+          "id": 5,
+          "position": "Analista de Business Intelligence",
+          "period": "setembro de 2020 - fevereiro de 2022",
+          "start_date": "2020-09-01",
+          "end_date": "2022-02-01",
+          "company_id": 3,
+          "actual_job": false,
+          "description": "Criação de indicadores de performance de negócio para suporte à tomada de decisão. Desenvolvimento de dashboards e relatórios para acompanhamento de resultados. Automatização de processos de ETL para carga de dados",
+          "skills": "SQL;Power BI;PL/SQL;MSSQL;SSIS;SSRS;Pentaho Data Integration",
+          "active": true,
+          "created_at": null,
+          "updated_at": null
+        },
+        {
+          "id": 6,
+          "position": "Analista de Aplicações Digitais PL",
+          "period": "dezembro de 2019 - setembro de 2020",
+          "start_date": "2019-12-01",
+          "end_date": "2020-09-01",
+          "company_id": 3,
+          "actual_job": false,
+          "description": "Construção de Indicadores para tomada de decisão estratégica. Desenvolvimento de análises descritivas e preditivas. Suporte à decisão através de análise de dados",
+          "skills": "SQL;MSSQL",
+          "active": true,
+          "created_at": null,
+          "updated_at": null
+        },
+        {
+          "id": 7,
+          "position": "Analista de Aplicações Digitais Jr",
+          "period": "março de 2019 - dezembro de 2019",
+          "start_date": "2019-03-01",
+          "end_date": "2019-12-01",
+          "company_id": 3,
+          "actual_job": false,
+          "description": "Construção de Indicadores para tomada de decisão estratégica. Foco em análise de dados para área comercial. Desenvolvimento de relatórios e dashboards",
+          "skills": "Excel;Power BI;VBA;DAX;M Language",
+          "active": true,
+          "created_at": null,
+          "updated_at": null
+        },
+        {
+          "id": 13,
+          "position": "Analista Administrativo",
+          "period": "dezembro de 2018 - março de 2019",
+          "start_date": "2018-12-01",
+          "end_date": "2019-03-01",
+          "company_id": 3,
+          "actual_job": false,
+          "description": "Desenvolvimento de relatórios no Excel usando ferramentas de SSBI (Power Query, Power Pivot e Power View). Automatização de tarefas manuais usando programação VBA",
+          "skills": "Excel;Power BI;VBA;SQL;Power Query;Power Pivot;Power View",
+          "active": true,
+          "created_at": null,
+          "updated_at": null
+        }
+      ],
+      "formations": [
+        {
+          "id": 1,
+          "institution": "Universidade Anhembi Morumbi",
+          "type": "Graduação",
+          "course": "BIG DATA & Inteligência Analítica",
+          "period": "2019 - 2021",
+          "description": "Análise de dados através de BIG Data, entendimento de IOT e como administrar grandes volumes de dados pertinentes pela total integração entre dispositivos. Computação em Nuvem e de que forma podemos extrair a melhor utilização de dados em nuvem para grande capacidade de escalonamento. Linguagens de Programação para Data Science como Python e R.",
+          "logo": "/images/instituicoes/uam.png",
+          "active": true
+        }
+      ],
+      "projects": [
+        {
+          "id": 5,
+          "title": "ivanildobarauna-dev/currency-quote",
+          "description": "Complete solution for extracting currency pair quotes data with comprehensive testing, parameter validation, flexible configuration management, Hexagonal Architecture, CI/CD pipelines, code quality tools, and detailed documentation.",
+          "url": "https://github.com/ivanildobarauna-dev/currency-quote",
+          "tags": [
+            "data-analysis",
+            "data-analytics",
+            "data-engineering",
+            "library",
+            "portfolio-display",
+            "pypi-packages",
+            "python"
+          ],
+          "active": true,
+          "created_at": "2025-05-30 21:13:58.346535",
+          "updated_at": "2026-04-27 20:15:16.697454"
+        },
+        {
+          "id": 4,
+          "title": "ivanildobarauna-dev/api-to-dataframe",
+          "description": "Lightweight Python library that transforms REST API responses into well-structured Pandas DataFrames — with built-in retry logic, schema validation, and intelligent type inference.",
+          "url": "https://github.com/ivanildobarauna-dev/api-to-dataframe",
+          "tags": [
+            "api-client",
+            "data-analysis",
+            "data-engineering",
+            "dataframe",
+            "pandas",
+            "portfolio-display",
+            "pypi-packages",
+            "python3",
+            "retry-logic"
+          ],
+          "active": true,
+          "created_at": "2025-05-30 21:13:58.346535",
+          "updated_at": "2026-04-27 20:15:16.697454"
+        },
+        {
+          "id": 3,
+          "title": "ivanildobarauna-dev/data-pipeline-async-ingest",
+          "description": "Pipeline for processing and consuming streaming data from Pub/Sub, integrating with Dataflow for real-time data processing",
+          "url": "https://github.com/ivanildobarauna-dev/data-pipeline-async-ingest",
+          "tags": [
+            "apache-beam",
+            "data-pipeline",
+            "dataflow",
+            "portfolio-display",
+            "python"
+          ],
+          "active": true,
+          "created_at": "2025-05-30 21:13:58.346535",
+          "updated_at": "2026-04-27 20:15:16.697454"
+        }
+      ],
+      "social_media": [
+        {
+          "id": 1,
+          "label": "GitHub",
+          "url": "https://github.com/IvanildoBarauna",
+          "type": "github",
+          "active": true,
+          "created_at": "2025-05-30 21:14:16.830042",
+          "updated_at": null
+        },
+        {
+          "id": 2,
+          "label": "LinkedIn",
+          "url": "https://linkedin.com/in/ivanildobarauna",
+          "type": "linkedin",
+          "active": true,
+          "created_at": "2025-05-30 21:14:16.830042",
+          "updated_at": null
+        },
+        {
+          "id": 3,
+          "label": "Stack Overflow",
+          "url": "https://stackoverflow.com/users/24289987/ivanildo-barauna",
+          "type": "stackoverflow",
+          "active": true,
+          "created_at": "2025-05-30 21:14:16.830042",
+          "updated_at": null
+        },
+        {
+          "id": 4,
+          "label": "Coursera",
+          "url": "https://www.coursera.org/learner/ivanildobarauna",
+          "type": "coursera",
+          "active": true,
+          "created_at": "2025-05-30 21:14:16.830042",
+          "updated_at": null
+        },
+        {
+          "id": 5,
+          "label": "Gravatar",
+          "url": "https://gravatar.com/ivanildobarauna",
+          "type": "gravatar",
+          "active": true,
+          "created_at": "2025-05-30 21:14:16.830042",
+          "updated_at": null
+        }
+      ]
+    }
+  }
+}

@@ -1,15 +1,3 @@
-# -------------------------------
-# BACKEND (Python / Flask / SQLite)
-# -------------------------------
-*__pycache__/
-backend/.pytest_cache/
-backend/.ruff_cache/
-backend/.venv/
-backend/.idea/
-backend/.cursor/
-backend/instance/
-backend/poetry.lock
-backend/logs/
 *.log
 .env
 
@@ -27,10 +15,5 @@ frontend/.DS_Store
 .idea/
 *.swp
 
-# -------------------------------
-# DOCKER / GERAL
-# -------------------------------
-**/.dockerignore
-docker-compose.override.yml
 *.pid
 *.tar
