@@ -11,9 +11,9 @@ export default function HeroSection() {
   const { socialLinks, loading, error } = useSocialLinks();
 
   return (
-    <section className="hero-section min-h-screen flex items-center justify-center px-4 py-20" data-testid="hero-section">
+    <section className="hero-section min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-16 md:py-24" data-testid="hero-section">
       <div className="container max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-[1.08fr_0.92fr] gap-12 lg:gap-20 items-center">
           {/* Content */}
           <div className="text-center lg:text-left space-y-8 fade-in">
             <div className="space-y-4">
@@ -21,8 +21,9 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-secondary text-secondary-foreground"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs md:text-sm font-medium bg-white/10 text-primary-foreground border border-white/15"
               >
+                <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_0_4px_rgba(52,211,153,0.14)]" aria-hidden="true" />
                 Gerando impacto real na humanidade usando tecnologia
               </motion.div>
               
@@ -30,7 +31,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight"
+                className="text-5xl md:text-7xl lg:text-8xl font-bold text-primary-foreground leading-[0.98] tracking-tight"
               >
                 Ivanildo
                 <span className="block text-gradient-light">Barauna</span>
@@ -40,16 +41,16 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-xl md:text-2xl text-primary-foreground/80 max-w-lg"
+                className="text-xl md:text-3xl font-semibold tracking-tight text-primary-foreground/90 max-w-xl"
               >
-                Senior Data Engineer & Open Source Maintainer
+                Data & Software Engineer
               </motion.p>
               
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-lg text-primary-foreground/60 max-w-xl leading-relaxed"
+                className="text-base md:text-lg text-primary-foreground/65 max-w-xl leading-relaxed"
               >
                 Especialização em Engenharia, Análise de Dados e mantenedor de bibliotecas e serviços Open Source.
               </motion.p>
@@ -60,11 +61,11 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 items-center lg:items-start"
+              className="flex flex-col sm:flex-row gap-3 items-center lg:items-start"
             >
               <a
                 href="#contact"
-                className="btn-hero group inline-flex items-center px-6 py-3 rounded-lg font-semibold"
+                className="btn-hero group inline-flex items-center px-6 py-3.5 rounded-xl font-semibold"
                 onClick={() => {
                   const element = document.querySelector('#contact');
                   if (element) {
@@ -84,7 +85,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex gap-4 justify-center lg:justify-start"
+              className="flex gap-2 justify-center lg:justify-start"
             >
               {!loading && !error && socialLinks.map((link) => {
                 const Icon = socialIconMap[link.type];
@@ -94,7 +95,7 @@ export default function HeroSection() {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-primary-foreground/60 hover:text-primary-foreground hover:bg-white/10 transition-colors"
+                    className="inline-flex items-center justify-center w-11 h-11 rounded-xl text-primary-foreground/60 hover:text-primary-foreground hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                   >
                     {Icon && <Icon className="w-5 h-5" />}
                   </a>
@@ -112,13 +113,14 @@ export default function HeroSection() {
           >
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-white/10 to-white/5 rounded-3xl blur-2xl"></div>
-              <div className="relative bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
+              <div className="relative bg-white/[0.06] backdrop-blur-sm rounded-[2rem] p-4 md:p-8 border border-white/15 shadow-2xl">
                 <Image
                   src="/images/profile/profile.png"
                   alt="Ivanildo Barauna"
                   width={400}
                   height={400}
-                  className="w-full max-w-md mx-auto rounded-2xl shadow-hero animate-float"
+                  loading="eager"
+                  className="w-full max-w-md mx-auto rounded-[1.35rem] shadow-hero animate-float"
                 />
               </div>
             </div>
