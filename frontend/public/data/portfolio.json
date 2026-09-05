@@ -351,7 +351,8 @@
     }
   ],
   "totalExperience": {
-    "total_duration": "14 anos e 7 meses"
+    "total_duration": "14 anos e 7 meses",
+    "asOf": "2026-09-05"
   },
   "database": {
     "tables": {

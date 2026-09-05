@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getPortfolioSnapshot } from '@/utils/portfolioData';
+import { advanceDurationFromSnapshot, getPortfolioSnapshot } from '@/utils/portfolioData';
 
 interface TotalExperienceData {
   totalExperience: string;
@@ -22,7 +22,9 @@ export function useTotalExperience(): TotalExperienceData {
 
   useEffect(() => {
     getPortfolioSnapshot()
-      .then(({ totalExperience }) => setTotalExperience(parseTotalDuration(totalExperience.total_duration)))
+      .then(({ totalExperience }) => setTotalExperience(parseTotalDuration(
+        advanceDurationFromSnapshot(totalExperience.total_duration, totalExperience.asOf),
+      )))
       .catch((reason: unknown) => setError(reason instanceof Error ? reason.message : 'Erro ao carregar a experiência'))
       .finally(() => setLoading(false));
   }, []);

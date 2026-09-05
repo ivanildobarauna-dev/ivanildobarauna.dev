@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Experience } from '../interfaces';
-import { getPortfolioSnapshot } from '@/utils/portfolioData';
+import { formatDurationFromStart, getPortfolioSnapshot } from '@/utils/portfolioData';
 
 interface ExperienceData {
   experiences: Record<string, Experience[]>;
@@ -31,9 +31,17 @@ export function useExperience(): ExperienceData {
             skills: data.skills || '',
             companyLogo: data.companyLogo || data.logo,
             website: data.website || data.companyUrl,
+            current: Boolean(data.actualJob),
           };
         }) as Experience[]);
-        setCompanyDurations(Object.fromEntries(companyDurations.map(({ name, duration }) => [name, duration])));
+        const durations = Object.fromEntries(companyDurations.map(({ name, duration }) => [name, duration]));
+        experiences.forEach((experience) => {
+          const data = experience as Record<string, unknown>;
+          if (data.actualJob && typeof data.startDate === 'string') {
+            durations[String(data.company)] = formatDurationFromStart(data.startDate);
+          }
+        });
+        setCompanyDurations(durations);
         setTempoTotalCarreira(totalExperience.total_duration);
       })
       .catch((reason: unknown) => setError(reason instanceof Error ? reason.message : 'Erro ao carregar as experiências'))
