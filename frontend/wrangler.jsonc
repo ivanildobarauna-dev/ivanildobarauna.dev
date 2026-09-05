@@ -7,6 +7,12 @@
     "not_found_handling": "404-page",
     "html_handling": "drop-trailing-slash"
   },
+  "routes": [
+    {
+      "pattern": "ivanildobarauna.dev",
+      "custom_domain": true
+    }
+  ],
   "observability": {
     "logs": {
       "enabled": true,
