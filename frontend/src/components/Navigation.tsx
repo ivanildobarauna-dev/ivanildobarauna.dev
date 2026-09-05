@@ -62,7 +62,7 @@ const Navigation = () => {
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-border-default shadow-sm"
+        className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-xl border-b border-border/80 shadow-sm"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -76,10 +76,10 @@ const Navigation = () => {
               whileHover={{ scale: 1.05 }}
               className="flex items-center space-x-2 no-underline"
             >
-              <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">IB</span>
+              <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center shadow-sm">
+                <span className="text-primary-foreground font-bold text-sm">IB</span>
               </div>
-              <span className="text-xl font-bold text-text-primary">Ivanildo Barauna</span>
+              <span className="text-lg md:text-xl font-bold text-foreground tracking-tight">Ivanildo Barauna</span>
             </motion.a>
 
             {/* Menu Desktop */}
@@ -90,8 +90,8 @@ const Navigation = () => {
                   onClick={() => scrollToSection(item.href)}
                   className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-300 ${
                     activeSection === item.id
-                      ? 'text-primary-500 bg-primary-50'
-                      : 'text-text-secondary hover:text-primary-500 hover:bg-primary-50'
+                      ? 'text-foreground bg-secondary'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
                   }`}
                 >
                   {item.label}
@@ -102,7 +102,7 @@ const Navigation = () => {
             {/* Botão Mobile */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 rounded-md text-text-secondary hover:text-primary-500 hover:bg-primary-50 transition-colors"
+              className="md:hidden p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               aria-label="Menu"
             >
               {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
@@ -130,7 +130,7 @@ const Navigation = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-16 right-0 w-64 h-screen bg-white shadow-xl z-50 md:hidden"
+              className="fixed top-16 right-0 w-72 h-screen bg-background shadow-xl z-50 md:hidden border-l border-border"
             >
               <nav className="p-6 space-y-4">
                 {menuItems.map((item: MenuItem) => (
@@ -139,8 +139,8 @@ const Navigation = () => {
                     onClick={() => scrollToSection(item.href)}
                     className={`w-full text-left px-4 py-3 text-base font-medium rounded-lg transition-all duration-300 ${
                       activeSection === item.id
-                        ? 'text-primary-500 bg-primary-50 border-l-4 border-primary-500'
-                        : 'text-text-secondary hover:text-primary-500 hover:bg-primary-50'
+                      ? 'text-foreground bg-secondary border-l-4 border-primary'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
                     }`}
                   >
                     {item.label}
