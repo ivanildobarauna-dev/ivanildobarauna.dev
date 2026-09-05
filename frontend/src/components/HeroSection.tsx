@@ -115,7 +115,7 @@ export default function HeroSection() {
               <div className="absolute -inset-4 bg-gradient-to-r from-white/10 to-white/5 rounded-3xl blur-2xl"></div>
               <div className="relative bg-white/[0.06] backdrop-blur-sm rounded-[2rem] p-4 md:p-8 border border-white/15 shadow-2xl">
                 <Image
-                  src="/images/profile/profile.png"
+                  src="/images/profile/profile.png?variant=hero"
                   alt="Ivanildo Barauna"
                   width={400}
                   height={400}

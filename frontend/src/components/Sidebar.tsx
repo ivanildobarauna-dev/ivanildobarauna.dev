@@ -63,7 +63,7 @@ const Sidebar = () => {
       <div className="text-center mb-8">
         <div className="relative w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-blue-500">
           <Image
-            src="/images/profile/profile.png"
+            src="/images/profile/profile.png?variant=avatar"
             alt="Ivanildo Barauna"
             fill
             className="object-cover"
