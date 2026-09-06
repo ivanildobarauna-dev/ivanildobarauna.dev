@@ -170,9 +170,15 @@ body { background: var(--atlas-bg); }
 .portfolio-atlas { max-width: 1240px; height: 490px; margin: 28px auto 0; display: grid; grid-template-columns: 1fr 540px 1fr; align-items: center; }
 .atlas-column { display: grid; gap: 34px; z-index: 3; }
 .atlas-column--data-flow { position: relative; }
-.atlas-column--data-flow .atlas-skill { padding-left: 25px; z-index: 1; }
-.atlas-column--data-flow .atlas-skill > i { width: 9px; height: 9px; border: 2px solid var(--atlas-surface); }
-.atlas-sql-connector { position: absolute; z-index: 0; top: 37px; bottom: 37px; left: 29px; width: 1px; background: linear-gradient(180deg, rgba(0,113,227,.35), var(--atlas-blue), rgba(0,113,227,.35)); }
+.atlas-column--data-flow .atlas-skill { padding-right: 62px; z-index: 1; }
+.atlas-column--data-flow .atlas-skill > i { display: none; }
+.atlas-sql-connector { position: absolute; z-index: 0; top: 37px; right: 4px; bottom: 37px; width: 1px; background: linear-gradient(180deg, rgba(0,113,227,.35), var(--atlas-blue), rgba(0,113,227,.35)); }
+.atlas-sql-connector::before, .atlas-sql-connector::after { content: ''; position: absolute; right: 0; width: 24px; height: 1px; background: var(--atlas-blue); }
+.atlas-sql-connector::before { top: 0; }
+.atlas-sql-connector::after { bottom: 0; }
+.atlas-sql-connector > i { position: absolute; right: 20px; width: 7px; height: 7px; border: 2px solid var(--atlas-surface); border-radius: 50%; background: var(--atlas-blue); box-shadow: 0 0 0 1px rgba(0,113,227,.2); }
+.atlas-sql-connector > i:first-of-type { top: 0; transform: translateY(-50%); }
+.atlas-sql-connector > i:last-of-type { bottom: 0; transform: translateY(50%); }
 .atlas-sql-connector span { position: absolute; top: 50%; right: 12px; transform: translateY(-50%); padding: 5px 7px; border: 1px solid rgba(0,113,227,.18); border-radius: 999px; color: var(--atlas-blue); background: var(--atlas-surface); font-size: 9px; font-weight: 650; letter-spacing: .12em; }
 .atlas-skill { display: flex; align-items: center; position: relative; gap: 18px; min-height: 74px; }
 .atlas-skill--left { justify-content: flex-end; text-align: right; }

@@ -132,7 +132,7 @@ export default function PortfolioExperience({
             <div className="atlas-intersection"><FaDatabase /><span>Solução<br />de ponta<br />a ponta</span></div>
           </div>
           <div className="atlas-column atlas-column--data-flow">
-            <div className="atlas-sql-connector" aria-hidden="true"><span>SQL</span></div>
+            <div className="atlas-sql-connector" aria-hidden="true"><span>SQL</span><i /><i /></div>
             {dataSkills.map(item => <SkillNode key={item.title} item={item} side="data" position="right" />)}
           </div>
         </div>
