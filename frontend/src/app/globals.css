@@ -157,9 +157,9 @@ body { background: var(--atlas-bg); }
 .portfolio-proof { margin-top: 32px; color: var(--atlas-muted); font-size: 12px; line-height: 1.8; }
 .portfolio-proof strong { color: var(--atlas-text); font-weight: 450; }
 .portfolio-proof i { display: inline-block; width: 4px; height: 4px; margin: 0 10px; background: var(--atlas-blue); border-radius: 50%; vertical-align: middle; }
-.portfolio-portrait { align-self: end; height: 590px; position: relative; overflow: hidden; border-radius: 28px 28px 0 0; background: #111113; }
-.portfolio-portrait::before { content: ''; position: absolute; inset: 18% 8% 4%; background: radial-gradient(circle at 50% 45%, rgba(70,74,80,.72), transparent 68%); }
-.portfolio-portrait img { object-fit: contain; object-position: center bottom; filter: grayscale(1) contrast(1.08); }
+.portfolio-portrait { align-self: end; height: 590px; position: relative; overflow: hidden; border: 1px solid var(--atlas-line); border-bottom: 0; border-radius: 28px 28px 0 0; background: #dedbd6; box-shadow: 0 24px 60px rgba(0,0,0,.08); }
+.portfolio-portrait::before { content: none; }
+.portfolio-portrait img { object-fit: cover; object-position: center top; }
 
 .portfolio-atlas-section { border-top: 1px solid var(--atlas-line); padding: 76px 34px 88px; background: var(--atlas-surface); scroll-margin-top: 100px; }
 .portfolio-heading--center { text-align: center; }

@@ -96,7 +96,7 @@ export default function PortfolioExperience({
           </p>
         </div>
         <div className="portfolio-portrait">
-          <Image src="/images/profile/profile.png" alt="Retrato de Ivanildo Barauna" fill priority sizes="(max-width: 760px) 100vw, 52vw" />
+          <Image src="/images/profile/profile-professional-casual.png" alt="Ivanildo Barauna com camiseta cinza e braços cruzados" fill priority sizes="(max-width: 760px) 100vw, 52vw" />
         </div>
       </section>
 

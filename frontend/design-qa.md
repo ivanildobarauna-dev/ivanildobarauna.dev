@@ -14,6 +14,7 @@
 - Gray palette iteration: `/Users/ivanildo.barauna/.codex/visualizations/2026/09/06/01a0742c-7570-78d0-8c8e-b6557e939c8b/systems-atlas-qa/gray-palette-final.jpg`
 - Apple-inspired light iteration: `/Users/ivanildo.barauna/.codex/visualizations/2026/09/06/01a0742c-7570-78d0-8c8e-b6557e939c8b/systems-atlas-qa/light-apple-final-v2.jpg`
 - Social-links hero iteration: `/Users/ivanildo.barauna/.codex/visualizations/2026/09/06/01a0742c-7570-78d0-8c8e-b6557e939c8b/systems-atlas-qa/socials-in-hero-final.jpg`
+- Casual gray portrait iteration: `/Users/ivanildo.barauna/.codex/visualizations/2026/09/06/01a0742c-7570-78d0-8c8e-b6557e939c8b/systems-atlas-qa/casual-gray-photo-hero.jpg`
 - Browser viewport: 876 × 1264 px
 - State: initial route, navigation closed, portfolio data loaded
 
@@ -25,10 +26,12 @@
 4. Palette-only iteration replaced absolute black with neutral graphite surfaces while preserving layout, content, hierarchy, interactions and the semantic blue/green distinction. Contrast and diagram legibility remained intact.
 5. Final light-mode iteration moved the complete experience to warm gray and white surfaces, dark typography, restrained system-blue/green accents, softer elevation and pill-shaped actions. The dark portrait card remains an intentional editorial focal point; all surrounding UI is light.
 6. Removed the complete contact surface and its navigation entry. Restored all five social profiles from `portfolio.json` as compact hero actions without changing the remaining page structure.
+7. Replaced the monochrome portrait with an identity-preserving natural-color image: plain gray T-shirt, crossed arms, neutral gray studio background and a wider hero-ready crop. The rejected blazer variant was removed.
 
 ## Required surfaces and behavior
 
 - Hero and five data-driven social profile actions: passed.
+- Professional portrait scale, crop, face visibility and tonal integration: passed.
 - Contact navigation, section and mail links removed: passed.
 - Systems Atlas data/software intersection: passed.
 - Project content sourced from `portfolio.json`: passed.
