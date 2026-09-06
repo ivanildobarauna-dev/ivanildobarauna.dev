@@ -35,6 +35,11 @@ type Props = {
 const compactTitle = (title: string) => title.split('/').pop() ?? title;
 const descriptionText = (description: string | string[]) =>
   Array.isArray(description) ? description.join(' ') : description;
+const roundedExperienceYears = (duration: string, fallback: number) => {
+  const years = Number(duration.match(/(\d+)\s+ano/)?.[1] ?? fallback);
+  const months = Number(duration.match(/(\d+)\s+mes/)?.[1] ?? 0);
+  return `${Math.round(years + months / 12)} anos`;
+};
 
 const dataSkills = [
   { icon: FaCloudUploadAlt, title: 'Ingestão de dados', detail: 'Conectar diferentes fontes' },
@@ -102,7 +107,7 @@ export default function PortfolioExperience({
             })}
           </div>
           <div className="portfolio-stats portfolio-hero-stats" aria-label="Resumo profissional">
-            <span><strong>{tempoTotalCarreira || `${totalExperience}+ anos`}</strong> de experiência</span>
+            <span><strong>{roundedExperienceYears(tempoTotalCarreira, totalExperience)}</strong> de experiência</span>
             <span><strong>{totalProjects}</strong> projetos públicos</span>
             <span><strong>{totalEducation}</strong> formações e certificações</span>
           </div>
