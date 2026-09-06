@@ -1,4 +1,5 @@
 'use client';
+import { useEffect } from 'react';
 import { useTotalExperience } from './experience/hooks/useTotalExperience';
 import { useTotalProjects } from './projects/hooks/useTotalProjects';
 import { useTotalEducation } from './education/hooks/useTotalEducation';
@@ -39,6 +40,17 @@ export default function Home() {
   // Verificar se há algum erro
   const hasError = errorExperience || errorProjects || errorEducation || 
                   errorExpData || errorProjData || errorEduData || errorSocialLinks;
+
+  useEffect(() => {
+    if (isLoading || hasError || !window.location.hash) return;
+
+    const targetId = window.location.hash.slice(1);
+    const timeoutId = window.setTimeout(() => {
+      document.getElementById(targetId)?.scrollIntoView({ block: 'start' });
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [hasError, isLoading]);
 
   if (isLoading) {
     return <Loading />;

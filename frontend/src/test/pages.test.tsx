@@ -63,6 +63,7 @@ vi.mock('../app/social-links/hooks/useSocialLinks', () => ({
 
 // Mock react-icons to avoid import issues
 vi.mock('react-icons/fa', () => ({
+  FaArrowUp: () => <span data-testid="arrow-up-icon" />,
   FaGithub: () => <span data-testid="github-icon" />,
   FaLinkedin: () => <span data-testid="linkedin-icon" />,
   FaEnvelope: () => <span data-testid="email-icon" />,

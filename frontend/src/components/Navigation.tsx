@@ -4,10 +4,9 @@ import { useEffect, useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 const items = [
-  { id: 'home', label: 'Início' },
+  { id: 'home', label: 'Sobre mim' },
   { id: 'projects', label: 'Projetos' },
   { id: 'experience', label: 'Experiência' },
-  { id: 'about', label: 'Sobre' },
 ];
 
 export default function Navigation() {
@@ -23,15 +22,24 @@ export default function Navigation() {
       if (current) setActive(current.id);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
+    const onHashChange = () => {
+      const target = window.location.hash.slice(1);
+      if (items.some(item => item.id === target)) setActive(target);
+    };
+    window.addEventListener('hashchange', onHashChange);
     onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    onHashChange();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('hashchange', onHashChange);
+    };
   }, []);
 
   return (
     <header className="atlas-nav">
       <a className="atlas-brand" href="#home" aria-label="Ivanildo Barauna — início"><span />IB</a>
       <nav className={open ? 'is-open' : ''} aria-label="Navegação principal">
-        {items.map(item => <a key={item.id} href={`#${item.id}`} className={active === item.id ? 'active' : ''} onClick={() => setOpen(false)}>{item.label}</a>)}
+        {items.map(item => <a key={item.id} href={`#${item.id}`} className={active === item.id ? 'active' : ''} onClick={() => { setActive(item.id); setOpen(false); }}>{item.label}</a>)}
       </nav>
       <button className="atlas-menu" onClick={() => setOpen(value => !value)} aria-label={open ? 'Fechar menu' : 'Abrir menu'} aria-expanded={open}>
         {open ? <FaTimes /> : <FaBars />}

@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import {
+  FaArrowUp,
   FaChartBar,
   FaCloud,
   FaCloudUploadAlt,
@@ -19,6 +20,7 @@ import type { Project } from '@/app/projects/interfaces';
 import type { Certification, Formation } from '@/app/education/interfaces';
 import type { SocialLink } from '@/app/social-links/interfaces';
 import { socialIconMap } from '@/utils/socialIconMap';
+import CvDownloadButton from '@/components/CvDownloadButton';
 
 type Props = {
   totalExperience: number;
@@ -85,7 +87,6 @@ export default function PortfolioExperience({
   socialLinks,
 }: Props) {
   const companies = Object.entries(experiences);
-  const featured = projects[0];
   const otherProjects = projects.slice(1);
   const certificationList = Object.values(certifications).flat();
 
@@ -106,6 +107,7 @@ export default function PortfolioExperience({
               ) : null;
             })}
           </div>
+          <CvDownloadButton variant="portfolio" />
           <div className="portfolio-stats portfolio-hero-stats" aria-label="Resumo profissional">
             <span><strong>{roundedExperienceYears(tempoTotalCarreira, totalExperience)}</strong> de experiência</span>
             <span><strong>{totalProjects}</strong> projetos públicos</span>
@@ -153,30 +155,44 @@ export default function PortfolioExperience({
       </section>
 
       <section id="projects" data-testid="projects-section" className="portfolio-projects">
-        {featured && (
-          <div className="portfolio-featured">
-            <div className="portfolio-featured-copy">
-              <p className="portfolio-eyebrow"><span /> Projeto em destaque</p>
-              <h2>{compactTitle(featured.title)}</h2>
-              <p>{featured.description}</p>
-              <ul>
-                {(featured.tags ?? []).slice(0, 3).map(tag => <li key={tag}>{tag.replaceAll('-', ' ')}</li>)}
-              </ul>
-              <a className="portfolio-outline" href={featured.projectUrl} target="_blank" rel="noreferrer">Ver no GitHub <FaExternalLinkAlt /></a>
-            </div>
-            <div className="pipeline-panel" aria-label="Fluxo do pipeline assíncrono">
-              <div className="pipeline-labels"><span>Fontes</span><span>Processamento</span><span>Destino</span></div>
-              <div className="pipeline-flow">
-                <div className="pipeline-sources"><span><FaCode /> APIs</span><span><FaDatabase /> Arquivos</span><span><FaRocket /> Eventos</span></div>
-                <span className="pipeline-arrow" aria-hidden="true">→</span>
-                <div className="pipeline-box pipeline-box--active"><FaCloud /><strong>Apache Beam<br />Dataflow</strong><small>Processamento paralelo</small></div>
-                <span className="pipeline-arrow" aria-hidden="true">→</span>
-                <div className="pipeline-box"><SiGooglebigquery /><strong>BigQuery</strong><small>Camada analítica</small></div>
-              </div>
-              <div className="pipeline-observability"><SiApacheairflow /><strong>Observabilidade</strong><span>Logs</span><i /><span>Métricas</span><i /><span>Alertas</span></div>
+        <div className="portfolio-featured">
+          <div className="portfolio-featured-copy">
+            <p className="portfolio-eyebrow"><span /> Solução em destaque</p>
+            <h2>Real-time Event<br />Processing Pipeline</h2>
+            <p>Uma solução end-to-end que transforma dados recebidos por requisições de API em informações prontas para análise: a Producer API publica eventos no Pub/Sub; o pipeline assíncrono os processa no Dataflow e os armazena no BigQuery.</p>
+            <ul>
+              <li>Software que gera eventos de negócio</li>
+              <li>Processamento assíncrono e escalável</li>
+              <li>Dados disponíveis para analytics</li>
+            </ul>
+            <div className="portfolio-repo-links" aria-label="Repositórios da solução">
+              <a className="portfolio-outline" href="https://github.com/IvanildoBarauna/data-producer-api" target="_blank" rel="noreferrer">Producer API <FaExternalLinkAlt /></a>
+              <a className="portfolio-outline" href="https://github.com/IvanildoBarauna/data-pipeline-async-ingest" target="_blank" rel="noreferrer">Async Pipeline <FaExternalLinkAlt /></a>
             </div>
           </div>
-        )}
+          <div className="pipeline-panel" aria-label="Fluxo da solução de processamento de eventos em tempo real">
+            <div className="pipeline-labels pipeline-labels--solution"><span>Produção de eventos</span><span>Processamento reativo</span><span>Armazenamento analítico</span></div>
+            <div className="pipeline-architecture-note"><FaRocket /><span>Arquitetura orientada a eventos</span><small>Pub/Sub é o adaptador que desacopla a Producer API dos consumidores</small></div>
+            <div className="pipeline-flow pipeline-flow--solution">
+              <div className="producer-architecture">
+                <div className="producer-hexagon"><div className="producer-hexagon-content"><FaCode /><strong>Producer<br />API</strong><small>Arquitetura<br />hexagonal</small></div></div>
+                <div className="producer-pubsub-port"><FaRocket /><span>Pub/Sub</span></div>
+                <div className="producer-event-label">Events Producer</div>
+              </div>
+              <span className="pipeline-connector" aria-hidden="true"><small>publica eventos</small>→</span>
+              <div className="pipeline-stage">
+                <div className="pipeline-box pipeline-box--active"><FaCloud /><strong>Reactive<br />Pipeline</strong><small>Consome eventos</small><em>Apache Beam · Dataflow</em></div>
+                <div className="pipeline-stage-label">Ingest &amp; Process Events</div>
+              </div>
+              <span className="pipeline-connector" aria-hidden="true"><small>persiste</small>→</span>
+              <div className="pipeline-stage">
+                <div className="pipeline-box"><SiGooglebigquery /><strong>BigQuery</strong><small>Data warehouse</small><em>Pronto para analytics</em></div>
+                <div className="pipeline-stage-label pipeline-stage-label--storage">Store Processed Events</div>
+              </div>
+            </div>
+            <div className="pipeline-observability"><strong>Observabilidade end-to-end</strong><em>Datadog</em><span>Metrics</span><i /><span>Logs</span><i /><span>Traces</span></div>
+          </div>
+        </div>
         <div className="portfolio-project-list">
           <p className="portfolio-eyebrow"><span /> Outros projetos</p>
           {otherProjects.map(project => (
@@ -190,11 +206,19 @@ export default function PortfolioExperience({
       </section>
 
       <section id="experience" data-testid="experience-section" className="portfolio-experience">
-        <div className="portfolio-heading"><p className="portfolio-eyebrow"><span /> Experiência</p><h2>Uma trajetória entre<br />dados e software.</h2></div>
+        <div className="portfolio-heading"><p className="portfolio-eyebrow"><span /> Experiência</p></div>
         <div className="portfolio-experience-list">
           {companies.map(([company, roles]) => (
             <article key={company}>
-              <div className="company-meta"><span>{roles[0]?.period}</span><h3>{company.replace(' Administradora de Consórcio Ltda', '')}</h3><p>{roles[0]?.location}</p></div>
+              <div className="experience-timeline-marker" aria-hidden="true"><span /></div>
+              <div className="company-meta">
+                <div className="company-identity">
+                  {roles[0]?.companyLogo && <span className="company-logo"><Image src={roles[0].companyLogo} alt={`Logo ${company}`} width={30} height={30} /></span>}
+                  <h3>{company.replace(' Administradora de Consórcio Ltda', '')}</h3>
+                </div>
+                <span>{roles[0]?.period}</span>
+                <p>{roles[0]?.location}</p>
+              </div>
               <div className="role-list">{roles.map(role => <div key={role.id}><strong>{role.position}</strong><p>{descriptionText(role.description)}</p><small>{role.skills?.split(';').slice(0, 5).join(' · ')}</small></div>)}</div>
             </article>
           ))}
@@ -208,6 +232,21 @@ export default function PortfolioExperience({
           {certificationList.map(certification => <a key={certification.id} href={certification.credential_url} target="_blank" rel="noreferrer"><span>Certificação</span><h3>{certification.name}</h3><p>{certification.institution} <FaExternalLinkAlt /></p></a>)}
         </div>
       </section>
+
+      <footer className="portfolio-footer">
+        <p>Ivanildo Barauna</p>
+        <div className="portfolio-footer-socials" aria-label="Redes sociais">
+          {socialLinks.map(link => {
+            const Icon = socialIconMap[link.type];
+            return Icon ? (
+              <a key={link.label} href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.label} title={link.label}>
+                <Icon aria-hidden="true" />
+              </a>
+            ) : null;
+          })}
+        </div>
+        <a className="portfolio-back-to-top" href="#home">Voltar ao início <FaArrowUp aria-hidden="true" /></a>
+      </footer>
 
     </main>
   );

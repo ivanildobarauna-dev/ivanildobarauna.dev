@@ -2,7 +2,7 @@
   "projects": [
     {
       "id": 3,
-      "title": "ivanildobarauna-dev/data-pipeline-async-ingest",
+      "title": "Real-time Event Processing Pipeline",
       "description": "Pipeline for processing and consuming streaming data from Pub/Sub, integrating with Dataflow for real-time data processing",
       "url": "https://github.com/ivanildobarauna-dev/data-pipeline-async-ingest",
       "tags": [
@@ -160,7 +160,7 @@
   ],
   "experiences": [
     {
-      "position": "Engenheiro de Dados Senior",
+      "position": "Sr. Data & Software Engineer",
       "company": "Mercado Livre",
       "location": "São Paulo, Brasil",
       "website": "https://www.mercadolivre.com.br",
@@ -433,7 +433,7 @@
       "experiences": [
         {
           "id": 1,
-          "position": "Engenheiro de Dados Senior",
+          "position": "Sr. Data & Software Engineer",
           "period": "outubro de 2023 - atual",
           "start_date": "2023-10-01",
           "end_date": null,
@@ -597,7 +597,7 @@
         },
         {
           "id": 3,
-          "title": "ivanildobarauna-dev/data-pipeline-async-ingest",
+          "title": "Real-time Event Processing Pipeline",
           "description": "Pipeline for processing and consuming streaming data from Pub/Sub, integrating with Dataflow for real-time data processing",
           "url": "https://github.com/ivanildobarauna-dev/data-pipeline-async-ingest",
           "tags": [
