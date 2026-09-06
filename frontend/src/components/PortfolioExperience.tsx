@@ -120,8 +120,10 @@ export default function PortfolioExperience({
 
       <section id="about" data-testid="about-section" className="portfolio-atlas-section">
         <div className="portfolio-heading portfolio-heading--center">
-          <h2>Resolução de problemas de ponta a ponta</h2>
-          <p>Software gera dados. Dados alimentam analytics, decisões e impacto.</p>
+          <div className="portfolio-heading-copy">
+            <h2>Resolução de problemas de ponta a ponta</h2>
+            <p>Software gera dados. Dados alimentam analytics, decisões e impacto.</p>
+          </div>
         </div>
 
         <div className="portfolio-atlas" aria-label="Mapa de competências conectando dados e software">
