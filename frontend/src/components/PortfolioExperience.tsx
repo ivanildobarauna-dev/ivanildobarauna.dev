@@ -129,7 +129,7 @@ export default function PortfolioExperience({
           <div className="atlas-venn" aria-hidden="true">
             <div className="atlas-circle atlas-circle--software"><span>Software</span></div>
             <div className="atlas-circle atlas-circle--data"><span>Dados</span></div>
-            <div className="atlas-intersection"><FaDatabase /><span>Solução<br />de ponta<br />a ponta</span></div>
+            <div className="atlas-intersection"><FaDatabase /><span>Solução de<br />ponta a ponta</span></div>
           </div>
           <div className="atlas-column atlas-column--data-flow">
             <div className="atlas-sql-connector" aria-hidden="true"><span>SQL</span><i /><i /></div>
