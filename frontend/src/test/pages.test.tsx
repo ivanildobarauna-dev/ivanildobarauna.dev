@@ -77,6 +77,10 @@ vi.mock('react-icons/fa', () => ({
   FaPython: () => <span data-testid="python-icon" />,
   FaDocker: () => <span data-testid="docker-icon" />,
   FaCloud: () => <span data-testid="cloud-icon" />,
+  FaCloudUploadAlt: () => <span data-testid="cloud-upload-icon" />,
+  FaCogs: () => <span data-testid="cogs-icon" />,
+  FaWarehouse: () => <span data-testid="warehouse-icon" />,
+  FaChartBar: () => <span data-testid="chart-icon" />,
   FaExternalLinkAlt: () => <span data-testid="external-link-icon" />,
 }));
 

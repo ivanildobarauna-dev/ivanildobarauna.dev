@@ -2,12 +2,16 @@
 
 import Image from 'next/image';
 import {
+  FaChartBar,
   FaCloud,
+  FaCloudUploadAlt,
   FaCode,
+  FaCogs,
   FaDatabase,
   FaExternalLinkAlt,
   FaMapMarkerAlt,
   FaRocket,
+  FaWarehouse,
 } from 'react-icons/fa';
 import { SiApacheairflow, SiGooglebigquery } from 'react-icons/si';
 import type { Experience } from '@/app/experience/interfaces';
@@ -33,15 +37,16 @@ const descriptionText = (description: string | string[]) =>
   Array.isArray(description) ? description.join(' ') : description;
 
 const dataSkills = [
-  { icon: FaCode, title: 'Python', detail: 'Linguagem' },
-  { icon: SiGooglebigquery, title: 'SQL / BigQuery', detail: 'Consultas' },
-  { icon: FaCloud, title: 'Apache Beam / Dataflow', detail: 'Processamento' },
+  { icon: FaCloudUploadAlt, title: 'Ingestão de dados', detail: 'Conectar diferentes fontes' },
+  { icon: FaCogs, title: 'Processamento', detail: 'Transformar dados em informação' },
+  { icon: FaWarehouse, title: 'Armazenamento', detail: 'Data warehouses serverless' },
+  { icon: FaChartBar, title: 'Visualização de dados', detail: 'Apoiar decisões' },
 ];
 
 const softwareSkills = [
-  { icon: FaRocket, title: 'APIs / FastAPI', detail: 'Interfaces' },
-  { icon: FaCode, title: 'Microsserviços', detail: 'Arquitetura' },
-  { icon: SiApacheairflow, title: 'Observabilidade', detail: 'Visibilidade' },
+  { icon: FaCode, title: 'APIs', detail: 'Integrar sistemas e produtos' },
+  { icon: FaRocket, title: 'Microsserviços', detail: 'Evoluir com independência' },
+  { icon: SiApacheairflow, title: 'Observabilidade', detail: 'Operar com confiança' },
 ];
 
 function SkillNode({
@@ -83,9 +88,9 @@ export default function PortfolioExperience({
     <main className="portfolio-shell">
       <section id="home" data-testid="hero-section" className="portfolio-hero">
         <div className="portfolio-hero-copy">
-          <p className="portfolio-eyebrow"><span /> Data &amp; Software Engineer</p>
           <h1>Ivanildo<br />Barauna</h1>
-          <p className="portfolio-lead">Da origem do dado ao software<br />que entrega valor.</p>
+          <p className="portfolio-eyebrow"><span /> Data &amp; Software Engineer</p>
+          <p className="portfolio-lead">Sólida experiência em Produto e arquitetura de Dados &amp; Analytics, aliada ao desenvolvimento e à arquitetura de software.</p>
           <div className="portfolio-hero-socials" aria-label="Redes sociais">
             {socialLinks.map(link => {
               const Icon = socialIconMap[link.type];
@@ -96,11 +101,10 @@ export default function PortfolioExperience({
               ) : null;
             })}
           </div>
-          <p className="portfolio-proof">
-            Experiência em<br />
-            {companies.slice(0, 3).map(([company], index) => (
-              <span key={company}><strong>{company.replace(' Administradora de Consórcio Ltda', '')}</strong>{index < 2 && <i />}</span>
-            ))}
+          <p className="portfolio-proof" aria-label="Áreas de especialidade">
+            <span><strong>Analytics</strong><i /></span>
+            <span><strong>Software Engineering</strong><i /></span>
+            <span><strong>Data Pipelines</strong></span>
           </p>
         </div>
         <div className="portfolio-portrait">
@@ -124,7 +128,7 @@ export default function PortfolioExperience({
           <div className="atlas-column">{softwareSkills.map(item => <SkillNode key={item.title} item={item} side="software" position="left" />)}</div>
           <div className="atlas-venn" aria-hidden="true">
             <div className="atlas-circle atlas-circle--software"><span>Software</span></div>
-            <div className="atlas-circle atlas-circle--data"><span>Dados</span></div>
+            <div className="atlas-circle atlas-circle--data"><span>Dados<small>SQL transversal</small></span></div>
             <div className="atlas-intersection"><FaDatabase /><span>Solução<br />de ponta<br />a ponta</span></div>
           </div>
           <div className="atlas-column">{dataSkills.map(item => <SkillNode key={item.title} item={item} side="data" position="right" />)}</div>
