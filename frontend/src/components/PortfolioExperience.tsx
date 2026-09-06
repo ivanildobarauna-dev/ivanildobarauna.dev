@@ -101,6 +101,11 @@ export default function PortfolioExperience({
               ) : null;
             })}
           </div>
+          <div className="portfolio-stats portfolio-hero-stats" aria-label="Resumo profissional">
+            <span><strong>{tempoTotalCarreira || `${totalExperience}+ anos`}</strong> de experiência</span>
+            <span><strong>{totalProjects}</strong> projetos públicos</span>
+            <span><strong>{totalEducation}</strong> formações e certificações</span>
+          </div>
           <p className="portfolio-proof" aria-label="Áreas de especialidade">
             <span><strong>Analytics</strong><i /></span>
             <span><strong>Software Engineering</strong><i /></span>
@@ -110,12 +115,6 @@ export default function PortfolioExperience({
         <div className="portfolio-portrait">
           <Image src="/images/profile/profile-professional-casual.png" alt="Ivanildo Barauna com camiseta cinza e braços cruzados" fill priority sizes="(max-width: 760px) 100vw, 52vw" />
         </div>
-      </section>
-
-      <section className="portfolio-stats" aria-label="Resumo profissional">
-        <span><strong>{tempoTotalCarreira || `${totalExperience}+ anos`}</strong> de experiência</span>
-        <span><strong>{totalProjects}</strong> projetos públicos</span>
-        <span><strong>{totalEducation}</strong> formações e certificações</span>
       </section>
 
       <section id="about" data-testid="about-section" className="portfolio-atlas-section">
