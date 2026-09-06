@@ -12,6 +12,7 @@
 - Capture: `/Users/ivanildo.barauna/.codex/visualizations/2026/09/06/01a0742c-7570-78d0-8c8e-b6557e939c8b/systems-atlas-qa/implementation-final.jpg`
 - Comparison: `/Users/ivanildo.barauna/.codex/visualizations/2026/09/06/01a0742c-7570-78d0-8c8e-b6557e939c8b/systems-atlas-qa/comparison-final.jpg`
 - Gray palette iteration: `/Users/ivanildo.barauna/.codex/visualizations/2026/09/06/01a0742c-7570-78d0-8c8e-b6557e939c8b/systems-atlas-qa/gray-palette-final.jpg`
+- Apple-inspired light iteration: `/Users/ivanildo.barauna/.codex/visualizations/2026/09/06/01a0742c-7570-78d0-8c8e-b6557e939c8b/systems-atlas-qa/light-apple-final-v2.jpg`
 - Browser viewport: 876 × 1264 px
 - State: initial route, navigation closed, portfolio data loaded
 
@@ -21,6 +22,7 @@
 2. Replaced remote web fonts with the native Apple/system font stack to improve visual match and make production builds deterministic.
 3. Final side-by-side review confirmed the intended hierarchy, typography character, contrast, section rhythm, diagram legibility, portrait treatment and CTA prominence.
 4. Palette-only iteration replaced absolute black with neutral graphite surfaces while preserving layout, content, hierarchy, interactions and the semantic blue/green distinction. Contrast and diagram legibility remained intact.
+5. Final light-mode iteration moved the complete experience to warm gray and white surfaces, dark typography, restrained system-blue/green accents, softer elevation and pill-shaped actions. The dark portrait card remains an intentional editorial focal point; all surrounding UI is light.
 
 ## Required surfaces and behavior
 
