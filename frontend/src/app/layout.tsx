@@ -1,17 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
-
-const inter = Inter({ 
-  subsets: ["latin"],
-  variable: "--font-inter"
-});
-
-const jetbrainsMono = JetBrains_Mono({ 
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono"
-});
 
 export const metadata: Metadata = {
   title: {
@@ -42,12 +31,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`}>
+      <body>
         <div className="min-h-screen bg-background">
           <Navigation />
-          <main className="flex flex-col">
+          <div className="flex flex-col">
             {children}
-          </main>
+          </div>
         </div>
       </body>
     </html>

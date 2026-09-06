@@ -1,18 +1,15 @@
 'use client';
+import { useEffect } from 'react';
 import { useTotalExperience } from './experience/hooks/useTotalExperience';
 import { useTotalProjects } from './projects/hooks/useTotalProjects';
 import { useTotalEducation } from './education/hooks/useTotalEducation';
 import { useExperience } from './experience/hooks/useExperience';
 import { useProjects } from './projects/hooks/useProjects';
 import { useEducation } from './education/hooks/useEducation';
+import { useSocialLinks } from './social-links/hooks/useSocialLinks';
 import Loading from '@/components/Loading';
 import AlertMessage from '@/components/AlertMessage';
-import HeroSection from '@/components/HeroSection';
-import About from '@/components/About';
-import ExperienceSection from '@/components/ExperienceSection';
-import ProjectsSection from '@/components/ProjectsSection';
-import EducationSection from '@/components/EducationSection';
-import Footer from '@/components/Footer';
+import PortfolioExperience from '@/components/PortfolioExperience';
 
 const parseNumber = (value: string | number): number => {
   if (typeof value === 'string') {
@@ -34,14 +31,26 @@ export default function Home() {
   const { experiences, loading: loadingExpData, error: errorExpData, tempoTotalCarreira } = useExperience();
   const { projects, loading: loadingProjData, error: errorProjData } = useProjects();
   const { formations, certifications, loading: loadingEduData, error: errorEduData } = useEducation();
+  const { socialLinks, loading: loadingSocialLinks, error: errorSocialLinks } = useSocialLinks();
 
   // Verificar se todos os dados estão carregando
   const isLoading = loadingExperience || loadingProjects || loadingEducation || 
-                   loadingExpData || loadingProjData || loadingEduData;
+                   loadingExpData || loadingProjData || loadingEduData || loadingSocialLinks;
 
   // Verificar se há algum erro
   const hasError = errorExperience || errorProjects || errorEducation || 
-                  errorExpData || errorProjData || errorEduData;
+                  errorExpData || errorProjData || errorEduData || errorSocialLinks;
+
+  useEffect(() => {
+    if (isLoading || hasError || !window.location.hash) return;
+
+    const targetId = window.location.hash.slice(1);
+    const timeoutId = window.setTimeout(() => {
+      document.getElementById(targetId)?.scrollIntoView({ block: 'start' });
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [hasError, isLoading]);
 
   if (isLoading) {
     return <Loading />;
@@ -56,45 +65,15 @@ export default function Home() {
     );
   }
 
-  return (
-    <main className="min-h-screen">
-      {/* Hero Section */}
-      <section id="home" className="scroll-mt-20">
-        <HeroSection />
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="scroll-mt-20">
-        <About 
-          totalExperience={parseNumber(totalExperience)}
-          totalProjects={parseNumber(totalProjects)}
-          totalEducation={parseNumber(totalEducation)}
-        />
-      </section>
-
-      {/* Experience Section */}
-      <section id="experience" className="scroll-mt-20">
-        <ExperienceSection 
-          experiences={experiences} 
-          tempoTotalCarreira={tempoTotalCarreira} 
-        />
-      </section>
-
-      {/* Projects Section */}
-      <section id="projects" className="scroll-mt-20">
-        <ProjectsSection projects={projects} />
-      </section>
-
-      {/* Education Section */}
-      <section id="education" className="scroll-mt-20">
-        <EducationSection 
-          formations={formations} 
-          certifications={certifications} 
-        />
-      </section>
-
-      {/* Footer */}
-      <Footer />
-    </main>
-  );
+  return <PortfolioExperience
+    totalExperience={parseNumber(totalExperience)}
+    totalProjects={parseNumber(totalProjects)}
+    totalEducation={parseNumber(totalEducation)}
+    experiences={experiences}
+    tempoTotalCarreira={tempoTotalCarreira}
+    projects={projects}
+    formations={formations}
+    certifications={certifications}
+    socialLinks={socialLinks}
+  />;
 }

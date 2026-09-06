@@ -63,6 +63,7 @@ vi.mock('../app/social-links/hooks/useSocialLinks', () => ({
 
 // Mock react-icons to avoid import issues
 vi.mock('react-icons/fa', () => ({
+  FaArrowUp: () => <span data-testid="arrow-up-icon" />,
   FaGithub: () => <span data-testid="github-icon" />,
   FaLinkedin: () => <span data-testid="linkedin-icon" />,
   FaEnvelope: () => <span data-testid="email-icon" />,
@@ -77,6 +78,10 @@ vi.mock('react-icons/fa', () => ({
   FaPython: () => <span data-testid="python-icon" />,
   FaDocker: () => <span data-testid="docker-icon" />,
   FaCloud: () => <span data-testid="cloud-icon" />,
+  FaCloudUploadAlt: () => <span data-testid="cloud-upload-icon" />,
+  FaCogs: () => <span data-testid="cogs-icon" />,
+  FaWarehouse: () => <span data-testid="warehouse-icon" />,
+  FaChartBar: () => <span data-testid="chart-icon" />,
   FaExternalLinkAlt: () => <span data-testid="external-link-icon" />,
 }));
 
@@ -185,13 +190,12 @@ describe('Pages Rendering Test', () => {
     const experienceSection = screen.getByTestId('experience-section');
     const projectsSection = screen.getByTestId('projects-section');
     const educationSection = screen.getByTestId('education-section');
-    const contactSection = screen.getByTestId('contact-section');
     
     expect(heroSection).toBeInTheDocument();
     expect(aboutSection).toBeInTheDocument();
     expect(experienceSection).toBeInTheDocument();
     expect(projectsSection).toBeInTheDocument();
     expect(educationSection).toBeInTheDocument();
-    expect(contactSection).toBeInTheDocument();
+    expect(screen.queryByTestId('contact-section')).not.toBeInTheDocument();
   });
 }); 

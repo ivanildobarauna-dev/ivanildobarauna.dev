@@ -4,7 +4,11 @@ import { useState, useRef, useEffect } from 'react';
 import { FaDownload, FaChevronDown } from 'react-icons/fa';
 import ReactCountryFlag from 'react-country-flag';
 
-export default function CvDownloadButton() {
+type Props = {
+  variant?: 'default' | 'portfolio';
+};
+
+export default function CvDownloadButton({ variant = 'default' }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +45,9 @@ export default function CvDownloadButton() {
       <div>
         <button
           type="button"
-          className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-white/10 border border-white/20 text-primary-foreground hover:bg-white/20 transition-colors"
+          className={variant === 'portfolio'
+            ? 'portfolio-cv-button'
+            : 'inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-white/10 border border-white/20 text-primary-foreground hover:bg-white/20 transition-colors'}
           onClick={() => setIsOpen(!isOpen)}
         >
           <FaDownload className="w-5 h-5 mr-2" />
@@ -51,7 +57,9 @@ export default function CvDownloadButton() {
       </div>
 
       {isOpen && (
-        <div className="absolute right-0 z-10 mt-2 w-40 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <div className={variant === 'portfolio'
+          ? 'portfolio-cv-menu'
+          : 'absolute right-0 z-10 mt-2 w-40 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'}>
           <div className="py-1">
             <button
               onClick={() => handleDownload('pt')}
