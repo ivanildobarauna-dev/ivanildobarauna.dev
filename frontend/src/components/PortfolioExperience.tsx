@@ -90,7 +90,7 @@ export default function PortfolioExperience({
         <div className="portfolio-hero-copy">
           <h1>Ivanildo<br />Barauna</h1>
           <p className="portfolio-eyebrow"><span /> Data &amp; Software Engineer</p>
-          <p className="portfolio-lead">Sólida experiência em Produto e arquitetura de Dados &amp; Analytics, aliada ao desenvolvimento e à arquitetura de software.</p>
+          <p className="portfolio-lead">Projeto e construo sistemas que conectam Engenharia de Software e Dados, transformando insights analíticos em sistemas de decisão prontos para produção — da ingestão à ação.</p>
           <div className="portfolio-hero-socials" aria-label="Redes sociais">
             {socialLinks.map(link => {
               const Icon = socialIconMap[link.type];
