@@ -5,18 +5,16 @@ import {
   FaCloud,
   FaCode,
   FaDatabase,
-  FaEnvelope,
   FaExternalLinkAlt,
-  FaGithub,
-  FaLinkedin,
   FaMapMarkerAlt,
   FaRocket,
-  FaStackOverflow,
 } from 'react-icons/fa';
 import { SiApacheairflow, SiGooglebigquery } from 'react-icons/si';
 import type { Experience } from '@/app/experience/interfaces';
 import type { Project } from '@/app/projects/interfaces';
 import type { Certification, Formation } from '@/app/education/interfaces';
+import type { SocialLink } from '@/app/social-links/interfaces';
+import { socialIconMap } from '@/utils/socialIconMap';
 
 type Props = {
   totalExperience: number;
@@ -27,6 +25,7 @@ type Props = {
   projects: Project[];
   formations: Formation[];
   certifications: Record<string, Certification[]>;
+  socialLinks: SocialLink[];
 };
 
 const compactTitle = (title: string) => title.split('/').pop() ?? title;
@@ -65,6 +64,7 @@ export default function PortfolioExperience({
   projects,
   formations,
   certifications,
+  socialLinks,
 }: Props) {
   const companies = Object.entries(experiences);
   const featured = projects[0];
@@ -78,9 +78,16 @@ export default function PortfolioExperience({
           <p className="portfolio-eyebrow"><span /> Data &amp; Software Engineer</p>
           <h1>Ivanildo<br />Barauna</h1>
           <p className="portfolio-lead">Da origem do dado ao software<br />que entrega valor.</p>
-          <a className="portfolio-primary" href="mailto:contato@ivanildobarauna.dev">
-            Vamos conversar <span aria-hidden="true">→</span>
-          </a>
+          <div className="portfolio-hero-socials" aria-label="Redes sociais">
+            {socialLinks.map(link => {
+              const Icon = socialIconMap[link.type];
+              return Icon ? (
+                <a key={link.label} href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.label} title={link.label}>
+                  <Icon aria-hidden="true" />
+                </a>
+              ) : null;
+            })}
+          </div>
           <p className="portfolio-proof">
             Experiência em<br />
             {companies.slice(0, 3).map(([company], index) => (
@@ -181,17 +188,6 @@ export default function PortfolioExperience({
         </div>
       </section>
 
-      <footer id="contact" data-testid="contact-section" className="portfolio-contact">
-        <p>Tem um problema complexo?</p><h2>Vamos conectar as peças.</h2>
-        <a className="portfolio-primary" href="mailto:contato@ivanildobarauna.dev">Entre em contato <FaExternalLinkAlt /></a>
-        <div className="portfolio-socials">
-          <a href="https://github.com/IvanildoBarauna" aria-label="GitHub"><FaGithub /></a>
-          <a href="https://linkedin.com/in/ivanildobarauna" aria-label="LinkedIn"><FaLinkedin /></a>
-          <a href="https://stackoverflow.com/users/24289987/ivanildo-barauna" aria-label="Stack Overflow"><FaStackOverflow /></a>
-          <a href="mailto:contato@ivanildobarauna.dev" aria-label="E-mail"><FaEnvelope /></a>
-        </div>
-        <div className="portfolio-footer-bottom"><span>© {new Date().getFullYear()} Ivanildo Barauna</span><a href="#home">Voltar ao topo ↑</a></div>
-      </footer>
     </main>
   );
 }

@@ -185,13 +185,12 @@ describe('Pages Rendering Test', () => {
     const experienceSection = screen.getByTestId('experience-section');
     const projectsSection = screen.getByTestId('projects-section');
     const educationSection = screen.getByTestId('education-section');
-    const contactSection = screen.getByTestId('contact-section');
     
     expect(heroSection).toBeInTheDocument();
     expect(aboutSection).toBeInTheDocument();
     expect(experienceSection).toBeInTheDocument();
     expect(projectsSection).toBeInTheDocument();
     expect(educationSection).toBeInTheDocument();
-    expect(contactSection).toBeInTheDocument();
+    expect(screen.queryByTestId('contact-section')).not.toBeInTheDocument();
   });
 }); 

@@ -8,7 +8,6 @@ const items = [
   { id: 'projects', label: 'Projetos' },
   { id: 'experience', label: 'Experiência' },
   { id: 'about', label: 'Sobre' },
-  { id: 'contact', label: 'Contato' },
 ];
 
 export default function Navigation() {

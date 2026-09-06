@@ -5,6 +5,7 @@ import { useTotalEducation } from './education/hooks/useTotalEducation';
 import { useExperience } from './experience/hooks/useExperience';
 import { useProjects } from './projects/hooks/useProjects';
 import { useEducation } from './education/hooks/useEducation';
+import { useSocialLinks } from './social-links/hooks/useSocialLinks';
 import Loading from '@/components/Loading';
 import AlertMessage from '@/components/AlertMessage';
 import PortfolioExperience from '@/components/PortfolioExperience';
@@ -29,14 +30,15 @@ export default function Home() {
   const { experiences, loading: loadingExpData, error: errorExpData, tempoTotalCarreira } = useExperience();
   const { projects, loading: loadingProjData, error: errorProjData } = useProjects();
   const { formations, certifications, loading: loadingEduData, error: errorEduData } = useEducation();
+  const { socialLinks, loading: loadingSocialLinks, error: errorSocialLinks } = useSocialLinks();
 
   // Verificar se todos os dados estão carregando
   const isLoading = loadingExperience || loadingProjects || loadingEducation || 
-                   loadingExpData || loadingProjData || loadingEduData;
+                   loadingExpData || loadingProjData || loadingEduData || loadingSocialLinks;
 
   // Verificar se há algum erro
   const hasError = errorExperience || errorProjects || errorEducation || 
-                  errorExpData || errorProjData || errorEduData;
+                  errorExpData || errorProjData || errorEduData || errorSocialLinks;
 
   if (isLoading) {
     return <Loading />;
@@ -60,5 +62,6 @@ export default function Home() {
     projects={projects}
     formations={formations}
     certifications={certifications}
+    socialLinks={socialLinks}
   />;
 }
