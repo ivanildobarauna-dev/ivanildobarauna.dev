@@ -36,7 +36,6 @@ export default function Navigation() {
       <button className="atlas-menu" onClick={() => setOpen(value => !value)} aria-label={open ? 'Fechar menu' : 'Abrir menu'} aria-expanded={open}>
         {open ? <FaTimes /> : <FaBars />}
       </button>
-      <span className="atlas-nav-status" aria-label="Disponível para novos projetos">Disponível</span>
     </header>
   );
 }

@@ -139,8 +139,6 @@ body { background: var(--atlas-bg); }
 .atlas-nav nav a { position: relative; transition: color .2s ease; }
 .atlas-nav nav a:hover, .atlas-nav nav a.active { color: var(--atlas-text); }
 .atlas-nav nav a.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -19px; height: 1px; background: var(--atlas-blue); }
-.atlas-nav-status { justify-self: end; display: flex; align-items: center; gap: 8px; color: var(--atlas-muted); font-size: 11px; }
-.atlas-nav-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--atlas-green); box-shadow: 0 0 12px var(--atlas-green); }
 .atlas-menu { display: none; }
 
 .portfolio-shell { overflow: hidden; color: var(--atlas-text); background: var(--atlas-bg); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif; }
@@ -279,7 +277,7 @@ body { background: var(--atlas-bg); }
   .atlas-nav nav { display: none; position: absolute; top: 64px; left: 0; right: 0; padding: 18px; border: 1px solid var(--atlas-line); border-radius: 14px; background: rgba(255,255,255,.97); flex-direction: column; gap: 4px; }
   .atlas-nav nav.is-open { display: flex; }
   .atlas-nav nav a { padding: 12px; }
-  .atlas-nav nav a.active::after, .atlas-nav-status { display: none; }
+  .atlas-nav nav a.active::after { display: none; }
   .atlas-menu { display: grid; place-items: center; width: 34px; height: 34px; color: var(--atlas-text); }
   .portfolio-hero { min-height: auto; display: flex; flex-direction: column-reverse; padding: 86px 22px 50px; }
   .portfolio-portrait { width: 100%; height: 410px; }
