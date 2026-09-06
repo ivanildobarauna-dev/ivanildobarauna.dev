@@ -44,10 +44,18 @@ const softwareSkills = [
   { icon: SiApacheairflow, title: 'Observabilidade', detail: 'Visibilidade' },
 ];
 
-function SkillNode({ item, side }: { item: (typeof dataSkills)[number]; side: 'data' | 'software' }) {
+function SkillNode({
+  item,
+  side,
+  position,
+}: {
+  item: (typeof dataSkills)[number];
+  side: 'data' | 'software';
+  position: 'left' | 'right';
+}) {
   const Icon = item.icon;
   return (
-    <div className={`atlas-skill atlas-skill--${side}`}>
+    <div className={`atlas-skill atlas-skill--${side} atlas-skill--${position}`}>
       <div className="atlas-skill-copy"><strong>{item.title}</strong><span>{item.detail}</span></div>
       <span className="atlas-icon"><Icon aria-hidden="true" /></span>
       <i aria-hidden="true" />
@@ -100,21 +108,26 @@ export default function PortfolioExperience({
         </div>
       </section>
 
+      <section className="portfolio-stats" aria-label="Resumo profissional">
+        <span><strong>{tempoTotalCarreira || `${totalExperience}+ anos`}</strong> de experiência</span>
+        <span><strong>{totalProjects}</strong> projetos públicos</span>
+        <span><strong>{totalEducation}</strong> formações e certificações</span>
+      </section>
+
       <section id="about" data-testid="about-section" className="portfolio-atlas-section">
         <div className="portfolio-heading portfolio-heading--center">
-          <p className="portfolio-eyebrow"><span /> Systems Atlas</p>
-          <h2>Arquitetura de ponta a ponta</h2>
-          <p>A interseção entre Dados e Software orientada a impacto.</p>
+          <h2>Resolução de problemas de ponta a ponta</h2>
+          <p>Software gera dados. Dados alimentam analytics, decisões e impacto.</p>
         </div>
 
         <div className="portfolio-atlas" aria-label="Mapa de competências conectando dados e software">
-          <div className="atlas-column">{dataSkills.map(item => <SkillNode key={item.title} item={item} side="data" />)}</div>
+          <div className="atlas-column">{softwareSkills.map(item => <SkillNode key={item.title} item={item} side="software" position="left" />)}</div>
           <div className="atlas-venn" aria-hidden="true">
-            <div className="atlas-circle atlas-circle--data"><span>Dados</span></div>
             <div className="atlas-circle atlas-circle--software"><span>Software</span></div>
-            <div className="atlas-intersection"><FaDatabase /><span>Arquitetura<br />de ponta<br />a ponta</span></div>
+            <div className="atlas-circle atlas-circle--data"><span>Dados</span></div>
+            <div className="atlas-intersection"><FaDatabase /><span>Solução<br />de ponta<br />a ponta</span></div>
           </div>
-          <div className="atlas-column">{softwareSkills.map(item => <SkillNode key={item.title} item={item} side="software" />)}</div>
+          <div className="atlas-column">{dataSkills.map(item => <SkillNode key={item.title} item={item} side="data" position="right" />)}</div>
         </div>
 
         <div className="portfolio-outcomes">
@@ -123,11 +136,6 @@ export default function PortfolioExperience({
           <article><span><FaCode /></span><h3>Construir a solução</h3><p>Dados e software, juntos.</p></article>
           <span className="outcome-arrow" aria-hidden="true">→</span>
           <article><span><FaRocket /></span><h3>Gerar impacto</h3><p>Tecnologia que entrega valor.</p></article>
-        </div>
-        <div className="portfolio-stats" aria-label="Resumo profissional">
-          <span><strong>{tempoTotalCarreira || `${totalExperience}+ anos`}</strong> de experiência</span>
-          <span><strong>{totalProjects}</strong> projetos públicos</span>
-          <span><strong>{totalEducation}</strong> formações e certificações</span>
         </div>
       </section>
 
