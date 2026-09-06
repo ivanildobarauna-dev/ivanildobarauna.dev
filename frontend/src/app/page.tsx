@@ -7,12 +7,7 @@ import { useProjects } from './projects/hooks/useProjects';
 import { useEducation } from './education/hooks/useEducation';
 import Loading from '@/components/Loading';
 import AlertMessage from '@/components/AlertMessage';
-import HeroSection from '@/components/HeroSection';
-import About from '@/components/About';
-import ExperienceSection from '@/components/ExperienceSection';
-import ProjectsSection from '@/components/ProjectsSection';
-import EducationSection from '@/components/EducationSection';
-import Footer from '@/components/Footer';
+import PortfolioExperience from '@/components/PortfolioExperience';
 
 const parseNumber = (value: string | number): number => {
   if (typeof value === 'string') {
@@ -56,45 +51,14 @@ export default function Home() {
     );
   }
 
-  return (
-    <main className="min-h-screen">
-      {/* Hero Section */}
-      <section id="home" className="scroll-mt-20">
-        <HeroSection />
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="scroll-mt-20">
-        <About 
-          totalExperience={parseNumber(totalExperience)}
-          totalProjects={parseNumber(totalProjects)}
-          totalEducation={parseNumber(totalEducation)}
-        />
-      </section>
-
-      {/* Experience Section */}
-      <section id="experience" className="scroll-mt-20">
-        <ExperienceSection 
-          experiences={experiences} 
-          tempoTotalCarreira={tempoTotalCarreira} 
-        />
-      </section>
-
-      {/* Projects Section */}
-      <section id="projects" className="scroll-mt-20">
-        <ProjectsSection projects={projects} />
-      </section>
-
-      {/* Education Section */}
-      <section id="education" className="scroll-mt-20">
-        <EducationSection 
-          formations={formations} 
-          certifications={certifications} 
-        />
-      </section>
-
-      {/* Footer */}
-      <Footer />
-    </main>
-  );
+  return <PortfolioExperience
+    totalExperience={parseNumber(totalExperience)}
+    totalProjects={parseNumber(totalProjects)}
+    totalEducation={parseNumber(totalEducation)}
+    experiences={experiences}
+    tempoTotalCarreira={tempoTotalCarreira}
+    projects={projects}
+    formations={formations}
+    certifications={certifications}
+  />;
 }
