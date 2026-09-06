@@ -128,10 +128,13 @@ export default function PortfolioExperience({
           <div className="atlas-column">{softwareSkills.map(item => <SkillNode key={item.title} item={item} side="software" position="left" />)}</div>
           <div className="atlas-venn" aria-hidden="true">
             <div className="atlas-circle atlas-circle--software"><span>Software</span></div>
-            <div className="atlas-circle atlas-circle--data"><span>Dados<small>SQL transversal</small></span></div>
+            <div className="atlas-circle atlas-circle--data"><span>Dados</span></div>
             <div className="atlas-intersection"><FaDatabase /><span>Solução<br />de ponta<br />a ponta</span></div>
           </div>
-          <div className="atlas-column">{dataSkills.map(item => <SkillNode key={item.title} item={item} side="data" position="right" />)}</div>
+          <div className="atlas-column atlas-column--data-flow">
+            <div className="atlas-sql-connector" aria-hidden="true"><span>SQL</span></div>
+            {dataSkills.map(item => <SkillNode key={item.title} item={item} side="data" position="right" />)}
+          </div>
         </div>
 
         <div className="portfolio-outcomes">
